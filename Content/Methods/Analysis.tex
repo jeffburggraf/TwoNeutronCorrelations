@@ -1,0 +1,29 @@
+\section{Data Analysis}
+The efficiency and acceptance of the neutron detector array varies chaotically over the range of opening angles from 0 to 2$\pi$ (see figure~\ref{fig:OpeningAngleAcceptance}). This effect is due to the detector array's non-spherical symmetry and to varying efficiency as a function of particle position. During the experiment, there was no attempt to measure the array's efficiency as a function of two-neutron opening angle, because it is not absolutely necessary and would have been a difficult task. It would add to the amount of physics extractable from the data, but it is not needed for a measurement of two-neutron opening angle correlations. In this experiment, angular correlation is calculated by normalizing each measurement to a  distribution of uncorrelated neutrons, producing a result that is insensitive to detector efficiencies. 
+
+The uncorrelated neutron distribution is made by examining neutron pairs from events in separate pulses, and then calculating the opening angle between the neutron pairs normally. Such pairs will hereafter be referred to as different pulse (DP) pairs. The two neutrons in DP pair are uncorrelated because events in one pulse do  have casual influence on the events in another pulse. Detector efficiency and geometry influence same pulse (SP) events to the same extent as different pulse events. So barring two-neutron correlations and a scaling factor, the DP distribution is identical to the SP distribution.
+
+\subsection{Subtraction of Accidentals}
+\label{Subtraction of Accidentals}
+An accidental neutorn coincidence is defined as a coincidence between two uncorrelated events in a single pulse. For example, a coincidence between a neutron from a (gamma,1n) reaction and a neutron from photofission. Another example is a coincidence between two events that are part of the noise background. In both of these examples, the two events are considered accidentals because they have no causal influence on each another. A true neutron coincidence, or true for short, is defined here as any pair correlated neutrons from the same pulse. 
+
+Accidentals are subtracted from the data by subtracting 1/2 times the equivalent distribution formed by using the DP data. The factor of 1/2 arises from the Poissonian statistics that inherently governs all accidentals, whether the accidental events are composed of two neutrons, two photons, two noise events, or any combination thereof. All accidentals are comprised of two independent events, so by Poissonian statistics, the probability of measuring an accidental in a single pulse is given by:
+\begin{displaymath}
+SP_{\text{a}} = \frac{e^{-\lambda}\lambda^2}{2} \approx \frac{1}{2}\lambda^{2}
+\end{displaymath}
+where $SP_{a}$ is the accidental rate of single pulses, $\lambda$ is the mean accidental rate of single pulses–an unknown value–except that it must be less than or equal to the measured coincidence rate. In this study, the coincidence rates were around $5\times10^{-5}$ events per pulse, so the approximation used above is correct to within 0.001\% as the worst case scenario. When observing events across pulses, as in the DP data, the accidental rate is equal to the Poissonian probability of having two accidentals--one in each pulse. The occurrence of an accidental in one pulse and in another pulse are independent, so their join probability is just the product of their individual probabilities:
+\begin{displaymath}
+DP_{\text{a}} = (e^{-\lambda}\lambda)^{2}\approx \lambda^{2} 
+\end{displaymath}
+where $DP_{\text{a}}$ is the accidental rate of DP events. Therefore, if coincidence rates, then the rate of measured accidentals in single pulses is 1/2 times the rate of accidentals in the different pulses. In this study the subtraction had about a ten percent effect.  
+
+
+
+
+\subsection{Angular Correlation}
+\begin{figure}
+    \centering
+    \includegraphics[width  = \textwidth ]{Content/Methods/2N_Corr_OpeningAngleCf252.png}
+    \caption{Unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf.}
+    \label{fig:OpeningAngleAcceptance}
+\end{figure}
