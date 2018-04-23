@@ -1,37 +1,36 @@
 \section{Experimental Methods}
 \subsection{Photon Beam}
-The accelerator's pulse width is set to 3 ns, where as the fastest and slowest neutrons in this experiment have a time of flight of 40 ns and 130 ns, respectively.
-A bremsstrahlung photon beam is produced by the passage of 10.5 MeV electrons through a 1" thick slab of aluminum.
-Aluminum was chosen as the radiator because it has a neutron knockout threshold above the energy of the 10.5 MeV electron beam.
-This prevents the bremsstrahlung radiator from being a source of fast neutrons, which could have the potential to travel into the experimental cell and cause false neutron events.
-Downstream from the bremsstrahlung radiator, a sweeping magnet removes excess electrons from the photon beam (see figure~\ref{fig:Facility}).
-Before reaching the experimental cell, photons are collimated by a series of polyethylene and lead collimators aimed at eliminating beam contaminants.
-
 ** ToDo: Think about if/where to include the calculation of the ratio of knockout neutrons to fission neutrons.
 Have only done calculation for Thorium.
 
-When attempting a measurement of prompt neutrons from photofission, an ambiguity can arise between neutrons from photofission and neutrons from $(\gamma, xn)$.
-This is because the two reactions have similar cross-sections within the GDR region.
-Furthermore, there is significant overlap between the energy spectra of the neutrons from $(\gamma, xn)$ and photofission.
-Since this measurement is concerned only with observing two neutrons in coincidence, it suffices to set the Bremsstrahlung end-point at 10.5 MeV, since this value is below the threshold for ($\gamma, 2n$) of our targets ($\sim$12 MeV).
-Using an and-point of 10.5 MeV still leaves the possibility of the detection of multiple ($\gamma, 1n$) reactions in a single pulse, but this is an accidental coincidence.
-An \textit{accidental} neutron coincidence occurs when two uncorrelated neutrons happen to be detected in the same pulse.
-All accidentals follow Poissonian distribution, allowing for their subtraction from the data.
-The details of the procedure used to subtract accidentals is explained in section~\ref{Subtraction of Accidentals}.
-
-The energy distribution of photons reaching the target was simulated using MCNP.
-The creation and collimation of the Bremsstrahlung photons in included in the simulation.
+A bremsstrahlung photon beam is produced by the passage of 10.5 MeV electrons through a 1" thick slab of aluminum.
+Aluminum was chosen for a radiator because it has a neutron knockout threshold above the energy electron beam.
+This ensured that the bremsstrahlung radiator was not a source of fast neutrons, which would have the potential to make their way into the experimental cell and cause false neutron events.
+Downstream from the bremsstrahlung radiator, a sweeping magnet removes excess electrons from the photon beam (see figure~\ref{fig:Facility}).
+Before reaching the experimental cell, photons are collimated by a series of polyethylene and lead collimators aimed at eliminating beam contaminants.
+The energy distribution of photons reaching the target was assessed using an MCNP simulation that included the creation and collimation of Bremsstrahlung photons produced by a mono energetic electron beam incident on an Aluminum radiator.
 The resulting energy distribution is shown in figure~\ref{fig:BremDist}.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/MCNPBremDistribution.png}
-\caption{Result of an MCNP simulation of the energy distribution of the Bremsstrahlung photons that reach the target. Points are from the simulation, and the line is an exponential fit ($Ae^{-bx}$). The constant of proportionality, $A$, is arbitrary. The value for $b$ is 0.54.}
+\caption{Result of an MCNP simulation of the energy distribution of the Bremsstrahlung photons that reach the target.
+Points are from the simulation, and the line is an exponential fit ($Ae^{-bx}$).
+The constant of proportionality, $A$, is arbitrary. The value for $b$ is 0.54.}
 \label{fig:BremDist}
 \end{figure}
 
+When attempting a measurement of prompt neutrons from photofission, an ambiguity can arise between neutrons from photofission and neutrons from $(\gamma, xn)$.
+This is because the two reactions have similar cross-sections within the GDR region.
+Furthermore, there is significant overlap between the energy spectra of the neutrons from $(\gamma, xn)$ and from photofission.
+Since this measurement is concerned only with observing two neutrons in coincidence, it suffices to set the Bremsstrahlung end-point at 10.5 MeV, since this value is below the ($\gamma, 2n$) threshold for of the targets, which is $\sim$12 MeV.
+A 10.5 MeV end-point still leaves the possibility of the detection of multiple neutrons from ($\gamma, 1n$) in a single pulse, which is referred to as an accidental coincidence.
+An \textit{accidental} neutron coincidence occurs when two uncorrelated neutrons are detected in the same pulse.
+All accidentals follow the Poissonian distribution, and for this reason they can be subtracted from the data.
+The details and justifications of this procedure are discussed in section~\ref{Subtraction of Accidentals}.
+
 The electron pulse width was set to 3 ns and had a 1.1A peak current, with a repetition rate of 240 Hz.
-The 3 ns pulse width was not a significant source of error in the measurements of neutron time of flight, since neutron events had a median time of flight of about 80 ns.
-The accelerator current is set by requiring there be, on average, fewer than one fission per pulse, thereby reducing the detection of uncorrelated neutrons from multiple fissions occurring in a single pulse.
+The 3 ns pulse width is not a significant source of error in the measurements of neutron time of flight, since neutron events had a median time of flight of about 80 ns.
+The accelerator current is set by requiring that there be, on average, fewer than one fission per pulse, thereby reducing the detection of uncorrelated neutrons from multiple fissions occurring in a single pulse.
 Even so, the detection of uncorrelated neutrons is unavoidable because of statistical fluctuations.
 To address this, a technique is developed to subtract these events from the data (see section~\ref{Subtraction of Accidentals}).
 
@@ -39,26 +38,24 @@ To address this, a technique is developed to subtract these events from the data
 
 \subsection{Particle time of flight determination}
 \label{reconstruction}
-
 %python file: ProductionAnalysis/TOFGraphs
 \begin{figure}[htbp]
 \begin{center}
-
 \subfloat[$\Delta T$s with no target in place. ]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF0.png}}
 \end{center}
 
 \subfloat[$\Delta T$s with Aluminum target.]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF1.png}}
 \subfloat[Average of $\Delta T_{\text{top}}$ and $\Delta t_{\text{bot}}$  with Aluminum target in place.]{\includegraphics[width = 0.5\textwidth]{Content/Methods/ToF2.png}}
-\caption{(a) The $\Delta T $ spectra of PMTs with no target in place  shows the background produced by the beam alone.
-(b) Using Aluminum as a non-neutron producing target, a peak appears in each spectra caused by photons scattering from the target.
+\caption{(a)$\Delta T$ spectra from the two PMTs of a detector while no target was in place.  This shows the background produced by the beam alone.
+(b) Now using an Aluminum target as a non-neutron producing target, a peak from photons scattering from the target appears.
 Since these photons travel a known distance of 1.25 m between the target and detector face, the width of these spectra reflect the range in scintillation light propagation times along the 76.2 cm length of the detector.
 (c) Taking the average of the $\Delta T$s of the top and bottom PMTs produces a sharp peak, since the sum of the scintillation light propagation times from both PMTs is always equal to the time required for light to travel the detector's full length.
 The correct timing offset can be then be found using using the fact that photons have a time of flight of 4 ns. }
 \label{fig:ToFDetermination}
 \end{figure}
 
-Each detector was equipped with two PMTs fixed on opposite ends of the scintillation cell, with the exception of the detectors located farthest downstream at $\pm30^{\circ}$, which only had a single PMT.
-The PMTs provide a signal in response to scintillation light with timing resolution of less than 1 ns.
+Each scintillator was equipped with two PMTs, one fixed at each end of the scintillation cell, with the exception of the detectors located farthest downstream at $\pm30^{\circ}$ which had only a single PMT.
+The PMTs provide a signal in response to scintillation light with a timing resolution of less than 1 ns.
 However, the main source of uncertainly in the time of a particle hit is variation in the time taken for scintillation light to propagate to the PMTs. No pulse shape discrimination was used in this study.
 Particle identification, along with the reconstruction of energy and position was achieved solely from the timing of signals from PMTs.
 The time of each event in a PMT was measured relative to a signal provided by the accelerator at the beginning of each pulse, which is referred to as the \textit{beam gun}.
@@ -111,14 +108,29 @@ The lead brick between the $^{60}Co$ source and the scintillator has a small hol
     \label{fig:lightpath}
 \end{figure}
 
-The value of the constant offset for the calculation of ToF is determined by observing photons that are known to have scattered from the target. Comparing the timing spectra of a non neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent peak caused by the photons that scatter from the target. The distance these photons must travel to reach the center of a face of any detector is 125 cm, and 130 cm to reach the top or bottom edges of a detector. It takes light 4.1 ns and 4.3 ns to travel 125 cm and 130 cm, respectively. The difference between these two ToFs is negligible compared to experimental uncertainty, so the ToF of photons that scatter from the target is assumed to be 4 ns, and with this assumption the constant timing offset of each detector can be calculated.  
+The value of the constant offset for the calculation of ToF is determined by observing photons that are known to have scattered from the target.
+Comparing the timing spectra of a non neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent peak caused by the photons that scatter from the target.
+The distance these photons must travel to reach the center of a face of any detector is 125 cm, and 130 cm to reach the top or bottom edges of a detector.
+It takes light 4.1 ns and 4.3 ns to travel 125 cm and 130 cm, respectively.
+The difference between these two ToFs is negligible compared to experimental uncertainty, so the ToF of photons that scatter from the target is assumed to be 4 ns, and with this assumption the constant timing offset of each detector can be calculated.
    
 \subsection{Particle position reconstruction}
-Spacial resolution in the horizontal plane is determined by the physical dimensions of the detector. It's dimensions in the horizontal plane are comparatively small being 3.8x15 cm$^2$, so it suffices to use the geometric center of the detector as the horizontal component of a detected particle's position. In doing this, a positional uncertainty of $\pm$7.5 cm is introduced, which in terms of an opening angle is $\pm4^{\circ}$. The final results of this work use an opening angle bin width of 20$^{\circ}$, so $\pm4^{\circ}$ is not large enough be a cause for concern. The largest contributor to uncertainty in the reconstruction of particle position is the position in vertical direction, which is determined by the timing difference between signals in the top and bottom PMTs. 
+Spacial resolution in the horizontal plane is determined by the physical dimensions of the detector.
+It's dimensions in the horizontal plane are comparatively small being 3.8x15 cm$^2$, so it suffices to use the geometric center of the detector as the horizontal component of a detected particle's position.
+In doing this, a positional uncertainty of $\pm$7.5 cm is introduced, which in terms of an opening angle is $\pm4^{\circ}$.
+The final results of this work use an opening angle bin width of 20$^{\circ}$, so $\pm4^{\circ}$ is not large enough be a cause for concern.
+The largest contributor to uncertainty in the reconstruction of particle position is the position in vertical direction, which is determined by the timing difference between signals in the top and bottom PMTs.
 
-As is the case with ToF determination, particle position in the vertical direction relies on the timing of coincident signals from both the PMTs of a detector. If both of the signals are the result of the detection of scintillation light created by the same particle, then the timing difference between the signals obeys a linear relationship with respect to the position of the particle hit along the vertical axis of the detector. The z-coordinate will hereafter refer to a particle's position along the vertical axis, where $z=0$ corresponds to the geometric center of the detectors. 
+As is the case with ToF determination, particle position in the vertical direction relies on the timing of coincident signals from both the PMTs of a detector.
+If both of the signals are the result of the detection of scintillation light created by the same particle, then the timing difference between the signals obeys a linear relationship with respect to the position of the particle hit along the vertical axis of the detector.
+The z-coordinate will hereafter refer to a particle's position along the vertical axis, where $z=0$ corresponds to the geometric center of the detectors.
 
-As discussed before, detected scintillation light tends to take fairly direct paths to the PMTs, experiencing few reflections off the boundary of the scintillation cell. As a result, the timing difference between signals in the top and bottom PMTs is proportional to the difference in path lengths that the scintillation light must travel to reach each PMT, which is in turn proportional to the z-coordinate of the particle hit. The exact linear relationship is determined through calibration by using collimated photons from a $^{60}$Co source. The calibration consists of measuring the top-bottom timing difference with the source of collimated photons fixed at five different locations along the detectors length. The result is shown in figure~\ref{fig:PMTDifference}. The setup for calibration was discussed in section~\ref{reconstruction}.
+As discussed before, detected scintillation light tends to take fairly direct paths to the PMTs, experiencing few reflections off the boundary of the scintillation cell.
+As a result, the timing difference between signals in the top and bottom PMTs is proportional to the difference in path lengths that the scintillation light must travel to reach each PMT, which is in turn proportional to the z-coordinate of the particle hit.
+The exact linear relationship is determined through calibration by using collimated photons from a $^{60}$Co source.
+The calibration consists of measuring the top-bottom timing difference with the source of collimated photons fixed at five different locations along the detectors length.
+The result is shown in figure~\ref{fig:PMTDifference}.
+The setup for calibration was discussed in section~\ref{reconstruction}.
 
 \begin{figure}
     \centering
@@ -159,16 +171,25 @@ Accordingly, no attempt was made to correct for cross-talk in the final result.
 
 
 \subsection{Targets}
-A depleted uranium (DU) target with dimensions of 4x2x0.0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations. DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, has an anisotropic angular distribution of its fission fragments.
+A depleted uranium (DU) target with dimensions of 4x2x0.0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
+DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, has an anisotropic angular distribution of its fission fragments.
 
-One consideration for the target dimensions is the rate of neutron scattering in the target. This has the potential to be a major problem, since a scattering event changes the neutron's direction of the travel and thus creates two-neutron opening angles that are not reflective of what the opening angle was immediately after fission. This effect cannot be eliminated completely, but the target must have small enough dimensions such that the effects of neutron scattering can be neglected. The probability that a two-neutron event is undisturbed by scattering is calculated by squaring the probability that a single neutron is not disturbed. The probability that a single neutron is not disturbed is calculated by an MCNP simulation in which neutrons with an energy spectrum typical of fission neutrons are sample uniformly within a target.
+One consideration for the target dimensions is the rate of neutron scattering in the target.
+This has the potential to be a major problem, since a scattering event changes the neutron's direction of the travel and thus creates two-neutron opening angles that are not reflective of what the opening angle was immediately after fission.
+This effect cannot be eliminated completely, but the target must have small enough dimensions such that the effects of neutron scattering can be neglected.
+The probability that a two-neutron event is undisturbed by scattering is calculated by squaring the probability that a single neutron is not disturbed.
+The probability that a single neutron is not disturbed is calculated by an MCNP simulation in which neutrons with an energy spectrum typical of fission neutrons are sample uniformly within a target.
 
-It is desirable to have a target with a symmetry that is consistent with the cylindrical symmetry of the neutron detector array. To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition. In doing so, cylindrical symmetry is preserved in the final result, since the final result is an average taken from events which occurred over a long period of time. 
+It is desirable to have a target with a symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
+To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition.
+In doing so, cylindrical symmetry is preserved in the final result, since the final result is an average taken from events which occurred over a long period of time.
 
 \subsection{Elastic Scattering in Target}
-**ToDo: Expand on this section. Discuss MCNP simulation and add a relevant plot. 
+**ToDo: Expand on this section.
+Discuss MCNP simulation and add a relevant plot.
 
-MCNP simulations indicated that the probability of a photo-neutron produced in the target escaped without scattering was 97.5\%. Because two neutrons are required for the formation of an opening angle, the rate of data contamination due to scattering is $(1-.975^2)$, or 5\% of two-neutron events.  
+MCNP simulations indicated that the probability of a photo-neutron produced in the target escaped without scattering was 97.5\%.
+Because two neutrons are required for the formation of an opening angle, the rate of data contamination due to scattering is $(1-.975^2)$, or 5\% of two-neutron events.
 
 
 \subsection{Measurements with $^{252}$Cf}
