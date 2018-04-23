@@ -1,6 +1,8 @@
 
 \section{Experimental Apparatus}
-The experiment was carried out at the Idaho Accelerator Center, using their short pulsed linear accelerator. The accelerator is a radio frequency accelerator operating at the L--band frequency of 1300 MHz. It is capable of pulse widths ranging from 50 ps to 2 $\mu$s with a maximum energy of 44 MeV.
+The experiment was carried out at the Idaho Accelerator Center, using their short pulsed linear accelerator.
+The accelerator is a radio frequency accelerator operating at the L--band frequency of 1300 MHz.
+It is capable of pulse widths ranging from 50 ps to 2 $\mu$s with a maximum energy of 44 MeV.
 
 
 \begin{figure}[h]
@@ -31,12 +33,24 @@ To counter this, the detectors at $\pm$30 degrees from the downstream beam line 
 Prior to this modification, the gamma detection rate per pulse nearly 1 in each of these detectors.
 After the modification, the gamma detection rate fell to 0.5 gammas per pulse, leading to a net increase in the effective neutron detection efficiency.
 
-The location of a particle hit along the detector's 30 inch length is determined by the timing difference between signals in the top and bottom PMT. This method uses the fact that the scintillation light travels at a constant speed through the cell. This technique is not possible for the four the downstream detectors at $\pm 30^{\circ}$, since these have only a single PMT. For these detectors, particle position is assumed to be at the middle of the cell. For further detail on particle position reconstruction, see section ~\ref{reconstruction}. 
+The location of a particle hit along the detector's 30 inch length is determined by the timing difference between signals in the top and bottom PMT .
+This method uses the fact that the scintillation light travels at a constant speed through the cell.
+This technique is not possible for the four the downstream detectors at $\pm 30^{\circ}$, since these have only a single PMT.
+For these detectors, particle position is assumed to be at the middle of the cell.
+For further detail on particle position reconstruction, see section ~\ref{reconstruction}.
 
-In order prevent scintillation light from escaping the scintillators, they were wrapped in reflective Tyvek. This increases efficiency by facilitating the propagation of light between the point of scintillation and the PMTs. As a further measure to contain scintillation light, the cells were buffered with a (what?), which removes micro imperfections that could allow light to escape. If the cell is perfectly smooth, then light that is incident on the inner surface will be reflected back into the cell, because detector geometry will ensure that the light's angle of incidence with the cell's surface is below the angle of total internal reflection. 
+In order prevent scintillation light from escaping the scintillators, they were wrapped in reflective Tyvek.
+This increases efficiency by facilitating the propagation of light between the point of scintillation and the PMTs.
+As a further measure to contain scintillation light, the cells were buffered with a (what?), which removes micro imperfections that could allow light to escape.
+If the cell is perfectly smooth, then light that is incident on the inner surface will be reflected back into the cell, because detector geometry will ensure that the light's angle of incidence with the cell's surface is below the angle of total internal reflection.
 
 \subsection{Data Acquisition}
-A data acquisition system based on NIM/VME standard was used. A wiring diagram is shown in figure~\ref{fig:WiringDiagram}. The PMTs are supplied voltages ranging from 1300 to 1500 V by a Locroy 1458 high voltage mainframe. The analogue signals from the PMTs are fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV. The logic signals from the discriminator are then converted to ECL logic and fed into a CAEN model V1290A TDC. A gun signal from the accelerator provided the “start” signal for each pulse.
+A data acquisition system based on NIM/VME standard was used.
+A wiring diagram is shown in figure~\ref{fig:WiringDiagram}.
+The PMTs are supplied voltages ranging from 1300 to 1500 V by a Locroy 1458 high voltage mainframe.
+The analogue signals from the PMTs are fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV.
+The logic signals from the discriminator are then converted to ECL logic and fed into a CAEN model V1290A TDC.
+A gun signal from the accelerator provided the “start” signal for each pulse.
 On the software side, the acquisition of data from the TDC, along with the conversion of the data into usable formats, was carried out using the CODA software package developed by Jefferson Lab.  
 
 \begin{figure}[h]
