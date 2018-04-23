@@ -1,11 +1,21 @@
 \section{Data Analysis}
-The efficiency and acceptance of the neutron detector array varies chaotically over the range of opening angles from 0 to 2$\pi$ (see figure~\ref{fig:OpeningAngleAcceptance}). This effect is due to the detector array's non-spherical symmetry and to varying efficiency as a function of particle position. During the experiment, there was no attempt to measure the array's efficiency as a function of two-neutron opening angle, because it is not absolutely necessary and would have been a difficult task. It would add to the amount of physics extractable from the data, but it is not needed for a measurement of two-neutron opening angle correlations. In this experiment, angular correlation is calculated by normalizing each measurement to a  distribution of uncorrelated neutrons, producing a result that is insensitive to detector efficiencies. 
+\label{Analysis}
+The efficiency and acceptance of the neutron detector array varies greatly over the range of opening angles from 0 to 2$\pi$ (see figure~\ref{fig:OpeningAngleAcceptance}a). This effect is due to the detector array's non-spherical symmetry, and to varying efficiency as a function of particle position. There was no attempt to measure the array's efficiency as a function of two-neutron opening angle, because it is not necessary and would have been a difficult task. In this experiment, angular correlation is calculated by normalizing each measurement to an equivalent distribution of uncorrelated neutrons, producing a result that is insensitive to detector efficiencies (see figure~\ref{fig:OpeningAngleAcceptance}b). 
 
-The uncorrelated neutron distribution is made by examining neutron pairs from events in separate pulses, and then calculating the opening angle between the neutron pairs normally. Such pairs will hereafter be referred to as different pulse (DP) pairs. The two neutrons in DP pair are uncorrelated because events in one pulse do  have casual influence on the events in another pulse. Detector efficiency and geometry influence same pulse (SP) events to the same extent as different pulse events. So barring two-neutron correlations and a scaling factor, the DP distribution is identical to the SP distribution.
+The uncorrelated neutron distribution is made by examining neutrons from events in separate pulse pairs, and then calculating the opening angle between the neutron pairs normally. Such pairs will hereafter be referred to as different pulse (DP) pairs. The two neutrons in DP pair are uncorrelated because events in one pulse do not have casual influence on the events in another pulse. Detector efficiency and geometry influence same pulse (SP) events to the same extent as different pulse events. So barring two-neutron correlations and a scaling factor, the DP distribution is identical to the SP distribution.
 
+Each pair of pulses is chosen such that the two pulses occurred within less than a few 100 ms of each other. This ensures that both pulses are subject to the same experimental conditions, thereby lessening systematic effects from time varying factors such as high voltage drift and varying beam current. As many pairs as needed can be readily selected until good counting statistics is achieved, because the only restriction for selecting pulse pairs is that they occurred around roughly the same time.
+**ToDo: Compare our result for CF252 to another result. Overlay with this figure.
+\begin{figure}
+    \centering
+    \includegraphics[width  = \textwidth ]{Content/Methods/Normalization.png}
+    \caption{(a) Unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf. The structure is reflective of geometric acceptance and efficiencies. (b) Same distribution after division by uncorrelated two-neutron events, which are taken from different pulses.}
+    \label{fig:OpeningAngleAcceptance}
+    \label{fig:OpeningAngleAcceptance}
+\end{figure}
 \subsection{Subtraction of Accidentals}
 \label{Subtraction of Accidentals}
-An accidental neutorn coincidence is defined as a coincidence between two uncorrelated events in a single pulse. For example, a coincidence between a neutron from a (gamma,1n) reaction and a neutron from photofission. Another example is a coincidence between two events that are part of the noise background. In both of these examples, the two events are considered accidentals because they have no causal influence on each another. A true neutron coincidence, or true for short, is defined here as any pair correlated neutrons from the same pulse. 
+An accidental neutron coincidence is defined as a coincidence between two uncorrelated events in a single pulse. For example, a coincidence between a neutron from a (gamma,1n) reaction and a neutron from photofission. Another example is a coincidence between two events that are part of the noise background. In both of these examples, the two events are considered accidentals because they have no causal influence on each another. A true neutron coincidence, or true for short, is defined here as any pair correlated neutrons from the same pulse. 
 
 Accidentals are subtracted from the data by subtracting 1/2 times the equivalent distribution formed by using the DP data. The factor of 1/2 arises from the Poissonian statistics that inherently governs all accidentals, whether the accidental events are composed of two neutrons, two photons, two noise events, or any combination thereof. All accidentals are comprised of two independent events, so by Poissonian statistics, the probability of measuring an accidental in a single pulse is given by:
 \begin{displaymath}
@@ -16,14 +26,3 @@ where $SP_{a}$ is the accidental rate of single pulses, $\lambda$ is the mean ac
 DP_{\text{a}} = (e^{-\lambda}\lambda)^{2}\approx \lambda^{2} 
 \end{displaymath}
 where $DP_{\text{a}}$ is the accidental rate of DP events. Therefore, if coincidence rates, then the rate of measured accidentals in single pulses is 1/2 times the rate of accidentals in the different pulses. In this study the subtraction had about a ten percent effect.  
-
-
-
-
-\subsection{Angular Correlation}
-\begin{figure}
-    \centering
-    \includegraphics[width  = \textwidth ]{Content/Methods/2N_Corr_OpeningAngleCf252.png}
-    \caption{Unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf.}
-    \label{fig:OpeningAngleAcceptance}
-\end{figure}
