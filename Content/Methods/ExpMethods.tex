@@ -171,53 +171,58 @@ Because cross-talk events are in fact correlated, they cannot be removed in anal
 
 \subsection{Detector Cross-talk}
 %**ToDo: Expand this section. Graphs and a more detailed discussion. The cross-talk plot on the wiki could be insightful.
-The geometry of the neutron detector array makes it kinematically impossible for a neutron to scatter from a proton--which is the basis for scintillation--only once within one detector, then travel directly to another detector without undergoing a second scattering event.
-Rather, it is kinematically required that a neutron must scatter from at least one intermediate nucleus before traveling into another detector.
-This fact can be derived from simple two-body kinematics.
-This kinematic requirement alone is not sufficient to neglect the occurrence of cross-talk, because the detectors and the shielding contain significant levels of carbon, lead, and other nuclei, which can function as intermediate scattering points.
-To address this, a detailed MCNP-POLIMI simulation was performed that modeled the entire neutron detector array, detector shielding and the supporting structures, and the experimental cell containing it all.
-Neutron detection physics was modeled to the point of neutron light output in MeVee, but did not include the propagation of scintillation light or its detection by the PMT tubes.
+The geometry of the neutron detector array makes it kinematically impossible for a neutron to scatter from a proton in one detector--which is the basis for scintillation--then travel straight to another detector.
+Rather, it is kinematically required that the neutron scatter from at least one intermediate nucleus while traveling between detectors.
+This fact, which can be derived from simple two-body kinematics, shows that cross-talk is a "second-order" effect, because the neutron has to scatter from an intermediate nucleus, AND be detected in another detector.
+However, the kinematics alone are not sufficient to neglect the effect of cross-talk, because the detectors and their shielding contain significant levels of carbon, lead, and other nuclei which could function as intermediate scattering points.
+To address this, a detailed MCNP-POLIMI simulation was performed that modeled the entire neutron detector array, shielding, supporting structures, and the experimental cell.
+Neutron detection physics was modeled by calculating the amount of energy converted into scintillation light, but did not include the propagation or detection of scintillation light.
+The energy of scintillation slight is given in MeV equivalent electron energy (MeVee), which is the light output given by 1 MeV fast electrons.
+For neutrons detected by elastic scattering on hydrogen, the light output is given by
+\begin{displaymath}
+L = 0.0364 E_n^2 +  0.125 E_n
+\end{displaymath}
+, where E is the energy deposited, equal to the change in kinetic energy.
+Neutron interactions with carbon are assumed to generate a small light output equal to
+\begin{displaymath}
+L = 0.02 E_n
+\end{displaymath}
+% ToDo: Cite this from the MPPOST manual.
 A distinct feature of MCNP-POLIMI, which is not included in the standard MCNP release, is its ability to model a $^{252}$Cf spontaneous fission source that emits neutrons with the correct correlations.
 The detection rate of correlated two-neutron events, relative to the rate of detected cross-talk events, is found by tracking fission neutrons individually through the geometry.
 In the simulation, coincident events were detected at a rate that is 36 times greater than for cross-talk events, which is less than a 3\% effect.
 Accordingly, no attempt was made to correct for cross-talk in the final result.
-
+% ToDo: Elaborate on the cross-talk simulation.
 
 \subsection{Targets}
-A depleted uranium (DU) target with dimensions of 4x2x0.0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
-DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, has an anisotropic angular distribution of its fission fragments.
-
-One consideration for the target dimensions is the rate of neutron scattering in the target.
-This has the potential to be a major problem, since a scattering event changes the neutron's direction of the travel and thus creates two-neutron opening angles that are not reflective of what the opening angle was immediately after fission.
-This effect cannot be eliminated completely, but the target must have small enough dimensions such that the effects of neutron scattering can be neglected.
-The probability that a two-neutron event is undisturbed by scattering is calculated by squaring the probability that a single neutron is not disturbed.
-The probability that a single neutron is not disturbed is calculated by an MCNP simulation in which neutrons with an energy spectrum typical of fission neutrons are sample uniformly within a target.
-
-It is desirable to have a target with a symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
-To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition.
-In doing so, cylindrical symmetry is preserved in the final result, since the final result is an average taken from events which occurred over a long period of time.
-
-\subsection{Elastic Scattering in Target}
-**ToDo: Expand on this section.
-Discuss MCNP simulation and add a relevant plot.
-
-MCNP simulations indicated that the probability of a photo-neutron produced in the target escaped without scattering was 97.5\%.
+A depleted uranium (DU) target with dimensions of 4x2x0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
+DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence fission fragments are emitted with a high degree of anisotropy.
+One consideration for the design of the target is the rate of neutron scattering in the target.
+This is a cause for concern because the neutron's direction of the travel is altered by scattering, which creates two-neutron opening angles that are not reflective of the opening angle immediately after fission.
+While this effect cannot be completely eliminated, the target must be small enough such that neutron scattering can be neglected.
+This issue is addressed by performing an MCNP simulation in which neutrons with an energy spectrum typical of fission neutrons are sampled uniformly within a target.
+% ToDo: Expand on this section. Further discuss the MCNP simulation and add a relevant plot.
+In the simulation, the probability that a neutron produced in the target escaped without scattering, was 97.5\%.
 Because two neutrons are required for the formation of an opening angle, the rate of data contamination due to scattering is $(1-.975^2)$, or 5\% of two-neutron events.
 
+It is desirable to have a target with symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
+To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition.
+By doing this the cylindrical symmetry is preserved, since the measurement is reflective of an average of events which occurred while the target was at orientations from 0 to 2$\pi$.
+This eliminates potential biases caused not by physics, but instead by the asymmetrical structure of the target.
 
 \subsection{Measurements with $^{252}$Cf}
-**ToDo: reread this and revise.
-Maybe place result and comparison of Cf measurements here instead of in results?
+%ToDo: reread this and revise. Maybe place result and comparison of Cf measurements here instead of in results?
 
 Opening angle measurements were also performed on neutrons from the spontaneous fission of $^{252}Cf$.
-The configuration for this measurement must be different than that for photofission measurements, as the photon beam can no longer be used as the timing ``start'' trigger.
-The trigger for $^{252}Cf$ consisted of two high timing resolution scintillation photon detectors, one fixed below and above the source at a distance of 15 cm.
-A 2-fold coincidence between both photon detectors, with a coincidence window of $\Delta t\leq 4$ ns, served as the timing start trigger.
-After a new start trigger is implemented, the analysis that follows is equivalent to that of photofission.
+The configuration for this measurement was different than that for photofission measurements, as the photon beam can no longer be used for the timing ``start'' trigger.
+The trigger for $^{252}$Cf consisted of two high timing-resolution scintillation photon detectors, with one fixed below and the other above the source at a distance of 15 cm.
+With a coincidence window of $\Delta t\leq 4$ ns, 2-fold coincidence between both the photon detectors served as the timing start trigger.
+Aside from the mechanism for a start trigger, the measurement methods for the $^{252}$Cf source are equivalent to those for photofission.
 
 As opposed to the measurement of neutrons from photofission, when using neutrons from $^{252}$Cf, there is no concern of accidental neutron pairs.
 Given the strength of the source, it is extremely unlikely for two fissions to occur during the neutron time of flight window, thus all detected neutron pairs are expected to be correlated.
-Another difference between the two measurements is the clean and sharp peak produced by fission photons from $^{252}$Cf, compared to the relatively smeared peak produced by photons scattering from the target during the photofission measurement.
-In both cases, the photon peak is used as a reference point for the time of flight of neutrons, so $^{252}$Cf has less error due to this effect.
-The normalization technique used in each case is the same, in which a correlated distribution is divided by an uncorrelated distribution.
-Because the opening angle distribution of neutrons from the spontaneous fission of $^{252}$Cf has been measured several several times with good agreement, its measurement in this study gives a good opportunity to verify the validity of the analysis techniques used.
+Another difference between the two measurements is the clean and sharp peak produced by fission photons from $^{252}$Cf, compared to the increased smearing of the peak produced by photons scattering from the target during the photofission measurement.
+In both measurements, this photon peak is used as a reference point for the time of flight of neutrons, so $^{252}$Cf has less error due to photon peak smearing.
+The same normalization technique is used for both measurements, in which a correlated distribution is divided by the uncorrelated distribution of neutron pairs taken from different fissions.
+Past measurements of the opening angle distribution of neutrons from the spontaneous fission of $^{252}$Cf are in good agreement, and thus are used as a benchmark measurement for this study.
+
