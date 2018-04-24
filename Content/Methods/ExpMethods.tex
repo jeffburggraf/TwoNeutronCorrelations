@@ -46,12 +46,13 @@ To address this, a technique is developed to subtract these events from the data
 
 \subfloat[$\Delta T$s with Aluminum target.]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF1.png}}
 \subfloat[Average of $\Delta T_{\text{top}}$ and $\Delta t_{\text{bot}}$  with Aluminum target in place.]{\includegraphics[width = 0.5\textwidth]{Content/Methods/ToF2.png}}
-\caption{(a)$\Delta T$ spectra from the two PMTs of a detector while no target was in place.
-This shows the background produced by the beam alone.
-(b) The introduction of a non-neutron producing target made from aluminum produces a peak caused by the scattering of photons from the target.
-The scattered photons have a constant time of flight, so the width of these spectra are reflective of the range of times taken for scintillation light to propagate from the point of scintillation to a PMT.
-(c) Taking the average $\Delta T$ of the top and bottom PMTs produces a sharper peak, since the sum of times is reflective of the time required for light to travel the entire length of a detector, regardless of the location of the particle hit.
-The correct timing offset can be now be found using using the fact that photons have a time of flight of 4 ns. }
+\caption{(a) $\Delta T$ spectra from each PMT of a detector with no target in place.
+Despite the lack of a target, the beam dump does not collect all photons.
+This background is caused by photons that scatter from various surfaces within the experimental cell.
+(b) The introduction of a non-neutron producing target, made from aluminum, produces a peak caused by the scattering of photons from the target.
+These photons have a constant time of flight, so the width of these spectra are reflective of the range of times taken for scintillation light to propagate from the points of scintillation to a PMT.
+(c) Taking the average between the $\Delta T$s of the top and bottom PMT gives a sharper peak, since the sum of times from both both PMTs is reflective of the time required for light to travel the entire length of a detector, regardless of the location of the particle hit.
+The correct timing offset can be now be found since the photons have a time of flight of 4 ns. }
 \label{fig:ToFDetermination}
 \end{figure}
 
@@ -63,23 +64,24 @@ The time of each event in a PMT was measured relative to a signal provided by th
 
 Time of flight (ToF), the time for a particle to travel from the target to the face of a detector, was used to distinguish between photons and neutrons, and to measure neutron energy.
 The time of flight was calculated by taking the average between the times of signals from the top and bottom PMTs, and subtracting an offset determined from a calibration.
-In the detectors located at $\pm30^{\circ}$, which have only one PMT, ToF is calculated from the timing of events in its sole PMT, minus a calibration offset.
+For the detectors located at $\pm30^{\circ}$, which have only one PMT, ToF is calculated from the timing of events from a single PMT.
 
 The ToF of a particle that causes coincident events in both PMTs of a detector, obeys the following relationship:
 \begin{displaymath}
 ToF = C_i + \Delta t_{\text{avg}} 
 \end{displaymath}
-where $\Delta t_{\text{avg}} $ is the average between the timing from the top and bottom PMTs, and $C_i$ is a constant timing offset that is the same for every pulse.
-The subscript on $C_i$ is used because the timing offset is different for each detector.
+where $\Delta t_{\text{avg}} $ is the average between the timing from the top and bottom PMTs, and $C_i$ is a constant timing offset which is the same for every pulse.
+The subscript on $C_i$ is used because the timing offset can be different for each detector.
 Any process that produces a timing delay that does not change from pulse to pulse contributes to $C_{i}$.
 Examples of this are the time required for photons to travel from the bremsstrahlung radiator to the target, the propagation of signals through the wires connecting the PMTs, and delays in the electronics for processing.
 
-The time required for scintillation light to travel through the detector, from point of scintillation to a PMT mounted at the detector's top or bottom, can vary from 1 ns for particles that hit very close to a given PMT, to about 8 ns for particles that hit across the detector from a given PMT. The sum of the times taken for scintillation light to travel to the top and bottom PMTs is just the time taken for the light to travel the full length of the detector, which is nearly constant.
+The time required for scintillation light to travel through the detector, from the point of scintillation to a PMT mounted at either end, can vary from 1 ns for particles that hit very close to a given PMT, to about 8 ns for particles that hit across the detector from a given PMT.
+The sum of the times taken for scintillation light to travel to the top and bottom PMTs is just the time taken for the light to travel the full length of the detector, which is nearly a constant.
 The rate at which light propagates along the length of a detector is dependant on speed of light in the material and the light's flight path.
 The flight paths of detected scintillation light tend to be parallel to the long axis of the detector, because these paths are the shortest possible, and only the first signal from a PMT is accepted.
-Therefore, by taking the average of the times in the top and bottom PMT, the time required for scintillation light to propagate through the scintillator becomes a constant offset.
-
-The validity of a constant scintillation light propagation time was verified experimentally using a $^{60}Co$ source.
+Therefore, in taking the average of the times in the top and bottom PMT, the time required for scintillation light to propagate through the scintillator is considered to be a constant offset.
+However, because the light paths are not always perfectly parallel to the detector, there is some variation in scintillation propagation times.
+This variation was measured using a $^{60}Co$ source.
 With the face of the scintillator covered with 2" thick bricks of lead shielding, the $^{60}Co$ source is placed against the lead at several locations along the length of the detector.
 The lead brick between the $^{60}Co$ source and the scintillator has a small hole drilled through it, giving the $^{60}Co$ a direct line of sight to a point on the face of the scintillator.
 
