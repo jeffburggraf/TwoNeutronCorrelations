@@ -82,73 +82,85 @@ The flight paths of detected scintillation light tend to be parallel to the long
 Therefore, in taking the average of the times in the top and bottom PMT, the time required for scintillation light to propagate through the scintillator is considered to be a constant offset.
 However, because the light paths are not always perfectly parallel to the detector, there is some variation in scintillation propagation times.
 This variation was measured using a $^{60}Co$ source.
-With the face of the scintillator covered with 2" thick bricks of lead shielding, the $^{60}Co$ source is placed against the lead at several locations along the length of the detector.
-The lead brick between the $^{60}Co$ source and the scintillator has a small hole drilled through it, giving the $^{60}Co$ a direct line of sight to a point on the face of the scintillator.
-
-**ToDo: Make a figure for the setup of the co60 calibration. 
-
-\begin{figure}
+The $^{60}Co$ source, which emits coincident back-to-back photons, is placed at several positions along the face of a lead shielded scintillator.
+At each position, a small hole is drilled through the lead to give the $^{60}Co$ source a line-of-sight to a well-defined point on the scintillator.
+Then, a high timing-resolution photon detector is placed next to the $^{60}Co$ source and used as a ``start'' trigger.
+The times of signals from each PMT, taken relative to the start trigger, can be summed to give the time taken for scintillation light to propagate through the detector.
+The results of the data can be seen in figures~\ref{fig:Co60Validation} and~\ref{fig:Co60ValidationProject}.
+% **ToDo: Make a figure for the setup of the co60 calibration.
+\begin{figure}[H]
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/CO60Validation.png}
     \caption{A $^{60}Co$ source, which emits coincident back-to-back photons, is placed at several positions along the face of a lead shielded scintillator.
     At each position, a small hole is drilled through the lead to give the $^{60}Co$ source a line-of-sight to a well-defined point on the scintillator.
     Then, a high timing resolution photon detector is placed close to the $^{60}Co$ source.
-    $^{60}Co$ decays to emit two photons simultaneously--one photon is detected by the high timing resolution detector and serves as the ``start'' time, and the other photon causes a scintillation event in the detector being calibrated .}
+    When the $^{60}Co$ source decays, emitting two photons simultaneously, one photon is detected by the high timing-resolution detector serving as the ``start'' time, and the other scintillates in the detector being calibrated.}
     \label{fig:Co60Validation}
 \end{figure}
-
 \begin{figure}
     \centering
-    \includegraphics[width = 0.8\textwidth]{Content/Methods/lightpaths.png}
-    
-    \caption{Hypothetical paths of light rays as they propagate through the scintillator after a scintillation event.
-    The light rays that first reach a PMT (solid) travel a shorter path than the others (dotted), and thus experience the least amount of attenuation.
-    This experiment always uses the first signal from a PMT and hence the data favors cases in which scintillation light travels a short path to a PMT.
-    In other words, the detectors favor the detection of scintillation light that is traveling parallel to the long axis of the detector.
-    As a result, the sum of the times required for scintillation light to reach both PMTs is just the time taken for light to travel the full length of the detector, which is a constant.
-    Thus, by taking the average time between coincident events in both PMTs, the time required for the propagation of scintillation light becomes a constant that is removed during calibration.
-    ** ToDo: Consider removing this figure  }
-    \label{fig:lightpath}
+    \includegraphics[width = 0.9\textwidth]{Content/Methods/CO60ValidationProject.png}
+    \caption{Average of the times of coincident events in the top and bottom PMTs of a detector.
+    These data, taken during the calibration of a detector using a $^{60}$Co source, are also shown in fig~\ref{fig:Co60Validation}, except here the data are projected onto the y-axis.
+    The 3 ns standard deviation quantifies the variation in scintillation propagation times, which is a source of error in the measurement of time of flight.}
+    \label{fig:Co60ValidationProject}
 \end{figure}
-
-The value of the constant offset for the calculation of ToF is determined by observing photons that are known to have scattered from the target.
-Comparing the timing spectra of a non neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent peak caused by the photons that scatter from the target.
-The distance these photons must travel to reach the center of a face of any detector is 125 cm, and 130 cm to reach the top or bottom edges of a detector.
-It takes light 4.1 ns and 4.3 ns to travel 125 cm and 130 cm, respectively.
-The difference between these two ToFs is negligible compared to experimental uncertainty, so the ToF of photons that scatter from the target is assumed to be 4 ns, and with this assumption the constant timing offset of each detector can be calculated.
+%\begin{figure}
+%    \centering
+%    \includegraphics[width = 0.8\textwidth]{Content/Methods/lightpaths.png}
+%
+%    \caption{Hypothetical paths of light rays as they propagate through the scintillator after a scintillation event.
+%    The light rays that first reach a PMT (solid) travel a shorter path than the others (dotted), and thus experience the least amount of attenuation.
+%    This experiment always uses the first signal from a PMT and hence the data favors cases in which scintillation light travels a short path to a PMT.
+%    In other words, the detectors favor the detection of scintillation light that is traveling parallel to the long axis of the detector.
+%    As a result, the sum of the times required for scintillation light to reach both PMTs is just the time taken for light to travel the full length of the detector, which is a constant.
+%    Thus, by taking the average time between coincident events in both PMTs, the time required for the propagation of scintillation light becomes a constant that is removed during calibration.
+%    }
+%    \label{fig:lightpath}
+%\end{figure}
+% Badness: The following paragraph could be better. 
+The value of the constant offset for ToF calculation is determined by observing photons that scattered from the target.
+Comparing the timing spectra of a non-neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent peak caused by the scattering of photons from the target.
+These photons must travel between 125 cm to 130 cm to reach a face of a detector, depending on whether the photons reach the detector near the center or at the edge.
+It takes light 4.0 ns and 4.3 ns to travel 125 cm and 130 cm, respectively.
+The difference between the two times is negligible for these purposes, so the ToF of photons that scatter from the target is assumed to be 4 ns.
+With this assumption, the location of the photon peak in the timing spectra was used to calculate the offset in each detector.
    
-\subsection{Particle position reconstruction}
+\subsection{Particle Position Reconstruction}
+% ToDo: The determionation of position could use a figure. The figure could indicate verticle reconstruction, and horizontal error. 
 Spacial resolution in the horizontal plane is determined by the physical dimensions of the detector.
 It's dimensions in the horizontal plane are comparatively small being 3.8x15 cm$^2$, so it suffices to use the geometric center of the detector as the horizontal component of a detected particle's position.
-In doing this, a positional uncertainty of $\pm$7.5 cm is introduced, which in terms of an opening angle is $\pm4^{\circ}$.
+In doing this, a positional uncertainty of $\pm$7.5 cm is introduced, which expressed in terms of an angle is $\pm4^{\circ}$.
 The final results of this work use an opening angle bin width of 20$^{\circ}$, so $\pm4^{\circ}$ is not large enough be a cause for concern.
 The largest contributor to uncertainty in the reconstruction of particle position is the position in vertical direction, which is determined by the timing difference between signals in the top and bottom PMTs.
 
-As is the case with ToF determination, particle position in the vertical direction relies on the timing of coincident signals from both the PMTs of a detector.
-If both of the signals are the result of the detection of scintillation light created by the same particle, then the timing difference between the signals obeys a linear relationship with respect to the position of the particle hit along the vertical axis of the detector.
+The determination of a particle's position in the vertical direction relies on the timing of coincident signals from both the PMTs of a detector.
+The timing difference obeys a linear relationship with respect to the location of the particle hit along the length of the detector.
 The z-coordinate will hereafter refer to a particle's position along the vertical axis, where $z=0$ corresponds to the geometric center of the detectors.
 
 As discussed before, detected scintillation light tends to take fairly direct paths to the PMTs, experiencing few reflections off the boundary of the scintillation cell.
 As a result, the timing difference between signals in the top and bottom PMTs is proportional to the difference in path lengths that the scintillation light must travel to reach each PMT, which is in turn proportional to the z-coordinate of the particle hit.
 The exact linear relationship is determined through calibration by using collimated photons from a $^{60}$Co source.
-The calibration consists of measuring the top-bottom timing difference with the source of collimated photons fixed at five different locations along the detectors length.
-The result is shown in figure~\ref{fig:PMTDifference}.
+Calibration is achieved by measuring the PMT top-bottom timing difference while the $^{60}$Co source is fixed at five different locations along the detectors length.
 The setup for calibration was discussed in section~\ref{reconstruction}.
+The result is shown in figure~\ref{fig:PMTDifference}.
 
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/PMTDifference.png}
-    \caption{Using a collimated $^{60}Co$ source to produce events at a precise location on the detector, the particle's position along the detector's length is shown to vary linearly with respect to the timing difference between events in the top and bottom PMTs of a detector.}
+    \caption{A collimated $^{60}Co$ source is used to produce events at precise locations on the detector.
+    The particle's position along the detector's length is shown to vary linearly with respect to the timing difference between events in the top and bottom PMTs of a detector.}
     \label{fig:PMTDifference}
 \end{figure}
 \subsubsection{Detector Shielding}
-** ToDo: Expand this section and add figures. 
 
 The detector's shielding was designed with the aim of reducing cross-talk, the detection of photons, and noise.
-The front face of the detectors, which face towards the target, are subject to the highest flux of gammas due to scatting off the target.
-The detection of a gamma renders the detector ``dead'' during the time in which fission neutrons reach the detectors.
-Lead readily attenuates gammas, but has the side effect of causing neutrons to scatter and travel an unknown flight path to a detector, which destroys time of flight information.
-The extent that neutron flight paths are perturbed due to scattering in the lead shielding was quantified by an MCNP simulation.
+The front face of the detectors, which face towards the target, are subject to the highest flux of gammas due to the scatting beam photons from the target.
+The detection of a gamma renders a detector ``dead'' during the time in which fission neutrons reach the detectors.
+Lead readily attenuates gammas, but has the side effect scattering neutrons.
+If a neutron scatters prior to being detected, the ToF calculation will be incorrect because the neutron traveled an unknown distance to the detector.
+The extent to which neutron distances of travel are perturbed due to scattering from lead shielding was quantified using an MCNP.
+% ToDo: Add figure of neutron distances.
 Accordingly, 1" of lead was placed along the front face of the detectors.
 This effectively diminished gamma detection rates and, according to the simulation, is expected to cause negligible levels of neutron scattering.
 Additional lead was used in some special areas that had high gamma flux: at the sides of detectors adjacent to the beam, and along the front faces of the detectors farthest downstream.
@@ -158,9 +170,7 @@ If both hits occur within the time frame typical for neutrons, then the cross-ta
 Because cross-talk events are in fact correlated, they cannot be removed in analysis by the subtraction of accidentals.
 
 \subsection{Detector Cross-talk}
-**ToDo: Expand this section. Graphs and a more detailed discussion.
-The cross-talk plot on the wiki could be insightful.
-
+%**ToDo: Expand this section. Graphs and a more detailed discussion. The cross-talk plot on the wiki could be insightful.
 The geometry of the neutron detector array makes it kinematically impossible for a neutron to scatter from a proton--which is the basis for scintillation--only once within one detector, then travel directly to another detector without undergoing a second scattering event.
 Rather, it is kinematically required that a neutron must scatter from at least one intermediate nucleus before traveling into another detector.
 This fact can be derived from simple two-body kinematics.

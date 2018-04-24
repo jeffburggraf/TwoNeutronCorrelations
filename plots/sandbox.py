@@ -1,21 +1,29 @@
 import ROOT
 import numpy as np
 from TH1Wrapper import*
+import mytools2 as mt2
 
 hist =TH1F(0,18,binwidths=1)
 
-for i in np.random.randn(10000):
-    i = i*3 + 9
+for i in np.random.randn(20000):
+    i = i*3.2 + 9
     hist.Fill(i)
 
-hist -= 300
+hist -= 30
 
-hist.Draw("hist")
+hist.Draw("")
+hist.SetName("")
 hist.SetMinimum(0)
+hist.SetMarkerStyle(32)
 
+ROOT.gStyle.SetOptStat("mr")
 
+hist.SetStats(1)
 
+hist.GetXaxis().SetTitle("PMT timing average")
+hist.GetYaxis().SetTitle("counts")
 
+mt2.thesis_plot(hist)
 
 
 

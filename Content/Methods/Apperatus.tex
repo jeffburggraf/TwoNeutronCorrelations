@@ -24,7 +24,10 @@ Each detector is fully enclosed in a shielding structure, which is not shown in 
 \end{figure}
 The neutron detector array consists of fourteen cells made from BC-420 scintillation material acquired from the Transportation Security Administration (TSA) as surplus.
 The scintillation cells were arranged in a ring around the target (see figure ~\ref{fig:DetGeom}).
-The scintillators are instrumented with Hamamatsu 580-17 photomultiplier (PMT) tubes.
+Each scintillator is instrumented with two Hamamatsu 580-17 photomultiplier (PMT) tubes, one fixed on each end.
+In order facilitate the propagation of scintillation light through the scintillators, they were polished to remove micro imperfections and wrapped in reflective Tyvek.
+Light traveling through the the cell will be reflected back into the cell as a result of total internal reflection, as long as the cell is free of micro imperfections.
+
 Two different detector designs had to be used in order to address a high rate of gammas on the detectors located furthest downstream of the beam.
 Ten of the fourteen detectors did not have this problem, and have dimensions of 76.2X15.2X3.8 cm$^3$.
 The remaining four had their dimensions reduced to 25.4X15.2X3.8 in order to address particularly rates of gamma detection, which are caused by the scattering of photons from the target.
@@ -38,9 +41,6 @@ This method uses the fact that the scintillation light travels at a constant spe
 This technique is not possible for the four the downstream detectors at $\pm 30^{\circ}$, since these have only a single PMT.
 For these detectors, particle position is assumed to be at the middle of the cell.
 For further detail on particle position reconstruction, see section ~\ref{reconstruction}.
-
-In order facilitate the propagation of scintillation light through the scintillators, they were polished to remove micro imperfections and wrapped in reflective Tyvek.
-Light traveling through the the cell will be reflected back into the cell as a result of total internal reflection, as long as the cell is free of micro imperfections. 
 
 \subsection{Data Acquisition}
 A data acquisition system based on NIM/VME standard was used.
