@@ -193,13 +193,13 @@ For neutrons detected by elastic scattering on hydrogen, the light output is giv
 \begin{displaymath}
 L = 0.0364 E_n^2 +  0.125 E_n
 \end{displaymath}
-, where $E_n$ is the energy deposited by the neutron, equal to the change in kinetic energy.
+where $E_n$ is the energy deposited by the neutron, equal to the change in kinetic energy.
 Neutron interactions with carbon are assumed to generate a small light output equal to
 \begin{displaymath}
 L = 0.02 E_n
 \end{displaymath}
-The simulation used a $^{252}$Cf spontaneous fission source built-in to MCNP-POLIMI which emits neutrons with the correct correlations.
-The light output threshold for particle detection was set empirically by picking a light output that gives good agreement between the ToF spectra of simulation and experiment (see fig~\ref{fig:Cf252MCNPVsEXP}).
+The simulation used a $^{252}$Cf spontaneous fission source built-in to MCNP-PoliMi which emits neutrons with the correct correlations.
+The light output threshold for particle detection was set empirically by picking the light output that gives the best agreement between the ToF spectra of simulation and experiment (see fig~\ref{fig:Cf252MCNPVsEXP}).
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/Cf252MCNPVsEXP.png}
@@ -208,16 +208,16 @@ The light output threshold for particle detection was set empirically by picking
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
 While tracking through each particle history, a tally is kept of number of cross-talk events and the number of correlated neutron pairs detected.
-An event is considered a "neutron event" if a particle produces >=[find!] MeVee of light output in a detector at any time within the neutron time of flight range used in the experiment, which was 45 to 150 ns.
-In doing so, the method for particle identification in the simulation mimics that which is used in the experiment.
-The relative amount of cross-talk is quantified by taking the ratio between the number of cross-talk events and the number of correlated events.
-Cross-talk events occurred in the simulation at a rate that is 3\% the rate of correlated events.
+An event is considered a "neutron event" if a particle produces greater than 0.03 MeVee of light output in a detector at any time within the neutron time of flight range used in the experiment of 45 to 150 ns.
+In doing so, the method used for particle identification in the simulation mimics that which is used for the experiment.
+The amount of cross-talk is quantified by taking the ratio between the number of cross-talk events and the number of correlated events.
+Cross-talk events occurred in the simulation at a rate of 3\% the rate of correlated events.
 Accordingly, no cross-talk corrections were applied to the data.
 
 \subsection{Targets}
 A depleted uranium (DU) target with dimensions of 4x2x0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
-DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence the fission fragments are emitted with a high degree of anisotropy.
-One consideration for the design of the target is the rate at which neutrons produced in the target scatter before exiting the target.
+DU received the majority of the allotted beam time because it is an even-even nucleus and as a consequence the fission fragments are emitted with a high degree of anisotropy.
+One consideration for the design of the target is the rate at which neutrons produced in the target scatter before exiting.
 This is a cause for concern because a neutron's direction of the travel is altered by scattering, which creates two-neutron opening angles that are not reflective of the opening angle immediately after fission.
 This effect cannot be completely eliminated, so the target must be small enough such that neutron scattering is negligible.
 The size of such a target is found by performing an MCNP simulation in which neutrons with an energy spectrum typical of fission neutrons are sampled uniformly within the target.
