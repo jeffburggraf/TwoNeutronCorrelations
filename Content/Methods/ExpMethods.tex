@@ -168,9 +168,10 @@ The extent that positional resolution leads to a corresponding opening angle res
 The measured rate of a given opening angle is subject to the poissonian distribution.
 
 \paragraph{Systematic errors}.
+% ToDo: Cross-talk discussion can go here. So can alastic acattering in teh target. BUT, elastic scattering may also be a resolution. hmm...
 This study reports two-neutron opening angle distributions expressed as a ratio between a correlated distribution and an uncorrelated distribution formed by the same set of neutron events.
 This produces a result that is unaffected by several otherwise large potential sources of systematic error, such as variation between the efficiencies of each detector, drift in the high voltage supplied to the PMTs, and the geometrical acceptance of the detector array as a function of opening angle.
-Furthermore, \textit{accidental} two-neutron events, which are when two causally uncorrelated events occur in the same pulse and both appear to be neutrons, can be subtracted from the data.
+Furthermore, \textit{accidental} two-neutron events, which are defined as when two causally uncorrelated events occur in the same pulse and both appear to be neutrons, can be subtracted from the data.
 This is possible under the assumption that the number of detected uncorrelated events per pulse follows the poissonian distribution.
 See section~\label{Analysis} for a detailed discussion on this procedure.
 \begin{figure}[h]
@@ -194,60 +195,62 @@ The extent to which neutron distances of travel are perturbed due to scattering 
 Accordingly, 1" of lead was placed along the front face of the detectors.
 This effectively diminished gamma detection rates and, according to the simulation, is expected to cause negligible levels of neutron scattering.
 Additional lead was used in some special areas that had high gamma flux: at the sides of detectors adjacent to the beam, and along the front faces of the detectors farthest downstream.
-
-Placing lead behind the detectors was avoided in consideration of an MCNP-POLIMI simulation, which indicated that lead placed here facilitates cross-talk. \textit{Cross-talk} is an undesirable phenomenon in which a particle causes a hit in one detector, and then by any means (e.g.  scattering), the same particle causes a hit in a different detector.
-If both hits occur within the time frame typical for neutrons, then the cross-talk event cannot be distinguished from a true neutron coincidence.
+Placing lead behind the detectors was avoided in consideration of an MCNP-POLIMI simulation, which indicated that lead placed here facilitates cross-talk.
 Because cross-talk events are in fact correlated, they cannot be removed in analysis by the subtraction of accidentals.
+For more information about cross-talk, see section~\ref{crosstalk}.
 
 \subsection{Detector Cross-talk}
+\label{crosstalk}
 %**ToDo: The cross-talk plot on the wiki might be insightful.
-The geometry of the neutron detector array makes it kinematically impossible for a neutron to scatter from a proton in one detector--which is the basis for scintillation--then travel directly to another detector.
-Rather, it is kinematically required that the neutron scatter from at least one intermediate nucleus while traveling between detectors.
-This fact, which can be derived from simple two-body kinematics, means that cross-talk is a "second-order" effect, because upon depositing enough energy to be detected in one scintillator, the neutron must then 1) scatter from an intermediate nucleus, and 2) be detected in a second detector.
+\textit{Cross-talk} is an undesirable phenomenon that occurs when a particle is detected in one detector, and then by any means (e.g.\ elastic scattering), the same particle is detected in a different detector.
+If both detections occur within the time frame typical for neutrons, then the cross-talk event cannot be distinguished from a true neutron coincidence.
+The geometry of the neutron detector array makes it kinematically impossible for a neutron to scatter from a proton in one detector--which is the basis for scintillation--and then travel directly to another detector with enough kenetic energy to be detected.
+Rather, in order for cross-talk to occur, it is kinematically required that the neutron scatter from at least one intermediate nucleus while traveling between detectors.
+This fact, which can be derived from the conservation of energy and momentum, makes cross-talk a "second-order" effect, because upon depositing enough energy to be detected in one scintillator, the neutron must then 1) scatter from an intermediate nucleus, and 2) be detected in a second detector.
 \begin{figure}
     \centering
     \includegraphics[width = 0.75\textwidth]{Content/Methods/CrossTalkExample.png}
-    \caption{An example of a neutron cross-talk event.
-First, an incoming neutron enters a detector and is detected because of a collision with a proton.
-Next, it scatters from lead shielding nearby, changing its direction of travel such that it enters a second detector, where the neutron is detected a second time.
-The scattering of a neutron from an intermediate nucleus, in this case a Pb nucleus in the detector's shielding, is kinematically required in order for cross-talk to occur.}
+    \caption{A hypothetical example of a neutron cross-talk event.
+First, an incoming neutron enters a detector and is detected as the result of a collision with a proton.
+Next, it scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
+The scattering of a neutron from an intermediate nucleus, in this case a lead nucleus in the detector's shielding, is kinematically required in order for cross-talk to occur in this experiment.}
     \label{fig:CrossTalkExamplepng}
 \end{figure}
-The fact that crosstalk is a second order effect is not sufficient to make the claim that cross-talk is negligible, however,
+However, The fact that cross-talk is a second-order effect is not sufficient to make the claim that cross-talk is negligible,
 because the detectors and their shielding contain significant levels of carbon, lead, and other nuclei which could function as intermediate scattering points.
-To address this, a detailed MCNP-PoliMi simulation was performed that modeles the entire neutron detector array, shielding, supporting structures, and the experimental cell.
-PoliMi is an extension to MCNP that was developed to simulate correlated particles and their subsequent interactions as accurately as possible.
+To address this, a detailed MCNP-PoliMi simulation was performed that includes the entire array of neutron detectors, along with their shielding, supporting structures, and the concrete composing the experimental cell which contains the detectors.
+PoliMi is an extension to MCNP that was developed to simulate correlated fission particles and their subsequent interactions as accurately as possible.
 PoliMi includes multiplicity distributions for neutrons, photons, and the correct correlated photon production from neutron interactions.
 These features are in contrast to the standard release of MCNP which uses uncorrelated distributions and average multiplicities.
-In doing so, the standard release of MCNP converges to the correct average result quicker than if correlated event-by-event distributions were used.
-Another feature PoliMi provides is the ability for particle tracking to be printed and post processed by the user.
-Here, the particle tracking data is used to model detector physics in order to estimate the experimental rate of neutron cross-talk as it compares to true neutron coincidence.
-Neutron detection physics was modeled by converting the amount of energy deposited by neutrons into scintillation light output, but did not include the propagation or detection of scintillation light.
+As a result, the standard release of MCNP converges to the correct average result quicker than if correlated event-by-event distributions were used.
+Another feature PoliMi provides is the ability for particle tracking data to be printed and post processed by the user.
+Here, the particle tracking data is used to model detector physics in order to estimate the ratio of the rate of cross-talk to the rate of the detection of correlated neutrons.
+Neutron detection physics was modeled by converting the amount of energy deposited by neutrons into scintillation light output, and did not include the propagation or detection of scintillation light.
 The scintillation light output is given in MeV equivalent electron energy, denoted MeVee.
-Neutron energy deposit during collisions with protons and carbon is the input to the algorithm used to calculate light output, the procedures of which are taken from ref~\cite{POLIMI}.
-For neutrons detected by elastic scattering on hydrogen, the light output is given by
+Neutron energy deposited from collisions with hydrogen and carbon nuclei is the only input used to calculate light output, the procedures of which are taken from ref~\cite{POLIMI}.
+For neutron collisions with hydrogen, the light output is given by
 \begin{displaymath}
 L = 0.0364 E_n^2 +  0.125 E_n
 \end{displaymath}
-where $E_n$ is the energy deposited by the neutron, equal to the change in kinetic energy.
-Neutron interactions with carbon are assumed to generate a small light output equal to
+where $E_n$ is equal to the change in the kinetic energy of the neutron during the collision.
+Neutron interactions with carbon are assumed to generate a smaller light output of
 \begin{displaymath}
 L = 0.02 E_n
 \end{displaymath}
-The simulation used a $^{252}$Cf spontaneous fission source built-in to MCNP-PoliMi which emits neutrons with the correct correlations.
-The light output threshold for particle detection was set empirically by picking the light output that gives the best agreement between the ToF spectra of simulation and experiment (see fig~\ref{fig:Cf252MCNPVsEXP}).
+The simulation used MCNP-PoliMi's built in $^{252}$Cf spontaneous fission source, which emits neutrons with the correct correlations.
+The light output threshold for detection was set empirically by choosing the threshold that gave the best agreement between the ToF spectra of simulation and measurement (see fig~\ref{fig:Cf252MCNPVsEXP}).
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/Cf252MCNPVsEXP.png}
-    \caption{ToF spectra of $^{252}$Cf from experiment vs MCNP-PoliMi.
-    The simulation modeled the detector setup and detector response.}
+    \caption{Measured vs simulated ToF spectrum of a $^{252}$Cf spontaneous fission source.
+    In the simulation, the light output threshold for detection was chosen by varying it until good agreement with measurement was achieved.}
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
-While tracking through each particle history, a tally is kept of number of cross-talk events and the number of correlated neutron pairs detected.
-An event is considered a "neutron event" if a particle produces greater than 0.03 MeVee of light output in a detector at any time within the neutron time of flight range used in the experiment of 45 to 150 ns.
-In doing so, the method used for particle identification in the simulation mimics that which is used for the experiment.
-The amount of cross-talk is quantified by taking the ratio between the number of cross-talk events and the number of correlated events.
-Cross-talk events occurred in the simulation at a rate of 3\% the rate of correlated events.
+A tally is kept of number of cross-talk events and the number of correlated neutron pairs detected.
+An event is considered a "neutron event" if there is a light output of greater than 0.03 MeVee produced in a detector in a time frame of 10 ns or less.
+Furthermore, the 0.03 MeVee light output threshold must be reached sometime during the neutron time of flight window used in the experiment, which is 45 to 150 ns.
+This way, the method used for particle identification in the simulation mimics that which is used in the experiment.
+In the simulation, cross-talk events accounted for 3\% of total correlated events.
 Accordingly, no cross-talk corrections were applied to the data.
 
 \subsection{Targets}
