@@ -167,19 +167,35 @@ The extent that positional resolution leads to a corresponding opening angle res
 \paragraph{Counting error}.
 The measured rate of a given opening angle is subject to the poissonian distribution.
 
-\paragraph{Systematic errors}.
+\paragraph{Systematic errors}
 % ToDo: Cross-talk discussion can go here. So can alastic acattering in teh target. BUT, elastic scattering may also be a resolution. hmm...
-This study reports two-neutron opening angle distributions expressed as a ratio between a correlated distribution and an uncorrelated distribution formed by the same set of neutron events.
-This produces a result that is unaffected by several otherwise large potential sources of systematic error, such as variation between the efficiencies of each detector, drift in the high voltage supplied to the PMTs, and the geometrical acceptance of the detector array as a function of opening angle.
-Furthermore, \textit{accidental} two-neutron events, which are defined as when two causally uncorrelated events occur in the same pulse and both appear to be neutrons, can be subtracted from the data.
-This is possible under the assumption that the number of detected uncorrelated events per pulse follows the poissonian distribution.
-See section~\label{Analysis} for a detailed discussion on this procedure.
+This study reports two-neutron opening angle distributions expressed by a ratio between a correlated distribution and an uncorrelated distribution in which the same set of neutron events are used to form both distributions.
+This produces a result that is unaffected by several effects which would otherwise be large potential sources of systematic error, such as the absolute neutron efficiencies of each detector, drift in the high voltage supplied to the PMTs, and the geometrical acceptance of the detector array as a function of opening angle.
+Furthermore, \textit{accidental} two-neutron events, which lead to an over estimation of the isotropic component of the opening angular distribution, are subtracted from the data.
+\textit{Accidental} two-neutron events are defined as the detection of two causally uncorrelated events in the same pulse if both events occur during the neutron ToF window.
+The subtraction of such events are possible under the assumption that the number of detected accidentals per pulse follows the poissonian distribution.
+See section~\ref{Analysis} for a detailed discussion on how this is accomplished.
+The validity of this assumption can be tested with measurements taken while using D2O as a target.
+All coincident neutrons from the photo-disintegration of deuterium are accidentals because only one neutron is produced per disintegration.
+Figure~\ref{fig:PoissonianFits}a shows that a poissonian model produces a good fit to the distribution of the number of neurons detected in coincidence while using D2O as a target.
+When using DU, there is the inclusion of correlated neutrons alongside any accidentals, so the poissonian model underestimates the rate.
+\begin{figure}[htbp]
+    \centering
+    \subfloat[D2O target: high p-value, good compatibility.]{\includegraphics[width=0.55\textwidth]{Content/Methods/PoissonianFitD2O.png}}
+    \subfloat[DU target: low p-value, poor compatibility.]{\includegraphics[width = 0.55\textwidth]{Content/Methods/PoissonianFitDU.png}}
+    \caption{A D2O target (left) produces only accidental neutrons, so a poissonian model is suitable.
+    The p-value, denoted 'prob' on the plot, is a metric for assessing the compatibility of the data to a given model, poissonian in this case.
+    A p-value of 0.77 for the D2O target indicates relatively good compatibility.
+    When using DU as a target (right), both accidental and correlated neutrons are produced, so a poissonian model is not suitable.
+    The assumption that accidentals themselves follow the poissonian distribution is used to subtract them from the data.}
+    \label{fig:PoissonianFits}
+\end{figure}
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.75\textwidth]{Content/Methods/OpeningAngleUncertainty.png}
-    \caption{Uncertainties in opening angle as determined by the propagation of position uncertainties through the  opening angle calculation.
-    Because the opening angle uncertainty of a given bin varies depending on which detectors are involved, an average is taken.
-    The y-axis can be viewed as the opening angular resolution, in the sense that it represents the smallest angular difference that can be considered statistically significant.
+    \caption{Uncertainties in opening angle as determined by the propagation of position uncertainties through the opening angle calculation.
+    Because the uncertainty of a given opening angle measurement varies depending on which two detectors are involved, an average of the calculated uncertainties of measurements falling within each bin is taken.
+    The y-axis can be viewed as a measure of the angular resolution in the sense that it represents the smallest angular difference that can be considered statistically significant.
     }
     \label{fig:CrossTalkExamplepng}
 \end{figure}
