@@ -23,7 +23,7 @@ Furthermore, there is significant overlap between the energy spectra of the neut
 Because this measurement is concerned only with observing two neutrons in coincidence, it suffices to set the Bremsstrahlung end-point at 10.5 MeV, since this value is below the target's ($\gamma, 2n$) threshold of $\sim$12 MeV.
 Despite setting the end-point below the ($\gamma, 2n$) threshold, there is still the possibility of detecting multiple neutrons from ($\gamma, 1n$) in a single pulse, which is referred to as an accidental coincidence.
 An \textit{accidental} neutron coincidence occurs when two uncorrelated neutrons are detected in the same pulse.
-The rate of accidentals follow the Poissonian distribution, setting them apart from correlated events, and as a result accidentals can be subtracted from the data.
+The rate of accidentals follow the poissonian distribution, setting them apart from correlated events, and as a result accidentals can be subtracted from the data.
 The details and justifications for this procedure are discussed in section~\ref{Subtraction of Accidentals}.
 
 The electron pulse width was set to 3 ns and had a 1.1A peak current, with a repetition rate of 240 Hz.
@@ -154,42 +154,15 @@ The result is shown in figure~\ref{fig:PMTDifference}.
 \end{figure}
 \subsubsection{Discussion of Experimental Errors}
 \label{Errors}
-All sources of error can be classified into three groups: \begin{enumerate*}[font={\color{red!50!black}\bfseries}]
-\item \textit{Resolution of measurement}, a source of random error cause by the finite precision of particle ToF and position determination,
-\item \textit{Error in measured rates due to counting statistics}, also a source of random error, and
+All sources of error in this study can be classified into three groups: \begin{enumerate*}[font={\color{red!50!black}\bfseries}]
+\item \textit{Measurement resolution}, a source of random error caused by finite precision in the determination of particle ToF and position,
+\item \textit{Counting error}, also a source of random error, and
 \item \textit{Systematic errors}.
 \end{enumerate*}
 
-\paragraph{Resolution of measurement}.
+\paragraph{Resolution of measurement}
 The position of a detected particle is known to within a specified resolution, which translates into a resolution in the measurement of the opening angle between a pair of particles.
 The extent that positional resolution leads to a corresponding opening angle resolution depends on the value of the opening angle.
-
-\paragraph{Counting error}.
-The measured rate of a given opening angle is subject to the poissonian distribution.
-
-\paragraph{Systematic errors}
-% ToDo: Cross-talk discussion can go here. So can alastic acattering in teh target. BUT, elastic scattering may also be a resolution. hmm...
-This study reports two-neutron opening angle distributions expressed by a ratio between a correlated distribution and an uncorrelated distribution in which the same set of neutron events are used to form both distributions.
-This produces a result that is unaffected by several effects which would otherwise be large potential sources of systematic error, such as the absolute neutron efficiencies of each detector, drift in the high voltage supplied to the PMTs, and the geometrical acceptance of the detector array as a function of opening angle.
-Furthermore, \textit{accidental} two-neutron events, which lead to an over estimation of the isotropic component of the opening angular distribution, are subtracted from the data.
-\textit{Accidental} two-neutron events are defined as the detection of two causally uncorrelated events in the same pulse if both events occur during the neutron ToF window.
-The subtraction of such events are possible under the assumption that the number of detected accidentals per pulse follows the poissonian distribution.
-See section~\ref{Analysis} for a detailed discussion on how this is accomplished.
-The validity of this assumption can be tested with measurements taken while using D2O as a target.
-All coincident neutrons from the photo-disintegration of deuterium are accidentals because only one neutron is produced per disintegration.
-Figure~\ref{fig:PoissonianFits}a shows that a poissonian model produces a good fit to the distribution of the number of neurons detected in coincidence while using D2O as a target.
-When using DU, there is the inclusion of correlated neutrons alongside any accidentals, so the poissonian model underestimates the rate.
-\begin{figure}[htbp]
-    \centering
-    \subfloat[D2O target: high p-value, good compatibility.]{\includegraphics[width=0.55\textwidth]{Content/Methods/PoissonianFitD2O.png}}
-    \subfloat[DU target: low p-value, poor compatibility.]{\includegraphics[width = 0.55\textwidth]{Content/Methods/PoissonianFitDU.png}}
-    \caption{A D2O target (left) produces only accidental neutrons, so a poissonian model is suitable.
-    The p-value, denoted 'prob' on the plot, is a metric for assessing the compatibility of the data to a given model, poissonian in this case.
-    A p-value of 0.77 for the D2O target indicates relatively good compatibility.
-    When using DU as a target (right), both accidental and correlated neutrons are produced, so a poissonian model is not suitable.
-    The assumption that accidentals themselves follow the poissonian distribution is used to subtract them from the data.}
-    \label{fig:PoissonianFits}
-\end{figure}
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.75\textwidth]{Content/Methods/OpeningAngleUncertainty.png}
@@ -200,6 +173,35 @@ When using DU, there is the inclusion of correlated neutrons alongside any accid
     \label{fig:CrossTalkExamplepng}
 \end{figure}
 
+\paragraph{Counting error}
+The standard deviation in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per poissonian  statistics, were N is the number of observed events.
+Opening angle measurements are separated into three different neutron energy ranges and then placed into bins 10 degrees wide.
+These groups each contain between 100 and 200 events, producing a relative error between 10 and 7 percent, respectively.
+The vertical error bars seen in the results are solely a reflection of such counting error.
+
+\paragraph{Systematic errors}
+% ToDo: Cross-talk discussion can go here. So can alastic acattering in teh target. BUT, elastic scattering may also be a resolution. hmm...
+This study reports two-neutron opening angle distributions expressed as a ratio between a correlated distribution and an uncorrelated distribution in which the same set of neutron events are used to form both distributions.
+In doing so, the result is unaffected by the absolute neutron efficiencies of each detector, drifting of the high voltage supplied to the PMTs, and the geometrical acceptance of the detector array as a function of opening angle.
+Furthermore, \textit{accidental} two-neutron events, which lead to an over estimation of the isotropic component of the opening angular distribution, are subtracted from the data.
+\textit{Accidental} two-neutron events are defined as the detection of two causally uncorrelated events in the same pulse if both events occur during the neutron ToF window.
+The subtraction of such events is possible under the assumption that the number of detected accidentals per pulse follows the poissonian distribution.
+See section~\ref{Analysis} for a detailed discussion on how this is accomplished.
+The validity of this assumption can be tested with measurements taken while using D2O as a target.
+All neutrons produced by the photo-disintegration of deuterium are accidentals because only one neutron is produced per disintegration.
+Figure~\ref{fig:PoissonianFits}a shows that a poissonian model gives a good fit to the distribution of the number of neurons detected in coincidence while using a D2O target.
+When observing neutrons from photofission, on the other hand, there is the inclusion of correlated neutrons together with accidental neutrons caused by multiple fissions or $(\gamma, n)$ reactions, so a poissonian model underestimates the coincidence rates.
+\begin{figure}[htbp]
+    \centering
+    \subfloat[D2O target: prob near 1.0, good compatibility.]{\includegraphics[width=0.55\textwidth]{Content/Methods/PoissonianFitD2O.png}}
+    \subfloat[DU target: prob near 0, poor compatibility.]{\includegraphics[width = 0.55\textwidth]{Content/Methods/PoissonianFitDU.png}}
+    \caption{A D2O target (left) produces only accidental neutrons, so a poissonian model is suitable.
+    The p-value, denoted ``prob" on the plot, is a metric for assessing the compatibility of the data to a given model, poissonian in this case.
+    A p-value of 0.77 for the D2O target indicates relatively good compatibility.
+    When using DU as a target (right), both accidental and correlated neutrons are produced, so a poissonian model is not suitable.
+    The assumption that accidentals themselves follow the poissonian distribution is used to subtract them from the data, removing this source of systematic error.}
+    \label{fig:PoissonianFits}
+\end{figure}
 \subsubsection{Detector Shielding}
 The detector's shielding was designed with the aim of reducing cross-talk, the detection of photons, and noise.
 The front face of the detectors, which face towards the target, are subject to the highest flux of gammas due to the scatting beam photons from the target.
@@ -259,7 +261,7 @@ The light output threshold for detection was set empirically by choosing the thr
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/Cf252MCNPVsEXP.png}
     \caption{Measured vs simulated ToF spectrum of a $^{252}$Cf spontaneous fission source.
-    In the simulation, the light output threshold for detection was chosen by varying it until good agreement with measurement was achieved.}
+    In the simulation, the light output threshold for detection was varied until the result was in good agreement with measurement.}
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
 A tally is kept of number of cross-talk events and the number of correlated neutron pairs detected.

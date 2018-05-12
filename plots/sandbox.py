@@ -3,32 +3,26 @@ import numpy as np
 from TH1Wrapper import*
 import mytools2 as mt2
 
-hist =TH1F(0,18,binwidths=1)
+import ROOT
+import numpy as np
+import mytools2 as mt2
 
-for i in np.random.randn(20000):
-    i = i*3.2 + 9
-    hist.Fill(i)
+target = "DU"
 
-hist -= 30
-
-hist.Draw("")
-hist.SetName("")
-hist.SetMinimum(0)
-hist.SetMarkerStyle(32)
-
-ROOT.gStyle.SetOptStat("mr")
-
-hist.SetStats(1)
-
-hist.GetXaxis().SetTitle("PMT timing average")
-hist.GetYaxis().SetTitle("counts")
-
-mt2.thesis_plot(hist)
+treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 
 
+hist  =TH1F(0,180,binwidths=12)
+
+hist.Project(treeSP_doubles, "180/3.14*neutrons.coinc_hits.coinc_theta")
 
 
+hist.Draw()
 
+l = np.array(filter(lambda x:x!=0, hist.binvalues))/3.
+
+print(1/np.sqrt(min(l))),1/np.sqrt(max(l))
+print(min(l),max(l))
 
 if __name__ == "__main__":
     import ROOT as ROOT

@@ -1,10 +1,7 @@
-
 \section{Experimental Apparatus}
 The experiment was carried out at the Idaho Accelerator Center, using their short pulsed linear accelerator.
 The accelerator is a radio frequency accelerator operating at the L--band frequency of 1300 MHz.
 It is capable of pulse widths ranging from 50 ps to 2 $\mu$s with a maximum energy of 44 MeV.
-
-
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{Content/Methods/ExpArangment.png}
 \caption{To-scale top down schematic of the entire experimental setup.
@@ -22,7 +19,6 @@ For a better perspective of the scintillation cells alone, see ~\ref{fig:DetGeom
 Each detector is fully enclosed in a shielding structure, which is not shown in this depiction.}
 \label{fig:DetGeom}
 \end{figure}
-%Fit: Mention light guides. Explain reasoning.
 The neutron detector array consists of fourteen cells made from Polyvinyl Toluene, a type of organic plastic scintillator, acquired from the Transportation Security Administration (TSA) as surplus.
 The scintillation cells were arranged in a ring around the target (see figure ~\ref{fig:DetGeom}).
 Each scintillator is instrumented with two Hamamatsu 580-17 photomultiplier (PMT) tubes, one fixed on each end.
@@ -33,7 +29,7 @@ Two different detector designs had to be used in order to address a high rate of
 Ten of the fourteen detectors did not have this problem, and have dimensions of 76.2X15.2X3.8 cm$^3$.
 The remaining four had their dimensions reduced to 25.4X15.2X3.8 in order to address particularly rates of gamma detection, which are caused by the scattering of photons from the target.
 This scattering of photons creates a cone of gammas that engulfs forward facing detectors, leading to very high levels of dead-time and an effective neutron efficiency of zero.
-To counter this, the two downstream most detectors, at $\pm$30 degrees from the beam line, were reduced to 1/3 the size of the rest of the detectors and instrumented with only a single PMT.
+To counter this, the two downstream most detectors, at $\pm$30 degrees from the beam line, were reduced to 1/3 the size of the rest of the detectors and instrumented with only a single PMT .
 Prior to this modification, the gamma detection rate was nearly 1.0 per pulse in each.
 After the modification, the gamma detection rate fell to 0.5 gammas per pulse, which lead to a net increase in the effective neutron detection efficiency.
 
@@ -47,11 +43,10 @@ For further detail on particle position reconstruction, see section ~\ref{recons
 A data acquisition system based on NIM/VME standard was used.
 A wiring diagram is shown in figure~\ref{fig:WiringDiagram}.
 The PMTs are supplied voltages ranging from 1300 to 1500 V by a Locroy 1458 high voltage mainframe.
-The analogue signals from the PMTs are fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV.
-The logic signals from the discriminator are then converted to ECL logic and fed into a CAEN model V1290A TDC.
+The analogue signals from the PMTs are fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV .
+The logic signals from the discriminator are then converted to ECL logic and fed into a CAEN model V1290A TDC .
 A gun signal from the accelerator provided the “start” signal for each pulse.
-On the software side, the acquisition of data from the TDC, along with the conversion of the data into usable formats, was carried out using the CODA software package developed by Jefferson Lab.  
-
+On the software side, the acquisition of data from the TDC, along with the conversion of the data into usable formats, was carried out using the CODA software package developed by Jefferson Lab.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{Content/Methods/WiringDiagram.png}
 \caption{Wiring diagram of the entire electronics setup. }
