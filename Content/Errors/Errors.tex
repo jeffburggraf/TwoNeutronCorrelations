@@ -11,18 +11,22 @@ All sources of error in this study can be classified into three groups: \begin{e
 \section{Random Errors}
 \subsection{Resolution of measurement}
 The position of a detected particle is known to within a specified resolution, which translates into a resolution in the measurement of the opening angle between a pair of particles.
-The amount of uncertainty in opening angle caused by the uncertainty in particle positions depends both on the value of the opening angle, and on which detectors are involved.
-The uncertainty of an individual measurement can be calculated by using standard error propagation on the following formula for opening angle
+A particle's reconstructed position along a detector lengthwise is achieved by using the timing difference between two PMTs, producing a result known to within $\pm$13 cm.\todo{Use my plot on wiki of PMT diff with Co60 at the center. Use this to deduce the vertical position uncertainty.}
+Due to the detector's 15 cm width, there is also a positional uncertainty of $\pm 7.5$ cm in the direction perpendicular to the detector's length.
+The amount of uncertainty in a two-neutron opening angle measurement is a function of the uncertainty in the positions of each neutron.
+This function is determined by the propagation of the positional uncertainties through the formula for the calculation of opening angle, which is given by
 \begin{displaymath}
-    \theta = \text{arccos}\left(\frac{\vec{v_{1}}^{\,}\cdot\vec{v_{2}}^{\,}}{|\vec{v_{1}}^{\,}||\vec{v_{2}}^{\,}|}\right)
+    \theta_{nn} = \text{arccos}\left(\frac{\vec{v_{1}}^{\,}\cdot\vec{v_{2}}^{\,}}{|\vec{v_{1}}^{\,}||\vec{v_{2}}^{\,}|}\right)
 \end{displaymath}
 where $\vec{v_{1}}^{\,} = (x_1,y_1,z_1)$ and $\vec{v_{2}}^{\,} = (x_2,y_2,z_2)$ are the detected positions of the two neutrons.
-The propagation of error is achieved as follows
+The propagation of error through this formula is achieved by evaluating the following expression
 \begin{eqnarray*}
- \Delta \theta & = & \left( \left(\Delta x_1 \frac{\partial \theta}{\partial x_1}\right)^{2} + \left(\Delta y_1 \frac{\partial \theta}{\partial y_1}\right)^{2} + \left(\Delta z_1 \frac{\partial \theta}{\partial z_1}\right)^{2} + \right. \\
+ \Delta \theta_{nn} & = & \left( \left(\Delta x_1 \frac{\partial \theta}{\partial x_1}\right)^{2} + \left(\Delta y_1 \frac{\partial \theta}{\partial y_1}\right)^{2} + \left(\Delta z_1 \frac{\partial \theta}{\partial z_1}\right)^{2} + \right. \\
  & & \left. + \left(\Delta x_2 \frac{\partial \theta}{\partial x_2}\right)^{2} + \left(\Delta y_2\frac{\partial \theta}{\partial y_2}\right)^{2} + \left(\Delta z_2 \frac{\partial \theta}{\partial z_2}\right)^{2} \right) ^{\frac{1}{2}}
 \end{eqnarray*}
-Then, by using a set of opening angle bins, the average propagated uncertainty of all measurements in each bin quantifies the opening angle resolution as a function of $\theta$ (see fig~\ref{fig:OpeningAngleRes}).
+\todo{Mention what the deltas are in this big formula.}
+Then, by using a set of opening angle bins, the average is computed of the propagated uncertainties of the measurements in each bin.
+The result, seen in fig~\ref{fig:OpeningAngleRes}, can be interpreted as the opening angle resolution as a function of $\theta$.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.75\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
