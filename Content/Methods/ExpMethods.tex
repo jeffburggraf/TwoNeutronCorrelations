@@ -53,37 +53,38 @@ See section~\ref{Errors} for a deeper discussion of experimental errors.
 
 The ToF of a particle obeys the following relationship:
 \begin{displaymath}
-\text{ToF} = C_i + \Delta t_{\text{avg}}
+\text{ToF}_i = t_{i}^0 + \Delta t_{\text{avg}}
 \end{displaymath}
-where $\Delta t_{\text{avg}} $ is the average between the timing from the top and bottom PMTs, and $C_i$ is a constant timing offset, which is the same for every pulse.
-The subscript on $C_i$ is used because the timing offset can be different for each scintillator due to, for example, differences in the lengths of the PMT signal cables.
-Any process that produces a timing delay that does not change from pulse to pulse contributes to $C_{i}$,
-for example: \begin{enumerate*}[font={\color{red!50!black}\bfseries}]
+where $\text{ToF}_i$ is the ToF of a particle observed in detector $i$, $t_{i}^0$ is a constant timing offset, which is the same for every pulse, and $\Delta t_{\text{avg}} $ is the average between the timing of signals in the top and bottom PMTs of a given scintillator.
+The reason for the subscript, $i$, is that the timing offset is different for each scintillator due to, for example, differences in the lengths of the PMT signal cables.
+Any process that produces a timing delay that does not change from pulse to pulse contributes to $ t_{i}^0$.
+Examples of this are:
+\begin{itemize}
 \item the time required for photons to travel from the bremsstrahlung radiator to the target
 \item the propagation of signals through the wires connecting the PMTs
-\item delays in the electronics and
+\item delays in the electronics
 \item the transit time in the PMTs.
-\end{enumerate*}
+\item the time required for scintillation light to propagate from the point of creation to both PMTs.
+\end{itemize}
+The final example above is nearly constant only after the average between two PMTs is taken, $\Delta t_{\text{avg}}$, at which point this effect produces standard deviation of 3 ns in measured ToF.
+The time required for scintillation light to travel to a single PMT can vary from $\approx$1 ns for particles that scintillate near a PMT, to $\approx$10 ns for particles that scintillate at the opposing end of the scintillator.
+Variance in ToF measurements due to this is reduced by taking the average between the timing of signals from both PMTs of a scintillator.
+$\Delta t_{\text{avg}}$ is 1/2 times the sum of the two times, and this sum includes the time for light to travel to both PMTs, which is just the time for light to travel the total length of the detector.
+This value is a constant if the scintillation light travels parallel to the detector's length.
+This isn't always the case, however, so the effective velocity at which scintillation light travels lengthwise through the detector has non-zero variance which contributes to the uncertainty of ToF measurement.
+The setup favors the detection of scintillation photons that travel lengthwise through the scintillator, since these travel the shortest distance and therefore experience less attenuation.
+In taking the average between two PMTs, the uncertainty in ToF is reduced by about a factor of three compared to using a single PMT.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{Content/Methods/LightPaths.png}
-\caption{Caption}
+\includegraphics[width=0.7\textwidth]{Content/Methods/LightPaths.png}
+\caption{The average of times taken for scintillation light to travel from the point of its creation to each PMT has low variance.
+This average includes the time required for light to travel the full length of the detector, which is a constant for photons that travel exactly parallel to the length of the detector.
+Scintillation photons that travel parallel to the length of the detector are favored for detection by the PMTs because they reach the PMT first and experience less attenuation.
+Therefore, the distribution of $\Delta t_{\text{avg}}$ is reflective of the ToF distribution of the particle's producing scintillation light.}
 \label{fig:LightPaths}
 \end{figure}
-Photons traveling exactly lengthwise through the scintillator take less time to reach the end than do photons that reflect one or more times from the boundary of the scintillator.
 
-The time required for scintillation light to travel to a PMT can vary from 1 ns for particles that hit near a PMT, to about 8 ns for particles that hit the scintillator near the end opposite to a PMT.
-The sum of the times taken for scintillation light to travel to the top and bottom PMTs is just the time taken for the light to travel the full length of the detector.
-The effective velocity of the scintillation light, as measured along the detector lengthwise, is dependent on speed of light in the material and the light's flight path.
-Scintillation light may undergo multiple reflections from the boundary of the scintillation cell as it travels to a PMT.
-Such light is undersirable since it lowers the precicion
-Each pulse, only the first signal from each PMT is used.
-Any subsequent signals are ignored for two reasons.
-First, these signals tend to be contaminated by signal reflections caused by the previous signals.
-Furthermore, scintillation photons that travel parallel to the length of the scintillator are the first photons to reach a PMT, and the determination of ToF hinges on the assumption that detected scintillation light did not reflect from the edges of the scintillation cell multiple times before reaching a PMT.
-Therefore, in taking the average of the times in the top and bottom PMT, the sensitivity of the result to the varying times required for the propagation of scintillation light is greatly reduced.
-However, because the scintillation light does not always take to most direct path to a PMT, there is still some variation in the average scintillation propagation times.
-This variation was measured using a $^{60}$Co source, which emits coincident photons.
+The variance of the effective velocity of scintillation light was measured using a $^{60}$Co source, which emits coincident photons.
 The $^{60}$Co source is placed at several positions along the face of a lead shielded scintillator.
 At each position, a small hole is drilled through the lead to give the $^{60}$Co source a line-of-sight to a well defined point on the scintillator.
 A high timing-resolution photon detector is placed next to the $^{60}$Co source.
@@ -92,7 +93,7 @@ The times of signals from each PMT, taken relative to the start trigger, are ave
 The photons from $^{60}$Co cause scintillation at a specified location, so variation remaining in the result is due to varying paths taken by the scintillation light, and is a reflection of the error in ToF measurement.
 These results can be seen in figures~\ref{fig:Co60Validation} and~\ref{fig:Co60ValidationProject}.
 % **ToDo: Make a figure for the setup of the co60 calibration.
-\begin{figure}[H]
+\begin{figure}[]
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/CO60Validation.png}
     \caption{A $^{60}$Co source, which emits coincident photons, is placed at several positions along the face of a lead shielded scintillator.
@@ -105,10 +106,10 @@ These results can be seen in figures~\ref{fig:Co60Validation} and~\ref{fig:Co60V
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/CO60ValidationProject.png}
     \caption{Average of times in the top and bottom PMTs.
-    Ideally, scintillation light would always take the same amount of time to travel the length of the detector, producing a delta function in this plot.
-    This is not the case, however, because scintillation light doesn't always take the direct, shortest path to a PMT.
-    Thus, the 3 ns standard deviation of this curve represents a source of error in the ToF measurement.
-    These data, taken during calibration using a $^{60}$Co, are the same data used for fig~\ref{fig:Co60Validation}, projected onto the y-axis.
+    Ideally, the time taken for scintillation light to travel the length of the detector would be a constant, and the ToF resolution would be equal to the resolution of the PMTs at $\approx$ 1 ns.
+    This is not the case, however, because scintillation light doesn't always take the shortest path to a PMT.
+    The 3 ns standard deviation of this curve represents the uncertainty in the time at which a particle is detected.
+    This plot is the result of projecting the data used in fig~\ref{fig:Co60Validation} onto the y-axis.
 }
     \label{fig:Co60ValidationProject}
 \end{figure}
