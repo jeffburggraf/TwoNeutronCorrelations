@@ -1,11 +1,18 @@
 import ROOT
 import numpy as np
+import mytools2 as mt2
+from TH1Wrapper import TH1F
 
 
+treeSP, _ = mt2.NCorrRun("SP","Cf252",generate_dictionary=False,Forward = False).all_singles_tree
+
+hist = TH1F(-400,400,binwidths=1)
+treeSP.Draw("trig[2]")
+# hist.Project(treeSP, 'trig[1] - trig[2]')
+# hist.Draw()
 
 
-
-
+# tb = ROOT.TBrowser()
 
 
 
