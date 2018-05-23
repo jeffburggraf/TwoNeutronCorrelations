@@ -12,17 +12,18 @@ target = "DU"
 # treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 #
 
-hist = TH1F(9-10,9+10,binwidths=0.5)
+hist = TH1F(9-10,9+15,binwidths=0.5)
 
-for i in np.random.randn(20000):
-    hist.Fill(i*3 + 9)
+for i in np.random.poisson(1, 20000):
+    hist.Fill(2*i + np.random.randn(1) + 7.5)
 
-hist.GetXaxis().SetTitle("PMT difference")
+
+hist.GetXaxis().SetTitle("PMT timing sum")
 hist.GetYaxis().SetTitle("counts")
-hist.Draw()
+hist.Draw('E')
 ROOT.gStyle.SetOptStat('rm')
 hist.SetTitle('')
-
+hist.SetLineWidth(2)
 mt2.thesis_plot(hist)
 
 if __name__ == "__main__":

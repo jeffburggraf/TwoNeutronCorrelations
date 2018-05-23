@@ -2,19 +2,39 @@ import ROOT
 import numpy as np
 import mytools2 as mt2
 from TH1Wrapper import TH1F
-
+import mytools as mt
+from matplotlib import pyplot as plt
 
 treeSP, _ = mt2.NCorrRun("SP","Cf252",generate_dictionary=False,Forward = False).all_singles_tree
 
-hist = TH1F(-400,400,binwidths=1)
-treeSP.Draw("trig[2]")
-# hist.Project(treeSP, 'trig[1] - trig[2]')
-# hist.Draw()
+# fig,ax = plt.subplots(4,3)
 
 
-# tb = ROOT.TBrowser()
+for i, det in enumerate(mt.angles):
+    hist = TH1F(-30, 40, binwidths=0.3)
+
+    cut = "trigger_array[0]!=0 && trigger_array[1]!=0 && hits.phi == {0}".format(det)
+    hist.Project(treeSP, "0.5*(all.hits.top + all.hits.bot - trigger_array[0] - trigger_array[1])",cut)
+
+    # plt.subplot(4,3,i+1)
+
+    plt.plot(hist.bincenters[0], hist.binvalues, label=det)
+    print('wtf')
+
+plt.legend()
+# # hist.Project(treSP, 'trig[1] - trig[2]')
+# # hist.Draw()
+#
+# print("dfij")
+# # tb = ROOT.TBrowser()
+#
 
 
+
+plt.ion()
+plt.show()
+
+# print("dkdk")
 
 
 if __name__ == "__main__":
