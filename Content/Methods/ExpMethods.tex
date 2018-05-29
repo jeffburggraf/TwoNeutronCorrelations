@@ -32,24 +32,32 @@ The accelerator's current was set by requiring that there be, on average, fewer 
 
 \subsection{Particle time of flight determination}
 \label{reconstruction}
+ToF was used to distinguish between photons and neutrons, and to measure neutron energy.
 Each of the scintillators were equipped with two PMTs, one fixed at each end of the scintillator, with the exception of those located farthest downstream at $\pm30^{\circ}$ which each had a single PMT (see Figure~\ref{fig:DetGeom}).
 In order to diminish dead-time, the detectors at $\pm30^{\circ}$ were segmented to create two independent detectors.
-See section~ref{section:Detectors} for a more detailed discussion about the detectors at $\pm30^{\circ}$.
-A ten cm block of a non-scintillating material was fixed between each PMT and the scintillator.
-This backs the PMTs off from the scintillator so that light produced near the ends have a good line of sight to the PMT.
-The timing resolution of each PMT is $\sim$2.5ns, however, the main source of uncertainly in the time of a particle hit is the variation in the time taken for scintillation light to propagate to the PMTs.
-The time of events in the PMTs was always taken relative to a signal provided by the accelerator at the beginning of each pulse, referred to as the \textit{beam gun}.
+See section~\ref{section:Detectors} for a more detailed discussion about the detector design.
+ToF is determined by averaging the timing of signals from both PMTs of a given detector, then subtracting a constant calibration offset.
+The timing of events in the PMTs were always measured relative to a signal provided by the accelerator at the beginning of each pulse, referred to as the \textit{beam gun}.
+The timing resolution of each PMT is 2ns~\cite{PMT}.
 
-ToF was used to distinguish between photons and neutrons, and to measure neutron energy.
-Scintillation light that is detected by the PMTs has a measured effective index of refraction of $\sim$3.
+Scintillation light that is detected by the PMTs has an effective index of refraction of $\sim$3, which is greater than the actual value for that material.
+This difference is due to the multiple reflections of the scintillation photons from the optical boundaries of the detector which increased the time of the light collection.
 Consequently, there can be up to an 8 ns delay between when a particle scintillates in the detector and the scintillation light reaches a PMT.
-The effective index of refraction is found by measuring the time taken for scintillation light to travel the full length of the detector.
-The actual index of refraction of the material is about half that value, a difference which is the result of light rays bouncing from the walls of the scintillator on their way to a PMT.
+The effective index of refraction was found by measuring the time taken for scintillation light to travel the full length of the detector.
 The time of flight was calculated by taking the average between the times of signals in the top and bottom PMTs, and then subtracting a calibration offset.
 In taking the average, there is a reduction in the sensitivity of the result to the variation of propagation times as a function of the position at which the particle scintillated.
 This cannot be done in the detectors located at $\pm30^{\circ}$, because they have only one PMT.
 However, since they are 1/3 the length of the rest, scintillation light takes at most only 2.5 ns to propagate to the PMT, which is a tolerable amount of random error.
 See section~\ref{Errors} for a deeper discussion of experimental errors.
+
+\begin{figure}[h]
+\includegraphics[width=0.7\textwidth]{Content/Methods/LightPaths.png}
+\caption{The average of times taken for scintillation light to travel from the point of its creation to each PMT has low variance.
+This average includes the time required for light to travel the full length of the detector, which is a constant for photons that travel exactly parallel to the length of the detector.
+Scintillation photons that travel parallel to the length of the detector are favored for detection by the PMTs because they reach the PMT first and experience less attenuation.
+Therefore, the distribution of $\Delta t_{\text{avg}}$ is reflective of the ToF distribution of the particle's producing scintillation light.}
+\label{fig:LightPaths}
+\end{figure}
 
 The ToF of a particle obeys the following relationship:
 \begin{displaymath}
@@ -75,14 +83,6 @@ This isn't always the case, however, so the effective velocity at which scintill
 The setup favors the detection of scintillation photons that travel lengthwise through the scintillator, since these travel the shortest distance and therefore experience less attenuation.
 In taking the average between two PMTs, the uncertainty in ToF is reduced by about a factor of three compared to using a single PMT.
 
-\begin{figure}[h]
-\includegraphics[width=0.7\textwidth]{Content/Methods/LightPaths.png}
-\caption{The average of times taken for scintillation light to travel from the point of its creation to each PMT has low variance.
-This average includes the time required for light to travel the full length of the detector, which is a constant for photons that travel exactly parallel to the length of the detector.
-Scintillation photons that travel parallel to the length of the detector are favored for detection by the PMTs because they reach the PMT first and experience less attenuation.
-Therefore, the distribution of $\Delta t_{\text{avg}}$ is reflective of the ToF distribution of the particle's producing scintillation light.}
-\label{fig:LightPaths}
-\end{figure}
 
 The variance of the effective velocity of scintillation light was measured using a $^{60}$Co source, which emits coincident photons.
 The $^{60}$Co source is placed at several positions along the face of a lead shielded scintillator.

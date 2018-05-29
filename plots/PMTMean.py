@@ -2,26 +2,29 @@ import ROOT
 import numpy as np
 from TH1Wrapper import*
 import mytools2 as mt2
+
 import ROOT
 import numpy as np
 import mytools2 as mt2
-import mytools as mt
-import pickle
 
-target = "Al"
+target = "DU"
 
-treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_singles_tree
+# treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
+#
 
-photon_dict = []
-for degree in mt.angles:
-    hist = TH1F(-35,150,binwidths=2,title=degree)
-    hist.Project(treeSP_doubles, 'neutrons.hits.tof', 'neutrons.hits.det == {}'.format(degree))
-    photon_dict.append(hist.binvalues)
-    hist.Draw()
+hist = TH1F(9-10,9+15,binwidths=0.5)
 
-file = open("Al.pickle", 'w')
-pickle.dump(photon_dict, file)
+for i in np.random.poisson(1, 20000):
+    hist.Fill(2*i + np.random.randn(1) + 7.5)
 
+
+hist.GetXaxis().SetTitle("PMT timing sum")
+hist.GetYaxis().SetTitle("counts")
+hist.Draw('E')
+ROOT.gStyle.SetOptStat('rm')
+hist.SetTitle('')
+hist.SetLineWidth(2)
+mt2.thesis_plot(hist)
 
 if __name__ == "__main__":
     import ROOT as ROOT

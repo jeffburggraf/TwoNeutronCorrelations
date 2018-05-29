@@ -3,46 +3,66 @@ import numpy as np
 import mytools2 as mt2
 from TH1Wrapper import TH1F
 import mytools as mt
-
-targets = "DU", 'Pu'
-
-# subtract = 'U233'
-
-treeSP1, pulses_SP1_doubles = mt2.NCorrRun("SP", targets[0], generate_dictionary=False, Forward=True).neutrons_doubles_tree
-treeSP2, pulses_SP2_doubles = mt2.NCorrRun("SP", targets[-1], generate_dictionary=False,Forward=True).neutrons_doubles_tree
+import pickle
+from sklearn.linear_model import Ridge
 
 
-# erg_bins =mt2.median(D2OErgHist, 4)[0]
-# if erg_bins[0]<0.5:
-#     erg_bins[0] = 0.5
+targets = "DU", 'Cf252'
 
-# dx_pos = (30*2.5)/3.
-# binszpos = np.arange(-2.5*15, 2.5*15 +dx_pos, dx_pos , dtype=np.float32)
+treeSP1, pulses_SP1_doubles = mt2.NCorrRun("SP", targets[0], generate_dictionary=False, Forward=True).neutrons_singles_tree
+treeSP2, pulses_SP2_doubles = mt2.NCorrRun("SP", targets[-1], generate_dictionary=False,Forward=True).neutrons_singles_tree
 
-binsphi = []
+with open('Al.pickle', 'r') as file:
+    features = pickle.load(file)
+print(features)
+
+binsphi = [0]
 for degree in mt.angles:
-    binsphi.append(degree - 10)
-    binsphi.append(degree + 10)
-    if degree>180:break
+    x1 = degree - 12
+    x2 = degree + 12
 
-binsphi = [0] + binsphi
+    if x2>180:
+        x2 = 180
 
-hist1 = TH1F(binarrays=binsphi)
-hist2 = TH1F(binarrays=binsphi)
+    binsphi.append(x1)
+    binsphi.append(x2)
 
-hist1.Project(treeSP1, '180/3.1415*neutrons.coinc_hits.theta_abs')
-hist2.Project(treeSP2, '180/3.1415*neutrons.coinc_hits.theta_abs')
+    if x2>=180:break
+
+binsphi = set([0] + binsphi)
+binsphi = sorted(list(binsphi))
+print(binsphi)
+
+erg_hist1 = TH1F(0.35,6,binwidths = 0.5)
+erg_hist2 = TH1F(0.35,6,binwidths=0.5)
+erg_hist1.Project(treeSP1, 'neutrons.hits.erg')
+erg_hist2.Project(treeSP1, 'neutrons.hits.erg')
+
+erg_hist1 += erg_hist2
+erg_bins,_ = mt2.median(erg_hist1,3)
 
 
-hist1 /= hist2
+c1 = ROOT.TCanvas()
+c1.Divide(2,2)
 
-hist1.SetTitle('{0}/{1}'.format(*targets))
-hist1.GetXaxis().SetTitle("#theta_{abs}")
-hist1.GetYaxis().SetTitle("ratio")
+i=1
+for E1,E2 in zip(erg_bins[:-1],erg_bins[1:]):
+    c1.cd(i)
+    hist1 = TH1F(binarrays=binsphi)
+    hist2 = TH1F(binarrays=binsphi)
+    cut = mt.cut_rangeAND([E1, E2], 'neutrons.hits.erg')
+    hist1.Project(treeSP1, '180/3.1415*neutrons.hits.theta_abs', cut)
 
-hist1.Draw()
-mt2.thesis_plot(hist1)
+    hist2.Project(treeSP2, '180/3.1415*neutrons.hits.theta_abs', cut)
+    hist1 /= hist2
 
+    hist1.SetTitle('{0}/{1}  {2}<E<{3}'.format(targets[0], targets[1],round(E1, 2),round(E2, 2)))
+    hist1.GetXaxis().SetTitle("#theta_{abs}")
+    hist1.GetYaxis().SetTitle("ratio")
+
+    hist1.Draw(make_new_canvas=False)
+    mt2.thesis_plot(hist1)
+    i+=1
 
 if __name__ == "__main__":
     import ROOT as ROOT
