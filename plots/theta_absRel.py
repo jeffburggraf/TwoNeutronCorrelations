@@ -7,14 +7,11 @@ import pickle
 from sklearn.linear_model import Ridge
 
 
-targets = "DU", 'Cf252'
+targets = "DU", 'Th'
 
-treeSP1, pulses_SP1_doubles = mt2.NCorrRun("SP", targets[0], generate_dictionary=False, Forward=True).neutrons_singles_tree
+treeSP1, pulses_SP1_doubles = mt2.NCorrRun("SP", targets[0], generate_dictionary=False, Forward=True).neutrons_doubles_tree
 treeSP2, pulses_SP2_doubles = mt2.NCorrRun("SP", targets[-1], generate_dictionary=False,Forward=True).neutrons_singles_tree
 
-with open('Al.pickle', 'r') as file:
-    features = pickle.load(file)
-print(features)
 
 binsphi = [0]
 for degree in mt.angles:
@@ -33,14 +30,14 @@ binsphi = set([0] + binsphi)
 binsphi = sorted(list(binsphi))
 print(binsphi)
 
-erg_hist1 = TH1F(0.35,6,binwidths = 0.5)
-erg_hist2 = TH1F(0.35,6,binwidths=0.5)
-erg_hist1.Project(treeSP1, 'neutrons.hits.erg')
-erg_hist2.Project(treeSP1, 'neutrons.hits.erg')
+erg_hist1 = TH1F(0.35,5,binwidths = 0.1)
+erg_hist2 = TH1F(0.35,5,binwidths=0.1)
+erg_hist1.Project(treeSP1, 'neutrons.hits.erg', weight=1.0/pulses_SP1_doubles)
+erg_hist2.Project(treeSP2, 'neutrons.hits.erg', weight=1.0/pulses_SP2_doubles)
 
 erg_hist1 += erg_hist2
-erg_bins,_ = mt2.median(erg_hist1,3)
-
+erg_bins,_ = mt2.median(erg_hist1,4)
+erg_hist1.Draw()
 
 c1 = ROOT.TCanvas()
 c1.Divide(2,2)
@@ -51,9 +48,22 @@ for E1,E2 in zip(erg_bins[:-1],erg_bins[1:]):
     hist1 = TH1F(binarrays=binsphi)
     hist2 = TH1F(binarrays=binsphi)
     cut = mt.cut_rangeAND([E1, E2], 'neutrons.hits.erg')
-    hist1.Project(treeSP1, '180/3.1415*neutrons.hits.theta_abs', cut)
+    hist1.Project(treeSP1, '180/3.1415*neutrons.hits.theta_abs', cut, weight=1.0/pulses_SP1_doubles)
 
-    hist2.Project(treeSP2, '180/3.1415*neutrons.hits.theta_abs', cut)
+    if targets[-1] == 'PU':
+        _cut = cut +  ' && RunNumber == 6649'
+    else:
+        _cut = cut
+    hist2.Project(treeSP2, '180/3.1415*neutrons.hits.theta_abs', _cut, weight=1.0/pulses_SP2_doubles)
+
+    if 0 and targets[-1] == 'U233':
+        tree_sub, sub_pulses = mt2.NCorrRun("SP", targets[-1], generate_dictionary=False,
+                                            Forward=True).neutrons_singles_tree
+        hist_sub = TH1F(binarrays=binsphi)
+
+        hist_sub.Project(tree_sub, '180/3.1415*neutrons.hits.theta_abs', cut, weight=1.0/sub_pulses)
+        hist2 -= hist_sub
+
     hist1 /= hist2
 
     hist1.SetTitle('{0}/{1}  {2}<E<{3}'.format(targets[0], targets[1],round(E1, 2),round(E2, 2)))
@@ -63,6 +73,8 @@ for E1,E2 in zip(erg_bins[:-1],erg_bins[1:]):
     hist1.Draw(make_new_canvas=False)
     mt2.thesis_plot(hist1)
     i+=1
+
+
 
 if __name__ == "__main__":
     import ROOT as ROOT

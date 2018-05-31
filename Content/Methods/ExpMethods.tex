@@ -36,7 +36,7 @@ ToF was used to distinguish between photons and neutrons, and to measure neutron
 Each of the scintillators were equipped with two PMTs, one fixed at each end of the scintillator, with the exception of those located farthest downstream at $\pm30^{\circ}$ which each had a single PMT (see Figure~\ref{fig:DetGeom}).
 In order to diminish dead-time, the detectors at $\pm30^{\circ}$ were segmented to create two independent detectors.
 See section~\ref{section:Detectors} for a more detailed discussion about the detector design.
-ToF is determined by averaging the timing of signals from both PMTs of a given detector, then subtracting a constant calibration offset.
+ToF was determined by averaging the timing of signals from both PMTs of a given detector, then subtracting a constant calibration offset.
 The timing of events in the PMTs were always measured relative to a signal provided by the accelerator at the beginning of each pulse, referred to as the \textit{beam gun}.
 The timing resolution of each PMT is 2ns~\cite{PMT}.
 
@@ -83,24 +83,25 @@ This isn't always the case, however, so the effective velocity at which scintill
 The setup favors the detection of scintillation photons that travel lengthwise through the scintillator, since these travel the shortest distance and therefore experience less attenuation.
 In taking the average between two PMTs, the uncertainty in ToF is reduced by about a factor of three compared to using a single PMT.
 
-
 The variance of the effective velocity of scintillation light was measured using a $^{60}$Co source, which emits coincident photons.
-The $^{60}$Co source is placed at several positions along the face of a lead shielded scintillator.
+The $^{60}$Co source is placed at five positions along the face of a lead shielded scintillator.
 At each position, a small hole is drilled through the lead to give the $^{60}$Co source a line-of-sight to a well defined point on the scintillator.
-A high timing-resolution photon detector is placed next to the $^{60}$Co source.
-When the $^{60}$Co source decays, emitting two photons simultaneously, one photon is detected by the high timing-resolution detector serving as the ``start'' time, and the other photon scintillates in the detector being calibrated.
-The times of signals from each PMT, taken relative to the start trigger, are averaged.
-The photons from $^{60}$Co cause scintillation at a specified location, so variation remaining in the result is due to varying paths taken by the scintillation light, and is a reflection of the error in ToF measurement.
-These results can be seen in figures~\ref{fig:Co60Validation} and~\ref{fig:Co60ValidationProject}.
+A high timing-resolution photon detector is placed next to the $^{60}$Co source, hereafter referred to as the trigger.
+With the $^{60}$Co source in place, coincident rate between the trigger and the scintillation detector increases by orders of magnitude compared to baseline.
+This increase is caused by two coincident photons reaching the trigger and the scintillation detector at the same time.
+With this setup, the time of at which the decay occurred is known from the high trigger, and thus so is the time of scintillation.
+This allows the study of the times taken for scintillation light to propagate through the scintillator.
+The times of signals from each PMT, taken relative to the trigger, are averaged.
+These results can be seen in figures~\ref{fig:ConstPMTAvg} and~\ref{fig:Co60ValidationProject}.
 % **ToDo: Make a figure for the setup of the co60 calibration.
 \begin{figure}[]
     \centering
-    \includegraphics[width = 0.9\textwidth]{Content/Methods/CO60Validation.png}
-    \caption{A $^{60}$Co source, which emits coincident photons, is placed at several positions along the face of a lead shielded scintillator.
+    \includegraphics[width = 0.9\textwidth]{Content/Methods/ConstPMTAvg.png}
+    \caption{A $^{60}$Co source, which emits coincident photons, is placed at five differnt positions along the face of a lead shielded scintillator.
     At each position, a small hole is drilled through the lead to give the $^{60}$Co source a line-of-sight to a well-defined point on the scintillator.
     Then, a high timing resolution scintillation photon detector made from ATP plastic is placed close to the $^{60}$Co source.
     When the $^{60}$Co source decays, emitting two photons simultaneously, one photon is detected by the high timing-resolution detector serving as the ``start'' time, and the other scintillates in the detector being calibrated.}
-    \label{fig:Co60Validation}
+    \label{fig:ConstPMTAvg}
 \end{figure}
 \begin{figure}
     \centering
@@ -126,19 +127,17 @@ With this assumption, the location of the photon peak in the timing spectra can 
 See figure~\ref{fig:ToFDetermination} for an illustration of this process.
 %python file: ProductionAnalysis/TOFGraphs
 \begin{figure}[htbp]
-\begin{center}
 \subfloat[$\Delta T$s with no target in place. ]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF0.png}}
-\end{center}
-
 \subfloat[$\Delta T$s with Aluminum target.]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF1.png}}
-\subfloat[Average of $\Delta T_{\text{top}}$ and $\Delta t_{\text{bot}}$  with Aluminum target in place.]{\includegraphics[width = 0.5\textwidth]{Content/Methods/ToF2.png}}
-\caption{(a) $\Delta T$ spectra from each PMT of a detector with no target in place.
-The beam dump is not able to collect all excess photons, so there is a background despite the lack of a target to scatter photons into the detectors.
-The background is caused by photons that scatter from various surfaces within the experimental cell.
-(b) The introduction of a non-neutron producing target made from aluminum produces a peak caused by the scattering of photons from the target.
-These photons have a constant time of flight, so the width of these spectra are reflective of the range of times taken for scintillation light to propagate from the points of scintillation to a PMT.
-(c) Taking the average between the $\Delta T$s of the top and bottom PMT gives a sharper peak, since the sum of times from both PMTs is a reflection of the time required for light to travel the entire length of a detector, regardless of the location of the particle hit.
-The correct timing offset can be now be found since the photons have a time of flight of 4 ns. }
+
+\subfloat[Average of $\Delta T_{\text{top}}$ and $\Delta t_{\text{bot}}$ with Aluminum target in place.]{\includegraphics[width = 0.53\textwidth]{Content/Methods/ToF2.png}}
+\subfloat[Application of  a calibration offset.]{\includegraphics[width = 0.5\textwidth]{Content/Methods/ToF3.png}}
+\caption{
+(a) $\Delta T$ spectra from both PMTs of a detector while no target is in place.
+(b) The introduction of a non-neutron producing target, made from aluminum, produces a prominent peak caused by the scattering of photons from the target.
+(c) Taking the average between the $\Delta T$s of the top and bottom PMTs produces a sharper peak than in (b), since the sum of times from both PMTs is a reflection of the time required for light to travel the entire length of a detector, regardless of the location of the particle hit.
+The width of this peak if reflective of the uncertainty in time of flight measurements. 
+(d) A calibration offset is applied so that the photons have the correct time of flight of 4 ns. }
 \label{fig:ToFDetermination}
 \end{figure}
    
@@ -164,7 +163,7 @@ The result is shown in figure~\ref{fig:PMTDifference}.
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/PMTDifference.png}
-    \caption{A collimated $^{60}$Co source is used to produce events at precise locations on the detector.
+    \caption{A collimated $^{60}$Co source is used to produce events at five precise locations on the detector.
     The particle's position along the detector's length is shown to vary linearly with respect to the timing difference between events in the top and bottom PMTs of a detector.}
     \label{fig:PMTDifference}
 \end{figure}
