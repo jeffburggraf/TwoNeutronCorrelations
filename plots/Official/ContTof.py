@@ -25,18 +25,17 @@ for p in np.arange(offset,offset + dx*5,dx):
     d1 = 30*2.54 - p
     d2 = p
     hist = TH1F(-10, 10, binwidths=0.25)
-    print(p)
 
     entries =[]
     for delta in range(150):
-        t1 = d1/(1.52E10)*1E9 + np.random.randn()*1
-        t2 = d2/(1.52E10)*1E9 + np.random.randn()*1
+        t1 = d1/(1.52E10)*1E9 + np.random.randn()*1.2
+        t2 = d2/(1.52E10)*1E9 + np.random.randn()*1.2
 
-        Dt = t2-t1
+        Dt = t2+t1
         entries.append(Dt)
     x.append(d2 - 40.64)#- (2.54*30 + offset)/2.)
     y.append(np.mean(entries) + 10)
-    erry.append(np.std(entries)/np.sqrt(len(entries)))
+    erry.append(np.std(entries))
 
 x = np.array(x, dtype=np.float64)
 y = np.array(y, dtype=np.float64)
@@ -45,19 +44,20 @@ erry = np.array(erry, dtype=np.float64)
 gr = ROOT.TGraphErrors(len(x), x, y,np.ones_like(erry)*0.5, erry)
 
 gr.Draw('A*')
-f = gr.Fit('pol1', 'S')
+gr.SetMinimum(0)
 
 gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-gr.GetYaxis().SetTitle('PMT timing difference [ns]')
+gr.GetYaxis().SetTitle('PMT timing average [ns]')
 gr.SetMarkerStyle(31)
 
-# hist.Draw()
-mt2.thesis_plot(gr)
-leg = ROOT.TLegend()
-leg.AddEntry(gr, 'Measurement', 'lep')
-leg.AddEntry('d', 'Fit: y = ax + b')
-leg.Draw()
 
+mt2.thesis_plot(gr, True)
+
+leg = ROOT.TLegend()
+leg.AddEntry(gr, '10,000 event mean #pm SD','ep')
+leg.SetTextSize(0.06)
+leg.Draw()
+leg.SetBorderSize(0);
 
 if __name__ == "__main__":
     import ROOT as ROOT

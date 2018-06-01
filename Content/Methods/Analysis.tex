@@ -1,13 +1,11 @@
 \section{Data Analysis}
 \label{Analysis}
 \subsection{Calculation of Angular Correlation}
-The efficiency and acceptance of the neutron detector array varies greatly over the range of opening angles from 0 to 2$\pi$ (see figure~\ref{fig:OpeningAngleAcceptance}a).
-This effect is due both to the detector array's non-spherical symmetry, and to varying efficiency as a function of particle position.
-There was no attempt to measure the array's efficiency as a function of two-neutron opening angle, because this is not necessary and would have been a difficult task.
-In this experiment, the angular correlation is determined by normalizing the opening angle measurements to an equivalent distribution of uncorrelated neutrons, giving a result that is insensitive to detector efficiencies.
-This effect is illustrated by the difference between figure~\ref{fig:OpeningAngleAcceptance}a and figure~\ref{fig:OpeningAngleAcceptance}b.
-The equivalent uncorrelated distribution is formed from a set of manufactured two-neutron events, in which each neutron is taken from a different pulse and the opening angle between them calculated normally.
-Such neutron pairs will hereafter be referred to as different pulse (DP) pairs.
+The efficiency and acceptance of the neutron detector array varies greatly over the range of opening angles from 0 to 2$\pi$ (see figure~\ref{fig:Cf252Normalization}(a) ). This effect is due both to the detector array's non-spherical symmetry, and to varying efficiency as a function of particle position.
+Knowledge of the array's efficiency as a function of two-neutron opening angle is not needed, because angular correlation is determined by normalizing raw opening angle measurements to an equivalent distribution of uncorrelated neutrons, giving a result that is insensitive to detector efficiencies, while remaining sensitive to angular correlations.
+The effect of normalization is illustrated in figure~\ref{fig:Cf252Normalization}. 
+Figure~\ref{fig:Cf252Normalization}(a) shows the unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf. The structure is reflective of the geometric acceptance and efficiencies of the neutron detector array. Fig~\ref{fig:Cf252Normalization}(b) shows the normalized distribution. Normalization is achieved by dividing the raw opening angle distribution by the opening angle  distribution formed by uncorrelated two-neutron events in which each neutron is taken from a different fission. When the beam is in use, neutron events from different pulses are used instead. Such neutron pairs will hereafter be referred to as different pulse (DP) pairs.
+
 The neutrons of a DP pair are uncorrelated because events in one pulse do not have casual influence on the events in another pulse.
 Detector efficiency and geometry influence same pulse (SP) events and DP events equally.\todo{ToDo: further explain why this statement holds true}
 Thus, barring two-neutron correlations and a scaling factor, the DP distribution is identical to the SP distribution.
@@ -18,9 +16,9 @@ As many pairs as needed can be readily selected until good counting statistics i
 \begin{figure}
     \centering
     \includegraphics[width  = \textwidth ]{Content/Methods/Normalization.png}
-    \caption{(a) Unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf. The structure is reflective of geometric acceptance and efficiencies of the neutron detector array. (b) Same distribution after division by uncorrelated two-neutron events, which are taken from different pulses.}
-    \label{fig:OpeningAngleAcceptance}
-    \label{fig:OpeningAngleAcceptance}
+    \caption{(a) Unnormalized two-neutron opening angle distribution from the spontaneous fission of $^{252}$Cf (b) The distribution after normalizing to the distribution of uncorrelated two-neutron events.}
+    \label{fig:Cf252Normalization}
+    \label{fig:Cf252Normalization}
 \end{figure}
 
 \subsection{Subtraction of Accidentals}

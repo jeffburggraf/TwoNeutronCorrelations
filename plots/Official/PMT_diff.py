@@ -7,12 +7,6 @@ import ROOT
 import numpy as np
 import mytools2 as mt2
 
-# target = "cf252"
-# treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
-# hist = TH1F(-30,30, binwidths=1)
-# hist.Project(treeSP_doubles, 'neutrons.pmt_diff', 'neutrons.pmt_diff!=0')
-# hist.Draw()
-# TB = ROOT.TBrowser()
 
 
 dx = (2.54*30)/5
@@ -29,10 +23,10 @@ for p in np.arange(offset,offset + dx*5,dx):
 
     entries =[]
     for delta in range(150):
-        t1 = d1/(1.52E10)*1E9 + np.random.randn()*2.3
-        t2 = d2/(1.52E10)*1E9 + np.random.randn()*2.3
+        t1 = d1/(1.52E10)*1E9 + np.random.randn()*1
+        t2 = d2/(1.52E10)*1E9 + np.random.randn()*1
 
-        Dt = t2+t1
+        Dt = t2-t1
         entries.append(Dt)
     x.append(d2 - 40.64)#- (2.54*30 + offset)/2.)
     y.append(np.mean(entries) + 10)
@@ -45,15 +39,18 @@ erry = np.array(erry, dtype=np.float64)
 gr = ROOT.TGraphErrors(len(x), x, y,np.ones_like(erry)*0.5, erry)
 
 gr.Draw('A*')
-gr.SetMinimum(0)
+f = gr.Fit('pol1', 'S')
 
 gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-gr.GetYaxis().SetTitle('PMT timing average [ns]')
+gr.GetYaxis().SetTitle('PMT timing difference [ns]')
 gr.SetMarkerStyle(31)
 
 # hist.Draw()
-mt2.thesis_plot(gr)
-
+mt2.thesis_plot(gr, True)
+leg = ROOT.TLegend()
+leg.AddEntry(gr, 'Measurement', 'lep')
+leg.AddEntry('d', 'Fit: y = ax + b')
+leg.Draw()
 
 
 if __name__ == "__main__":

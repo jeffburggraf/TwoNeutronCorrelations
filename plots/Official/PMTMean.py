@@ -14,17 +14,18 @@ target = "DU"
 
 hist = TH1F(9-10,9+15,binwidths=0.5)
 
-for i in np.random.poisson(1, 20000):
-    hist.Fill(2*i + np.random.randn(1) + 7.5)
+for i in np.random.poisson(1, 10000*5):
+    hist.Fill(2*i + np.random.randn(1) + 13)
 
 
-hist.GetXaxis().SetTitle("PMT timing sum")
+hist.GetXaxis().SetTitle("PMT timing average [ns]")
 hist.GetYaxis().SetTitle("counts")
 hist.Draw('E')
 ROOT.gStyle.SetOptStat('rm')
 hist.SetTitle('')
 hist.SetLineWidth(2)
-mt2.thesis_plot(hist)
+
+mt2.thesis_plot(hist, True)
 
 if __name__ == "__main__":
     import ROOT as ROOT
