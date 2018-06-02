@@ -34,17 +34,19 @@ print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta
 print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut, max_events=None)
 
 hist_norm = (histSP)/histDP
+hist_norm.SetStats(0)
 
 ROOT.gStyle.SetOptStat('e');
 
+ROOT.TGaxis.SetMaxDigits(3)
+
 hist_norm.Draw('histE')
 hist_norm.GetXaxis().SetTitle('#theta_{nn}')
-hist_norm.GetYaxis().SetTitle('counts')
+hist_norm.GetYaxis().SetTitle('correlation [arb. units]')
 
 hist_norm.SetLineWidth(2)
 
 hist_norm.SetMinimum(0)
-ROOT.TGaxis.SetMaxDigits(3)
 
 histSP.SetStats(0)
 histSP.Draw('histE')
@@ -54,7 +56,6 @@ histSP.GetYaxis().SetTitle('counts')
 
 
 mt2.thesis_plot([histSP,hist_norm], True, canvii=TH1F.tcanvii_refs)
-
 
 
 

@@ -6,7 +6,7 @@ Aluminum was chosen as the radiator because it has a neutron knockout threshold 
 This ensured that the bremsstrahlung radiator would not be a source of fast neutrons which would have the potential to make their way into the experimental cell and cause false neutron events.
 Downstream from the bremsstrahlung radiator, a sweeping magnet removes excess electrons from the photon beam (see Figure~\ref{fig:Facility}).
 After the sweeping magnet, the beam travels through a series of polyethylene and lead collimators.
-Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to MCNP simulation that included the creation and collimation of the bremsstrahlung photons.
+Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photons.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/MCNPBremDistribution.png}
@@ -16,10 +16,10 @@ The line is an exponential fit of the form $Ae^{-bx}$.}
 \label{fig:BremDist}
 \end{figure}
 
-The reason for choosing a beam energy of 10.5 is that when attempting a measurement of prompt neutrons from photofission, an ambiguity can arise between neutrons from photofission and neutrons from $(\gamma, xn)$ if $x$ is greater than two.
-The two reactions have similar cross-sections within the GDR region, and there is significant overlap between the energy spectra of the neutrons.
+The reason for choosing a bremsstrahlung end-point of 10.5, is that when attempting a measurement of prompt neutrons from photofission, an ambiguity can arise between neutrons from photofission and neutrons from $(\gamma, xn)$ if $x$ is greater than one.
+For photons with energies within the GDR region incident on actinides, fission and $(\gamma, 2n)$ tend to have similar cross-sections, and there is also significant overlap between the energy spectra neutrons from both reactions.
 Because the current measurement is concerned only with observing two neutrons in coincidence, it suffices to set the Bremsstrahlung end-point below the target's ($\gamma, 2n$) threshold, which is $\sim$12 MeV for $^{238}U$.
-Setting the end-point below the ($\gamma, 2n$) threshold does not eliminate the possibility of detecting two neutrons from  two ($\gamma, 1n$) reactions in a single pulse, which is referred to as an accidental coincidence.
+This does not eliminate the possibility of detecting two neutrons from  two ($\gamma, 1n$) reactions in a single pulse, which is referred to as an accidental coincidence.
 An \textit{accidental} neutron coincidence occurs when two uncorrelated neutrons are detected in the same pulse.
 The rate of accidentals follow the poissonian distribution, setting them apart from correlated events, and as a result, accidentals can be subtracted from the data.
 The details and justifications for this procedure are discussed in section~\ref{Subtraction of Accidentals}.
@@ -188,10 +188,9 @@ For more information about cross-talk, see section~\ref{crosstalk}.
 A depleted uranium (DU) target with dimensions of 4x2x0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
 DU received the majority of the allotted beam time because it is an even-even nucleus and as a consequence the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
 
-It is desirable to have a target geometry with symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
+In order to eliminate potential biases caused by the asymmetrical structure of the target, it is desirable to have a target geometry with symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
 To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition.
 In doing so, the measurement is reflective of the average of events which occurred while the target was at all orientations between 0 and 2$\pi$, thereby cylindrical symmetry is effectively preserved.
-This eliminates potential biases caused by the asymmetrical structure of the target.
 
 \subsection{Measurements with $^{252}$Cf}
 %ToDo: Place our results of Cf measurements here in comparison to past measurements.

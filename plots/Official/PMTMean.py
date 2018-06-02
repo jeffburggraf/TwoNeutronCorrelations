@@ -24,6 +24,7 @@ hist.Draw('E')
 ROOT.gStyle.SetOptStat('rm')
 hist.SetTitle('')
 hist.SetLineWidth(2)
+ROOT.TGaxis.SetMaxDigits(3)
 
 mt2.thesis_plot(hist, True)
 
