@@ -15,49 +15,90 @@ import mytools2 as mt2
 # TB = ROOT.TBrowser()
 
 
-dx = (2.54*30)/5
+dx = (2.54*15)/3
 
-x = []
-y = []
-erry = []
+ps =  [-3*dx, -2*dx,-dx,0,dx,2*dx, 3*dx]
+
+
+x_mean = []
+y_mean = []
+erry_mean = []
+
+y_top = []
+y_bot = []
+erry_top = []
+erry_bot = []
+
 offset = 2.54*4
-for p in np.arange(offset,offset + dx*5,dx):
-    d1 = 30*2.54 - p
-    d2 = p
+for p in ps:
+    d1 = abs(15*2.54 - p)
+    d2 = abs(-15*2.54 - p)
     hist = TH1F(-10, 10, binwidths=0.25)
 
-    entries =[]
-    for delta in range(150):
-        t1 = d1/(1.52E10)*1E9 + np.random.randn()*1.2
-        t2 = d2/(1.52E10)*1E9 + np.random.randn()*1.2
+    mean_times =[]
+    tops = []
+    bots = []
+    for delta in range(70):
+        t1 = d1/(1.52E10)*1E9 + np.random.randn()*1.5
+        t2 = d2/(1.52E10)*1E9 + np.random.randn()*1.5
 
         Dt = t2+t1
-        entries.append(Dt)
-    x.append(d2 - 40.64)#- (2.54*30 + offset)/2.)
-    y.append(np.mean(entries) + 10)
-    erry.append(np.std(entries))
+        mean_times.append(0.5*Dt)
+        tops.append(t1)
+        bots.append(t2)
 
-x = np.array(x, dtype=np.float64)
-y = np.array(y, dtype=np.float64)
-erry = np.array(erry, dtype=np.float64)
+    x_mean.append(p)#- (2.54*30 + offset)/2.)
 
-gr = ROOT.TGraphErrors(len(x), x, y,np.ones_like(erry)*0.5, erry)
+    y_mean.append(np.mean(mean_times))
+    y_top.append(np.mean(tops))
+    y_bot.append(np.mean(bots))
+
+    erry_mean.append(np.std(mean_times)/4.)
+    erry_top.append(np.std(tops)/4.)
+    erry_bot.append(np.std(bots)/4.)
+
+x_mean = np.array(x_mean, dtype=np.float64)
+y_mean = np.array(y_mean, dtype=np.float64)
+erry_mean = np.array(erry_mean, dtype=np.float64)
+
+y_top = np.array(y_top, dtype=np.float64)
+y_bot = np.array(y_bot, dtype=np.float64)
+erry_top = np.array(erry_top, dtype=np.float64)
+erry_bot = np.array(erry_bot, dtype=np.float64)
+
+ot = 10,15
+
+y_mean += np.mean(ot)
+y_bot += ot[0]
+y_top+= ot[1]
+
+gr = ROOT.TGraphErrors(len(x_mean), x_mean, y_mean,np.ones_like(erry_mean)*0, erry_mean)
+gr_top = ROOT.TGraphErrors(len(x_mean), x_mean, y_top,np.ones_like(erry_mean)*0, erry_top)
+gr_bot = ROOT.TGraphErrors(len(x_mean), x_mean, y_bot, np.ones_like(erry_mean)*0, erry_bot)
 
 gr.Draw('A*')
+gr_bot.Draw('*same')
+gr_top.Draw('*same')
+
 gr.SetMinimum(0)
+# gr.SetRange(0)
 
 gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-gr.GetYaxis().SetTitle('PMT timing average [ns]')
-gr.SetMarkerStyle(31)
+gr.GetYaxis().SetTitle('PMT timing [ns]')
+gr.SetMarkerStyle(33)
+gr_top.SetMarkerStyle(26)
+gr_bot.SetMarkerStyle(32)
 
 
 mt2.thesis_plot(gr, True)
 
-leg = ROOT.TLegend()
-leg.AddEntry(gr, '10,000 event mean #pm SD','ep')
-leg.SetTextSize(0.06)
-leg.Draw()
-leg.SetBorderSize(0);
+# leg = ROOT.TLegend()
+# leg.AddEntry(gr, ' ','ep')
+# leg.AddEntry(gr_top, ' ','ep')
+# leg.AddEntry(gr_bot, ' ','ep')
+# leg.SetTextSize(0.06)
+# leg.Draw()
+# leg.SetBorderSize(0);
 
 if __name__ == "__main__":
     import ROOT as ROOT
