@@ -13,8 +13,6 @@ mpl.rc('font', **font)
 mpl.rc('text', usetex=True)
 mpl.rc("savefig", dpi=300)
 
-
-
 tofs = np.arange(35,145, 0.01)
 
 erg = 8127/tofs**2
