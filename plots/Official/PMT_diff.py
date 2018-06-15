@@ -29,7 +29,7 @@ for p in np.arange(offset,offset + dx*5,dx):
         Dt = t2-t1
         entries.append(Dt)
     x.append(d2 - 40.64)#- (2.54*30 + offset)/2.)
-    y.append(np.mean(entries) + 10)
+    y.append(np.mean(entries)-0.5)
     erry.append(np.std(entries)/np.sqrt(len(entries)))
 
 x = np.array(x, dtype=np.float64)
@@ -38,19 +38,59 @@ erry = np.array(erry, dtype=np.float64)
 
 gr = ROOT.TGraphErrors(len(x), x, y,np.ones_like(erry)*0.5, erry)
 
-gr.Draw('A*')
+# gr.Draw('A*')
 f = gr.Fit('pol1', 'S')
+#
+# gr.GetXaxis().SetTitle('Distance from detector center [cm]')
+# gr.GetYaxis().SetTitle('PMT timing difference [ns]')
+# gr.SetMarkerStyle(31)
+#
+# # hist.Draw()
+# mt2.thesis_plot(gr, True)
+# leg = ROOT.TLegend()
+# leg.AddEntry(gr, 'Measurement', 'lep')
+# leg.AddEntry('d', 'Fit: y = ax + b')
+# leg.Draw()
 
-gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-gr.GetYaxis().SetTitle('PMT timing difference [ns]')
-gr.SetMarkerStyle(31)
+import matplotlib as mpl
+mpl.use('TkAgg')
+import matplotlib.pyplot as plt
 
-# hist.Draw()
-mt2.thesis_plot(gr, True)
-leg = ROOT.TLegend()
-leg.AddEntry(gr, 'Measurement', 'lep')
-leg.AddEntry('d', 'Fit: y = ax + b')
-leg.Draw()
+plt.figure(figsize=(10,10))
+
+
+font = {'family':'sans-serif',
+        'sans-serif':['Helvetica'],
+        'size': 30} # 18 for single figure, 30 for double
+
+mpl.rc('font', **font)
+mpl.rc('text', usetex=True)
+mpl.rc("savefig", dpi=300)
+
+plt.errorbar(x, y, yerr=erry, elinewidth=1.5, mec='black', capsize=4, c='black', linewidth=0, marker='d',
+             label='measurement')
+
+dx = (x[-1]-x[0])/20.
+fit_x = np.arange(x[0], x[-1]+dx, dx)
+fit_y = fit_x*f.GetParams()[1] + f.GetParams()[0]
+plt.plot(fit_x, fit_y, c='black', ls='--', label='lin. fit: $y = (0.13 \pm 0.01)x+(0.16 \pm 0.005)$')
+
+plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+plt.xlabel(r'Distance from detector center [cm]')
+plt.ylabel(r'PMT timing difference [ns]')
+
+plt.minorticks_on()
+plt.xticks(np.arange(-40, 40+10, 10))
+plt.yticks([-4,-2,0,2,4])
+
+plt.grid()
+plt.legend(loc='upper left', fontsize=25)
+plt.ylim(min(y)*1.15, 6.75)
+
+plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/PMTDifference.png', transparent=True)
+
+# plt.savefig('PMTDifference.png', transparent=True)
+plt.show()
 
 
 if __name__ == "__main__":

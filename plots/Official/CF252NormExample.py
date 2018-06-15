@@ -1,25 +1,11 @@
 import ROOT
 import numpy as np
-import matplotlib as mpl
 import mytools as mt
 
-mpl.use('TkAgg')
 import mytools2 as mt2
 
 from TH1Wrapper import TH1F
-from matplotlib import pyplot as plt
-from matplotlib import pyplot as plt
 
-
-
-font = {'family':'sans-serif',
-        'sans-serif':['Helvetica'],
-        'size'   : 28}
-## for Palatino and other serif fonts use:
-
-# mpl.rc('font', **font)
-# mpl.rc('text', usetex=True)
-# mpl.rc("savefig", dpi=300)
 
 target = "Cf252"
 
@@ -30,34 +16,62 @@ histSP = TH1F(20,180,binwidths=7)
 histDP = TH1F(20,180,binwidths=7)
 tb = ROOT
 cut = '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])>1.5 && neutrons.coinc_hits[0].ForwardTopBot==0'
-print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut)
-print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut, max_events=None)
+print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut, weight=1.0/pulses_SP_doubles)
+print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut)
 
 hist_norm = (histSP)/histDP
 hist_norm.SetStats(0)
 
-ROOT.gStyle.SetOptStat('e');
-
-ROOT.TGaxis.SetMaxDigits(3)
-
-hist_norm.Draw('histE')
-hist_norm.GetXaxis().SetTitle('#theta_{nn}')
-hist_norm.GetYaxis().SetTitle('correlation [arb. units]')
-
-hist_norm.SetLineWidth(2)
-
-hist_norm.SetMinimum(0)
-
-histSP.SetStats(0)
-histSP.Draw('histE')
-histSP.SetLineWidth(2)
-histSP.GetXaxis().SetTitle('#theta_{nn}')
-histSP.GetYaxis().SetTitle('counts')
+hist_norm *= 0.8/max(hist_norm.binvalues)
 
 
-mt2.thesis_plot([histSP,hist_norm], True, canvii=TH1F.tcanvii_refs)
+import matplotlib as mpl
+mpl.use('TkAgg')
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10,20))
 
 
+
+font = {'family':'sans-serif',
+        'sans-serif':['Helvetica'],
+        'size': 30} # 18 for single figure, 30 for double
+## for Palatino and other serif fonts use:
+
+mpl.rc('font', **font)
+mpl.rc('text', usetex=True)
+mpl.rc("savefig", dpi=400)
+
+ax = plt.subplot(2,1,1)
+
+plt.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors, drawstyle='steps-mid', elinewidth=1.5, mec='black', capsize=4, c='black')
+
+plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+plt.xlabel(r'$\theta _{nn}$')
+plt.ylabel('counts/trigger')
+
+plt.ylim(0,max(histSP.binvalues*1.15))
+
+
+plt.subplots_adjust(bottom=0.17)
+
+plt.minorticks_on()
+plt.xticks(np.arange(0, 200, 30))
+
+ax = plt.subplot(2,1,2)
+
+plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=hist_norm.binerrors, drawstyle='steps-mid', elinewidth=1.5, mec='black', capsize=4, c='black')
+
+plt.xlabel(r'$\theta _{nn}$')
+plt.ylabel('correlation [arb. units]')
+plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+plt.minorticks_on()
+plt.xticks(np.arange(0, 200, 30))
+plt.ylim(0, max(hist_norm.binvalues*1.15))
+
+
+plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/Cf252Norm.png', transparent=True)
+plt.show()
 
 if __name__ == "__main__":
     import ROOT as ROOT

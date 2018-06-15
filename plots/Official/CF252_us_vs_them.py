@@ -22,8 +22,8 @@ neutron_target = 'Cf252'
 treeSP, n_pulsesSP = mt2.NCorrRun("SP", neutron_target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 treeDP, n_pulsesDP = mt2.NCorrRun("DP", neutron_target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 
-histSP = TH1F(24, 180, binwidths=12)
-histDP = TH1F(24, 180, binwidths=12)
+histSP = TH1F(24, 180, binwidths=10)
+histDP = TH1F(24, 180, binwidths=10)
 
 histSP.Project(treeSP, '180/3.14*neutrons.coinc_hits[].coinc_theta',weight=1.0/n_pulsesSP)#, max_events=5E5)
 histDP.Project(treeDP, '180/3.14*neutrons.coinc_hits[].coinc_theta', weight=1.0/n_pulsesDP)#, max_events=5E5)
@@ -35,7 +35,7 @@ histSP.SetMinimum(0.775)
 histSP.SetMaximum(2.5)
 
 
-plt.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors, marker='s', linewidth=0, elinewidth=1, mec='black', ms=6, mfc='blue', capsize=3)
+plt.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors, marker='*', linewidth=0, elinewidth=1, mec='black', ms=6, mfc='blue', capsize=3)
 
 plt.ylim(0.775,2.5)
 plt.xlim(0,180)
@@ -43,12 +43,14 @@ plt.xlim(0,180)
 plt.xlabel(r'$\theta _{nn}$')
 plt.ylabel('correlation [arb. units]')
 plt.subplots_adjust(bottom=0.17)
+
 # plt.grid()
+
 plt.minorticks_on()
 plt.xticks(np.arange(0, 200, 20))
 
 # plt.locator_params(axis='x', nbins=6)
-plt.savefig('test.png', transparent=True)
+plt.savefig('Cf252_us_vs_them.png', transparent=True)
 
 plt.show()
 
