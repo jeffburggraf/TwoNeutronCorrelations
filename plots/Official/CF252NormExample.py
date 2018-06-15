@@ -50,13 +50,14 @@ plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.xlabel(r'$\theta _{nn}$')
 plt.ylabel('counts/trigger')
 
+plt.xticks(np.arange(0, 200, 30))
 plt.ylim(0,max(histSP.binvalues*1.15))
+plt.xlim(histSP.__binLeftEdges__[0][0], histSP.__binRightEdges__[0][-1])
 
 
 plt.subplots_adjust(bottom=0.17)
 
 plt.minorticks_on()
-plt.xticks(np.arange(0, 200, 30))
 
 ax = plt.subplot(2,1,2)
 
@@ -68,7 +69,7 @@ plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.minorticks_on()
 plt.xticks(np.arange(0, 200, 30))
 plt.ylim(0, max(hist_norm.binvalues*1.15))
-
+plt.xlim(hist_norm.__binLeftEdges__[0][0], hist_norm.__binRightEdges__[0][-1])
 
 plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/Cf252Norm.png', transparent=True)
 plt.show()
