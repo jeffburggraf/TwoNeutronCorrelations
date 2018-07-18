@@ -32,24 +32,31 @@ def get_fit(x, params, max_n):
     y = [legval(np.cos(3.1415*xxx/180), params[0:max_n]) for xxx in x]
     return x, y
 
-markers =['^','x']
+markers =['^','x','.','5']
 e =1
 
-colors = ['orange','blue']
+colors = ['orange','blue','green', 'black']
 
 axs= []
+figs = []
 _max = 0
 
 import matplotlib.pyplot as plt
 
+
 for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
-    if index == 0:
-        ax = plt.subplot(2, 1, 1)
-        axs.append(ax)
-    elif index == 2:
-        ax = plt.subplot(2, 1, 2)
-        axs.append(ax)
-    ax.set_xticks(np.arange(0,180+30,30))
+    # if index == 0:
+    #     # ax = plt.subplot(2, 1, 1)
+    #     fig = plt.figure(index%2)
+    #     # axs.append(ax)
+    # elif index == 2:
+    #     # ax = plt.subplot(2, 1, 2)
+    #     fig = plt.figure(index % 2)
+    #     # axs.append(ax)
+    # if fig not in figs:
+    #     figs.append(fig)
+    ax = plt.axes()
+
 
 
     cut = '${0}$'.format(cut)
@@ -61,7 +68,7 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
 
     x_fit, y_fit = get_fit(x_data, params, 4)
     i = int(0.9*len(x_fit))
-    # plt.text(x_fit[i], -0.15 + y_fit[i], '$P_{{0}} = {1:.2f} ; r ={0}$'.format(ratio, params[0]))
+
     label_info = '\\small{{$p_{{0}} = {1:.1f}, \\frac{{p_{{2}}}}{{p_{{0}}}} ={0}$}}'.format(ratio, params[0])
 
     label = '{0}, {1}'.format(cut, label_info)
@@ -80,14 +87,17 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     print('Number of trues for {0}: {1}'.format(cut, _dict['n_trues']))
     print('Number of accidentals for {0}: {1}'.format(cut, _dict['n_accidentals']))
 
-    if index%2 != 0:
-        for _i_, text in enumerate(l.get_texts()):
-            text.set_color(colors[_i_%2])
+    # if index%2 != 0:
+    for _i_, text in enumerate(l.get_texts()):
+        text.set_color(colors[_i_%2])
+plt.subplots_adjust(hspace=0.71)
 
-for ax in axs:
+ax.set_xticks(np.arange(0, 180 + 30, 30))
+
+for ii, ax in enumerate(axs):
     ax.set_ylim(0,1.1*_max)
     ax.set_yticks(np.arange(0, int(1.1*_max)+2,2))
+    ax.grid(linestyle='-')
+    ax.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FunalDUResult({}).png'.format(ii), transparent=True)
 
-
-plt.subplots_adjust(hspace=0.71)
 plt.show()
