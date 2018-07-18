@@ -38,19 +38,8 @@ erry = np.array(erry, dtype=np.float64)
 
 gr = ROOT.TGraphErrors(len(x), x, y,np.ones_like(erry)*0.5, erry)
 
-# gr.Draw('A*')
 f = gr.Fit('pol1', 'S')
-#
-# gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-# gr.GetYaxis().SetTitle('PMT timing difference [ns]')
-# gr.SetMarkerStyle(31)
-#
-# # hist.Draw()
-# mt2.thesis_plot(gr, True)
-# leg = ROOT.TLegend()
-# leg.AddEntry(gr, 'Measurement', 'lep')
-# leg.AddEntry('d', 'Fit: y = ax + b')
-# leg.Draw()
+
 
 import matplotlib as mpl
 mpl.use('TkAgg')
@@ -73,7 +62,7 @@ plt.errorbar(x, y, yerr=erry, elinewidth=1.5, mec='black', capsize=4, c='black',
 dx = (x[-1]-x[0])/20.
 fit_x = np.arange(x[0], x[-1]+dx, dx)
 fit_y = fit_x*f.GetParams()[1] + f.GetParams()[0]
-plt.plot(fit_x, fit_y, c='black', ls='--', label='lin. fit: $y = (0.13 \pm 0.01)x+(0.16 \pm 0.005)$')
+plt.plot(fit_x, fit_y, c='black', ls='--', label='lin. fit: $y = (0.13 \pm 0.02)x+(0.16 \pm 0.5)$')
 
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 plt.xlabel(r'Distance from detector center [cm]')
@@ -87,7 +76,7 @@ plt.grid()
 plt.legend(loc='upper left', fontsize=25)
 plt.ylim(min(y)*1.15, 6.75)
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/PMTDifference.png', transparent=True)
+# plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/PMTDifference.png', transparent=True)
 
 # plt.savefig('PMTDifference.png', transparent=True)
 plt.show()

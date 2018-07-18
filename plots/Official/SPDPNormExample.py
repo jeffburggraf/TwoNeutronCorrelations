@@ -7,19 +7,24 @@ import mytools2 as mt2
 from TH1Wrapper import TH1F
 
 
-target = "Cf252"
+target = "DU"
 
 treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 treeDP_doubles, pulses_DP_doubles = mt2.NCorrRun("DP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 
-histSP = TH1F(20,180,binwidths=7)
-histDP = TH1F(20,180,binwidths=7)
+histSP = TH1F(20,180,binwidths=9)
+histDP = TH1F(20,180,binwidths=9)
 tb = ROOT
-cut = '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])>1.5 && neutrons.coinc_hits[0].ForwardTopBot==0'
-print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut, weight=1.0/pulses_SP_doubles)
-print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits.coinc_theta', cut)
+# cut = '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])>0.5'
+cut = ''
+print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_SP_doubles)
+print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_DP_doubles)
 
-hist_norm = (histSP)/histDP
+print(pulses_SP_doubles)
+hist_norm = histSP.__copy__()
+hist_norm -= 0.5*histDP
+hist_norm /= histDP
+
 hist_norm.SetStats(0)
 
 hist_norm *= 0.8/max(hist_norm.binvalues)
@@ -71,7 +76,7 @@ plt.xticks(np.arange(0, 200, 30))
 plt.ylim(0, max(hist_norm.binvalues*1.15))
 plt.xlim(hist_norm.__binLeftEdges__[0][0], hist_norm.__binRightEdges__[0][-1])
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/Cf252Norm.png', transparent=True)
+plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/SPDPNormalization.png', transparent=True)
 plt.show()
 
 if __name__ == "__main__":
