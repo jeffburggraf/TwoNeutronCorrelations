@@ -7,11 +7,11 @@ fast = False
 
 
 if not fast:
-    font = {'family':'sans-serif',
-            'sans-serif':['Helvetica'],
-            'size': 15}
+    font = {'family':'DejaVu Sans',
+            'size': 22}
     mpl.rc('font', **font)
     mpl.rc("savefig", dpi=400)
+    mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']  # for \text command
 
 mpl.rc('text', usetex=True)
 
@@ -27,12 +27,12 @@ def Legendre(cos_X, a, b, c):
 
 
 def get_fit(x, params, max_n):
-    x = np.linspace(min(x), max(x), 5*len(x))
+    x = np.linspace(0, max(x), 5*len(x))
     # y = [Legendre(np.cos(3.1415*xxx/180), *params) for xxx in x]
     y = [legval(np.cos(3.1415*xxx/180), params[0:max_n]) for xxx in x]
     return x, y
 
-markers =['^','x','.','5']
+markers =['^','X','o','d']
 e =1
 
 colors = ['orange','blue','green', 'black']
@@ -41,24 +41,15 @@ axs= []
 figs = []
 _max = 0
 
-import matplotlib.pyplot as plt
+legend_labels_points = []
+legend_labels_lines = []
+legend_elements_points = []
+legend_elements_lines = []
 
+import matplotlib.pyplot as plt
+plt.figure(1, (6,7))
 
 for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
-    # if index == 0:
-    #     # ax = plt.subplot(2, 1, 1)
-    #     fig = plt.figure(index%2)
-    #     # axs.append(ax)
-    # elif index == 2:
-    #     # ax = plt.subplot(2, 1, 2)
-    #     fig = plt.figure(index % 2)
-    #     # axs.append(ax)
-    # if fig not in figs:
-    #     figs.append(fig)
-    ax = plt.axes()
-
-
-
     cut = '${0}$'.format(cut)
 
     y_err = _dict['y_err']
@@ -66,38 +57,65 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     params = _dict['params']
     ratio = '{0:.2f}'.format(params[2]/params[0])
 
-    x_fit, y_fit = get_fit(x_data, params, 4)
+    x_fit, y_fit = get_fit(x_data, params, 3)
     i = int(0.9*len(x_fit))
 
-    label_info = '\\small{{$p_{{0}} = {1:.1f}, \\frac{{p_{{2}}}}{{p_{{0}}}} ={0}$}}'.format(ratio, params[0])
+    def fix_param(p):
+        p = round(p,1)
+        if p==0.:
+            p = 0.0
+        r = '{1}{0}'.format(p, '\hspace{0.5cm}' if p>=0 else '')
+        return r
+    label_pars = list(map(fix_param, params))
 
-    label = '{0}, {1}'.format(cut, label_info)
+    # label_lines = r"$p_{{0}},p_{{1}},p_{{2}} = {1}, {2},  {3};{space} \frac{{p_{{2}}}}{{p_{{0}}}} ={0}$".format(ratio, *label_pars,space = '\hspace{0.35cm}' if index!=2 else '\hspace{0.08cm}')
+    label_lines = r"${1} \hspace{{0.2cm}} {2}  \hspace{{0.2cm}} {3} \hspace{{0.8cm}} {0}$".format(ratio, *label_pars, space=0.15)
 
-    ax.plot(x_fit, y_fit, ls='--',c=colors[index%2])
-    _x_data = np.array(x_data) + (-1)**(index)
-    ax.errorbar(_x_data, y_data,yerr=y_err, label=label, marker=markers[index%2], markersize=4, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index%2])
+    label_lines = r'\fontsize{14pt}{1}{' + label_lines + "}"
+
+    label_points = cut
+    legend_labels_lines.append(label_lines)
+    legend_labels_points.append(label_points)
+
+    line = plt.plot(x_fit, y_fit, alpha=0.8, ls='--',c=colors[index], linewidth=0.65 +0.25*index, dashes=(index+2,2 - index/2.))[0]
+
+    _x_data = np.array(x_data) + (-1)**(index%3)
+    points = plt.errorbar(_x_data, y_data,yerr=y_err, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
+
+    legend_elements_points.append((points,))
+    legend_elements_lines.append((line,))
 
     if max(y_data)>_max:
         _max = max(y_data)
 
-    l = ax.legend(fontsize=13, bbox_to_anchor=(0., 1.02, 1., .102), loc=3, mode="expand", borderaxespad=0.)
-    ax.set_xlabel('$\\theta_{nn}$ \small{[degrees]}')
-    ax.set_ylabel('correlation \small{[arb. units]}')
-
     print('Number of trues for {0}: {1}'.format(cut, _dict['n_trues']))
     print('Number of accidentals for {0}: {1}'.format(cut, _dict['n_accidentals']))
 
-    # if index%2 != 0:
-    for _i_, text in enumerate(l.get_texts()):
-        text.set_color(colors[_i_%2])
-plt.subplots_adjust(hspace=0.71)
+plt.subplots_adjust(top=0.65)
 
+l_points = plt.legend(legend_elements_points, legend_labels_points, title=r'\textbf{Measured}', fontsize=13, bbox_to_anchor=(0., 1.02, 0.40, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
+
+l_lines = plt.legend(legend_elements_lines, legend_labels_lines,title=r'\textbf{{$2^{{\text{{nd}} }}$ order Legendre poly. fits}} \newline'
+              r'$\phantom{{0}} \hspace{{2.6cm}} p_{{0}} \hspace{{{space}cm}} p_{{1}} \hspace{{ {space}cm}} p_{{2}} \hspace{{ {space_}cm}} \frac{{p_{{2}}}}{{p_{{0}}}}$'.format(space=0.8, space_=1), fontsize=13, bbox_to_anchor=(0.45, 1.02, 1.0-0.45, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
+
+for _i_, (text_p, text_l) in enumerate(zip(l_points.get_texts(), l_lines.get_texts())):
+    text_p.set_color(colors[_i_])
+    text_l.set_color(colors[_i_])
+
+plt.gca().add_artist(l_points)
+
+ax = plt.axes()
 ax.set_xticks(np.arange(0, 180 + 30, 30))
+ax.set_xlabel('$\\theta_{nn}$')
+ax.set_ylabel('correlation [arb. units]')
+ax.set_ylim(0,1.2*_max)
+ax.set_xlim(0, 180)
+ax.set_yticks(np.arange(0, int(1.1*_max)+2,2))
+ax.grid(linestyle='-')
 
-for ii, ax in enumerate(axs):
-    ax.set_ylim(0,1.1*_max)
-    ax.set_yticks(np.arange(0, int(1.1*_max)+2,2))
-    ax.grid(linestyle='-')
-    ax.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FunalDUResult({}).png'.format(ii), transparent=True)
+plt.setp(l_lines.get_title(),fontsize=16)
+plt.setp(l_points.get_title(),fontsize=16)
+
+plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FunalDUResult.png', transparent=True)
 
 plt.show()

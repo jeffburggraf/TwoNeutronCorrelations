@@ -95,7 +95,7 @@ for i, (e0,e1) in enumerate(zip(erg_bins[0:-1],erg_bins[1:])):
     hist_y_derr = np.array([histSP.GetBinError(i)for i in range(1,len(histSP.binvalues) + 1)])
     fit_x_data = np.cos(hist_x_data*3.1415/180)
 
-    best_params = legfit(fit_x_data, hist_y_data, 5)
+    best_params = legfit(fit_x_data, hist_y_data, 3, w = 1.0/hist_y_derr)
     print('Dipole-monopole ratio: {0:.2f}\n'.format(best_params[2]/best_params[0]))
     data_dict['x_data'] = hist_x_data
 
