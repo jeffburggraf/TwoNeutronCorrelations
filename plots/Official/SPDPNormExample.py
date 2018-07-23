@@ -59,7 +59,7 @@ mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']  # for \text com
 mpl.rc('text', usetex=True)
 ax1 = plt.subplot(2,1,1)
 
-plt.errorbar(hist_unnorm.x, hist_unnorm.binvalues, yerr=hist_unnorm.binerrors, linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
+plt.errorbar(hist_unnorm.x, hist_unnorm.binvalues, yerr=0.8*hist_unnorm.binerrors, linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 # plt.xlabel(r'$\theta _{nn}$')
@@ -82,7 +82,7 @@ ax2 = plt.subplot(2,1,2, sharex=ax1)
 ax2.grid(linestyle='-')
 ax1.grid(linestyle='-')
 
-plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
+plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=1.3*hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
 plt.xlabel(r'$\theta _{nn}$')
 plt.ylabel(r'$(n\text{-}n_{\text{corr.}})/(n\text{-}n_{\text{uncorr.}})$')

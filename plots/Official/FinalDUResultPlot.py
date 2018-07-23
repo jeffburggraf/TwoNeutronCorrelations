@@ -49,14 +49,19 @@ legend_elements_lines = []
 import matplotlib.pyplot as plt
 plt.figure(1, (6,7))
 
+
 for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     cut = '${0}$'.format(cut)
     cut = cut.replace('E','\overline{E}')
 
-    y_err = _dict['y_err']
-    y_data = _dict['y_data']
     params = _dict['params']
+    scale = 0.25/params[0]
+
+    y_err = _dict['y_err']*scale
+    y_data = _dict['y_data']*scale
+    params = params*scale
     ratio = '{0:.2f}'.format(params[2]/params[0])
+
 
     x_fit, y_fit = get_fit(x_data, params, 3)
     i = int(0.9*len(x_fit))
@@ -67,9 +72,9 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
             p = 0.0
         r = '{1}{0}'.format(p, '\hspace{0.6cm}' if p>=0 else '')
         return r
+
     label_pars = list(map(fix_param, params))
 
-    # label_lines = r"$p_{{0}},p_{{1}},p_{{2}} = {1}, {2},  {3};{space} \frac{{p_{{2}}}}{{p_{{0}}}} ={0}$".format(ratio, *label_pars,space = '\hspace{0.35cm}' if index!=2 else '\hspace{0.08cm}')
     label_lines = r"${1} \hspace{{0.2cm}} {2}  \hspace{{0.2cm}} {3} \hspace{{0.8cm}} {0}$".format(ratio, *label_pars, space=0.15)
 
     label_lines = r'\fontsize{14pt}{1}{' + label_lines + "}"
@@ -78,7 +83,7 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     legend_labels_lines.append(label_lines)
     legend_labels_points.append(label_points)
 
-    line = plt.plot(x_fit, y_fit, alpha=0.8, ls='--',c=colors[index], linewidth=0.65 +0.25*index, dashes=(index+2,2 - index/2.))[0]
+    line = plt.plot(x_fit, y_fit, alpha=0.8, ls='--', c=colors[index], linewidth=0.65 + 0.25*index, dashes=(index+2,2 - index/2.))[0]
 
     _x_data = np.array(x_data) + (-1)**(index%3)
     points = plt.errorbar(_x_data, y_data,yerr=y_err, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
@@ -129,11 +134,10 @@ for index, (spdp, data) in enumerate(data_dict['energy'].items()):
     else:
         norm = (2600)/sum(y)
     y *= norm
-    assert False
     err = err*norm
 
     label = 'Accidental subtracted' if spdp == 'SP' else 'Raw'
-    # label += '$, \overline{{E}}={:0.1f}$'.format(np.average(x,weights=y))
+
     plt.errorbar(x,y,err, label=label, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
 
 plt.ylim(0,max(y)*1.4)
