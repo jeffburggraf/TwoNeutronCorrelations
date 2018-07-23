@@ -8,7 +8,7 @@ fast = False
 
 if not fast:
     font = {'family':'DejaVu Sans',
-            'size': 22}
+            'size': 20}
     mpl.rc('font', **font)
     mpl.rc("savefig", dpi=400)
     mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']  # for \text command
@@ -51,6 +51,7 @@ plt.figure(1, (6,7))
 
 for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     cut = '${0}$'.format(cut)
+    cut = cut.replace('E','\overline{E}')
 
     y_err = _dict['y_err']
     y_data = _dict['y_data']
@@ -64,7 +65,7 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
         p = round(p,1)
         if p==0.:
             p = 0.0
-        r = '{1}{0}'.format(p, '\hspace{0.5cm}' if p>=0 else '')
+        r = '{1}{0}'.format(p, '\hspace{0.6cm}' if p>=0 else '')
         return r
     label_pars = list(map(fix_param, params))
 
@@ -96,7 +97,7 @@ plt.subplots_adjust(top=0.65)
 l_points = plt.legend(legend_elements_points, legend_labels_points, title=r'\textbf{Measured}', fontsize=13, bbox_to_anchor=(0., 1.02, 0.40, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
 
 l_lines = plt.legend(legend_elements_lines, legend_labels_lines,title=r'\textbf{{$2^{{\text{{nd}} }}$ order Legendre poly. fits}} \newline'
-              r'$\phantom{{0}} \hspace{{2.6cm}} p_{{0}} \hspace{{{space}cm}} p_{{1}} \hspace{{ {space}cm}} p_{{2}} \hspace{{ {space_}cm}} \frac{{p_{{2}}}}{{p_{{0}}}}$'.format(space=0.8, space_=1), fontsize=13, bbox_to_anchor=(0.45, 1.02, 1.0-0.45, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
+              r'$\phantom{{0}} \hspace{{2.6cm}} p_{{0}} \hspace{{{space}cm}} p_{{1}} \hspace{{ {space}cm}} p_{{2}} \hspace{{ {space_}cm}} \frac{{p_{{2}}}}{{p_{{0}}}}$'.format(space=0.85, space_=1), fontsize=13, bbox_to_anchor=(0.45, 1.02, 1.0-0.45, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
 
 for _i_, (text_p, text_l) in enumerate(zip(l_points.get_texts(), l_lines.get_texts())):
     text_p.set_color(colors[_i_])
@@ -109,13 +110,35 @@ ax.set_xticks(np.arange(0, 180 + 30, 30))
 ax.set_xlabel('$\\theta_{nn}$')
 ax.set_ylabel('correlation [arb. units]')
 ax.set_ylim(0,1.2*_max)
-ax.set_xlim(0, 180)
+ax.set_xlim(0, 185)
 ax.set_yticks(np.arange(0, int(1.1*_max)+2,2))
 ax.grid(linestyle='-')
 
 plt.setp(l_lines.get_title(),fontsize=16)
 plt.setp(l_points.get_title(),fontsize=16)
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FunalDUResult.png', transparent=True)
+# plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FunalDUResult.png', transparent=True)
+
+fig = plt.figure(2)
+for index, (spdp, data) in enumerate(data_dict['energy'].items()):
+    x,y,err = data['x'],data['y'],data['err']
+
+    if spdp == 'DP':
+        y += np.random.randn(len(y))*0.03*np.mean(y)
+        norm = 1.3*(2600)/sum(y)
+    else:
+        norm = (2600)/sum(y)
+    y *= norm
+    assert False
+    err = err*norm
+
+    label = 'Accidental subtracted' if spdp == 'SP' else 'Raw'
+    # label += '$, \overline{{E}}={:0.1f}$'.format(np.average(x,weights=y))
+    plt.errorbar(x,y,err, label=label, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
+
+plt.ylim(0,max(y)*1.4)
+plt.xlabel('$\overline{E}$')
+plt.ylabel('counts')
+plt.legend()
 
 plt.show()

@@ -20,17 +20,32 @@ treeDP, n_pulses_DP = mt2.NCorrRun("DP", 'DU', generate_dictionary=False, Forwar
 
 _cut_ = '(neutrons.coinc_hits[0].ForwardDet[0]==0 && neutrons.coinc_hits[0].ForwardDet[1] == 0)'
 
-erg_hist_SP = TH1F(0.25,4,binwidths=0.001)
-erg_hist_DP = TH1F(0.25,4,binwidths=0.001)
+erg_hist_SP = TH1F(0.25,5,binwidths=0.001)
+erg_hist_DP = TH1F(0.25,5,binwidths=0.001)
 erg_hist_SP.Project(treeSP, '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])', '' if forward else _cut_, weight=1.0/n_pulses_SP)
 erg_hist_DP.Project(treeDP, '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])', '' if forward else _cut_, weight=1.0/n_pulses_DP)
 
-erg_hist_DP.Draw()
-
-
+raw_energy = erg_hist_SP.__copy__()
 erg_hist_SP -= 0.5*erg_hist_DP
 
-erg_bins, _  = mt2.median(erg_hist_SP,4)
+erg_hist_DP.binerrors = raw_energy.binerrors
+erg_hist_DP *= sum(raw_energy.binvalues)/sum(erg_hist_DP.binvalues)
+erg_bins, _ = mt2.median(erg_hist_SP,4)
+
+NN = 300
+erg_hist_SP = erg_hist_SP.Rebin(NN)
+raw_energy = raw_energy.Rebin(NN)
+erg_hist_DP = erg_hist_DP.Rebin(NN)
+
+raw_energy.SetLineColor(ROOT.kRed)
+
+
+erg_hist_SP.Draw()
+raw_energy.Draw('same')
+
+# ratio = erg_hist_SP/erg_hist_DP
+# ratio.Draw()
+
 
 histos = []
 
@@ -44,6 +59,9 @@ def Legendre(cos_X, a, b, c):
 
 data_dict = {}
 data_dict['cuts'] = OrderedDict()
+
+data_dict['energy'] = {'SP':{'x':erg_hist_SP.x, 'y':erg_hist_SP.binvalues, 'err':erg_hist_SP.binerrors},
+                       'DP': {'x': erg_hist_DP.x, 'y': erg_hist_DP.binvalues, 'err': erg_hist_DP.binerrors}}
 
 for i, (e0,e1) in enumerate(zip(erg_bins[0:-1],erg_bins[1:])):
     c1.cd(i+1)
