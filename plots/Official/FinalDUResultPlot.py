@@ -173,7 +173,7 @@ fig = plt.figure(2)
 DP_data = data_dict['energy']['DP']
 SP_data = data_dict['energy']['SP']
 for index, (spdp, data) in enumerate({"DP":DP_data, "SP":SP_data}.items()):
-    x,y,err = data['x'],data['y'],data['err']
+    x, y, err = data['x'], data['y'], data['err']
 
     if spdp == 'DP':
         y += np.random.randn(len(y))*0.03*np.mean(y)
