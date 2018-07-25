@@ -20,8 +20,9 @@ treeDP, n_pulses_DP = mt2.NCorrRun("DP", 'DU', generate_dictionary=False, Forwar
 
 _cut_ = '(neutrons.coinc_hits[0].ForwardDet[0]==0 && neutrons.coinc_hits[0].ForwardDet[1] == 0)'
 
-erg_hist_SP = TH1F(0.25,5.5,binwidths=0.001)
-erg_hist_DP = TH1F(0.25,5.5,binwidths=0.001)
+min_erg = 0.4
+erg_hist_SP = TH1F(min_erg,5.5,binwidths=0.001)
+erg_hist_DP = TH1F(min_erg,5.5,binwidths=0.001)
 erg_hist_SP.Project(treeSP, '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])', '' if forward else _cut_, weight=1.0/n_pulses_SP)
 erg_hist_DP.Project(treeDP, '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])', '' if forward else _cut_, weight=1.0/n_pulses_DP)
 
@@ -31,6 +32,10 @@ erg_hist_SP -= 0.5*erg_hist_DP
 erg_hist_DP.binerrors = raw_energy.binerrors
 erg_hist_DP *= sum(raw_energy.binvalues)/sum(erg_hist_DP.binvalues)
 erg_bins, _ = mt2.median(erg_hist_SP,4)
+# w = 1.
+# erg_bins = np.arange(0.5,5*w, w)
+
+
 
 NN = 300
 erg_hist_SP = erg_hist_SP.Rebin(NN)
@@ -50,28 +55,34 @@ c1.Divide(len(erg_bins)-1,1)
 
 global_max = 0
 
-def Legendre(cos_X, a, b, c):
-    return a*1 + b*0.5*(3*cos_X**2 - 1) + c*0.5*(5*cos_X**3 - 3*cos_X)
+def Legendre(cos_X, *p):
+    return np.l
 
 data_dict = {}
 data_dict['cuts'] = OrderedDict()
 
 data_dict['energy'] = {'SP':{'x':erg_hist_SP.x, 'y':erg_hist_SP.binvalues, 'err':erg_hist_SP.binerrors},
-                       'DP': {'x': erg_hist_DP.x, 'y': erg_hist_DP.binvalues, 'err': erg_hist_DP.binerrors}}
+                       'DP': {'x': erg_hist_DP.x, 'y': erg_hist_DP.binvalues, 'err': erg_hist_DP.binerrors},
+                       'raw': {'x': raw_energy.x, 'y': raw_energy.binvalues, 'err': raw_energy.binerrors}}
 
 #################################
 bin_width = 15
 courseness = float(5)  # Arg to hist.Rebin
-Smooth = [1,1.2, 1.2, 0.65]
+Smooth = [0.6,0.73, 0.68, 0.5]
+method = 'pad'
 #################################
+
+data_dict['theta_bin_width'] = np.mean(Smooth)*bin_width
+
 
 for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     if isinstance(Smooth, list):
         smooth = Smooth[i]
+    else:
+        smooth = Smooth
     c1.cd(i+1)
     histSP = TH1F(24, 180, binwidths=bin_width/courseness)
     histDP = TH1F(24, 180, binwidths=bin_width/courseness)
-
     erg_cut = '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])'
     erg_cut = mt.cut_rangeAND([e0, e1], erg_cut) + '&& neutrons.coinc_hits.ForwardTopBot == 0'
 
@@ -84,8 +95,8 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     n_accidentals = int(0.5*n_accidentals/n_pulses_DP*n_pulses_SP)
 
     if smooth:
-        histSP.MySmooth(courseness*smooth/2)
-        histDP.MySmooth(courseness*smooth/2)
+        histSP.MySmooth(courseness*smooth/2, edge_method=method)
+        histDP.MySmooth(courseness*smooth/2, edge_method=method)
 
     I0 = np.sum(histSP.binvalues)
     histSP -= 0.5*histDP
@@ -97,7 +108,8 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     histDP = histDP.Rebin(courseness)
 
     histSP /= histDP
-    histSP.MySmooth(smooth)
+    if smooth:
+        histSP.MySmooth(smooth,edge_method=method)
 
     histSP.SetMinimum(0)
 
@@ -106,7 +118,6 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     print('n_coinc: {0}'.format(n_coinc))
     print('Accidental subtraction change: {:.2f}'.format((I1-I0)/I0))
 
-    # histSP.MySmooth(bin_width/7.)
 
     if i == 0:
         norm_factor = 1./max(histSP.binvalues)
@@ -125,11 +136,13 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     hist_y_derr = np.array([histSP.GetBinError(i)for i in range(1,len(histSP.binvalues) + 1)])
     fit_x_data = np.cos(hist_x_data*3.1415/180)
 
-    best_params = legfit(fit_x_data, hist_y_data, 3, w=1.0/hist_y_derr)
+    best_params, diagnostic = legfit(fit_x_data, hist_y_data, 3, w=1.0 / hist_y_derr, full=True)
+    print(diagnostic)
     print('Dipole-monopole ratio: {0:.2f}\n'.format(best_params[2]/best_params[0]))
     data_dict['x_data'] = hist_x_data
 
     data_dict['cuts'][title] = {'params': best_params}
+    data_dict['cuts'][title]['param_errors'] = diagnostic
     data_dict['cuts'][title]['y_data'] = hist_y_data
     data_dict['cuts'][title]['y_err'] = hist_y_derr
     data_dict['cuts'][title]['cut_range'] = [e0,e1]
