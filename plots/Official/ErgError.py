@@ -19,7 +19,7 @@ erg = 8127/tofs**2
 err = 40000/tofs**3
 
 plt.figure(1, figsize=(10,8))
-l2 = plt.plot(tofs, erg, linewidth=4)
+l2 = plt.plot(tofs, erg, linewidth=4,c='black')
 plt.grid()
 plt.xlabel('ToF [ns]')
 plt.ylabel('Energy [MeV]')
@@ -36,7 +36,7 @@ plt.savefig('/Users/jeffreyburggraf/Pictures/ToF2Erg.png',bbox_inches='tight')
 plt.figure(2, figsize=(10,8))
 # plt.subplots_adjust(bottom = 0.15)
 
-l1 = plt.plot(erg, err, linewidth=4)
+l1 = plt.plot(erg, err, linewidth=4, c='black')
 
 
 plt.ylabel('$\Delta$Energy [MeV]')
