@@ -4,9 +4,8 @@ mpl.use('TkAgg')
 from matplotlib import pyplot as plt
 import numpy as np
 
-font = {'family':'sans-serif',
-        'sans-serif':['Helvetica'],
-        'size'   : 28}
+font = {'family': 'DejaVu Sans',
+        'size': 35}
 ## for Palatino and other serif fonts use:
 
 mpl.rc('font', **font)
