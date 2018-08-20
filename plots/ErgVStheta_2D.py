@@ -88,20 +88,28 @@ for theta_cut,histSP in zip(theta_cuts,histos):
 
     c1.cd(cd_i)
     cd_i += 1
-    # c1.SetLeftMargin(10)
 
     histSP.Draw('Lego',make_new_canvas=False)
+    #
+    # histSP.SetTitleSize(.3);
+
     histSP.SetStats(0)
+
     histSP.GetXaxis().SetTitle('E2 [MeV]')
+    histSP.GetXaxis().SetLabelSize(.06);
+
+    histSP.GetYaxis().SetTitle('E1 [MeV]')
+    histSP.GetYaxis().SetLabelSize(.06);
+
     histSP.GetZaxis().SetTitleSize(.05);
     histSP.GetZaxis().CenterTitle()
     histSP.GetZaxis().SetTitle('Y_{corr}/Y_{uncorr}')
+    histSP.GetZaxis().SetLabelSize(.06);
 
-    histSP.GetZaxis().SetTitleOffset(0.85)
+    histSP.GetZaxis().SetTitleOffset(1.)
+
     histSP.GetYaxis().SetTitleOffset(1.5)
     histSP.GetXaxis().SetTitleOffset(1.5)
-
-    histSP.GetYaxis().SetTitle('E1 [MeV]')
 
     if max(histSP.binvalues.flatten())>_max:
         _max = max(histSP.binvalues.flatten())
@@ -121,6 +129,8 @@ for theta_cut,histSP in zip(theta_cuts,histos):
 
 for hist in histos:
     hist.SetMaximum(1.15*_max)
+
+
 
 
 
