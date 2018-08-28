@@ -20,15 +20,19 @@ import ROOT
 ROOT.TGaxis.SetMaxDigits(2)
 from TH1Wrapper import *
 import mytools2 as mt2
-
-
+#
+# view = ROOT.TView.CreateView(1)
+# view.SetRange(5,5,5,25,25,25);
+# import ctypes
+# irep = ctypes.c_int()
+# view.SetView(90,0,90,irep);
 
 forward = True
 
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tree
 tree_DP, n_pulses_DP= mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tree
 
-theta_cuts = np.linspace(24,180,5)
+theta_cuts = np.linspace(24,180,6)
 theta_cuts = list(zip(theta_cuts[0:-1],theta_cuts[1:]))
 
 def transpose(hist):
@@ -38,11 +42,11 @@ def transpose(hist):
     hist.Multiply(0.5)
     for i in range(len(hist.binvalues)):
         hist.binvalues[i][i+1:] = 0
-
     return hist
 
 histos= []
 n_erg_bins = 3
+max_erg = 6
 
 for i, thetas in enumerate(theta_cuts):
 
@@ -50,8 +54,8 @@ for i, thetas in enumerate(theta_cuts):
     cut = mt.cut_rangeAND(thetas, '180/3.1415*neutrons.coinc_hits[0].coinc_theta')
     if not forward:
         cut += '&& (neutrons.coinc_hits[0].ForwardDet[0]==0 && neutrons.coinc_hits[0].ForwardDet[1]==0)'
-    histSP = TH2F(0,6,n_erg_bins)
-    histDP = TH2F(0,6,n_erg_bins)
+    histSP = TH2F(0, max_erg, n_erg_bins)
+    histDP = TH2F(0, max_erg, n_erg_bins)
     drw = 'neutrons.coinc_hits[0].erg[0]:neutrons.coinc_hits[0].erg[1]'
 
     print ('SP, {0}: {1} events'.format(thetas, histSP.Project(tree_SP, drw, cut, weight=1.0/n_pulses_SP)))
@@ -72,24 +76,28 @@ c1.Divide(len(histos))
 
 cd_i = 1
 _max = 0
-for theta_cut,histSP in zip(theta_cuts,histos):
-    __ =  np.array(list(itertools.product(histSP.__binLeftEdges__[0],histSP.__binLeftEdges__[1]))).transpose()
+
+data = OrderedDict()
+
+for theta_cut, histSP in zip(theta_cuts, histos):
+    __ = np.array(list(itertools.product(histSP.__binLeftEdges__[0], histSP.__binLeftEdges__[1]))).transpose()
     _x = __[0]
     _y = __[1]
     w = histSP.bincenters[0][1] - histSP.bincenters[0][0]
 
-    bar_args.append((_x,_y, np.zeros_like(_x), w,w,histSP.binvalues.flatten()))
+    bar_args.append((_x, _y, np.zeros_like(_x), w, w, histSP.binvalues.flatten()))
 
     theta_cut = list(map(int,theta_cut))
     histSP.SetTitle('{0}^{{#circ}} #leq #theta_{{nn}}<{1}^{{#circ}}'.format(*theta_cut))
 
     _hist = histSP.__copy__()
-    _hist*=4
+    _hist *= 4
 
     c1.cd(cd_i)
     cd_i += 1
+    ROOT.gPad.SetPhi(-30)
 
-    histSP.Draw('Lego',make_new_canvas=False)
+    histSP.Draw('Lego', make_new_canvas=False)
     #
     # histSP.SetTitleSize(.3);
 
@@ -114,6 +122,12 @@ for theta_cut,histSP in zip(theta_cuts,histos):
     if max(histSP.binvalues.flatten())>_max:
         _max = max(histSP.binvalues.flatten())
     print('theta cut', theta_cut)
+    theta_cut = tuple(theta_cut)
+
+    data[theta_cut] = []
+
+    def fix(n):
+        return float('{:.2f}'.format(n))
     for i in range(len(histSP.binvalues)):
         for j in range(0,i+1):
             line = ROOT.TPolyLine3D()
@@ -121,15 +135,18 @@ for theta_cut,histSP in zip(theta_cuts,histos):
             z = histSP.binvalues[i][j]
             err = histSP.binerrors[i][j]
 
+            data[theta_cut].append(
+                ((fix(x),fix(y)), (fix(z), fix(err)))
+            )
+
             line.SetPoint(0,x,y,z)
             line.SetPoint(1,x,y,z +err)
             line.Draw('same')
             print('bin {0:.0f},{1:.0f}; value = {3:.2f} +/- {2:.2f}'.format(x,y,err, z))
             lines.append(line)
-
+print(data)
 for hist in histos:
     hist.SetMaximum(1.15*_max)
-
 
 
 

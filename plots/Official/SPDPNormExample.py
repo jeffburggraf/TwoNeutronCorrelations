@@ -21,7 +21,6 @@ print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_the
 print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_DP_doubles)
 
 
-
 hist_unnorm = histSP.Rebin(3)
 
 if target == 'DU':
@@ -63,7 +62,7 @@ plt.errorbar(hist_unnorm.x, hist_unnorm.binvalues, yerr=0.8*hist_unnorm.binerror
 
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 # plt.xlabel(r'$\theta _{nn}$')
-plt.ylabel(r'$n$-$n$$_{\text{corr.}}$')
+plt.ylabel(r'$nn_{\text{corr.}}$')
 
 plt.xticks(np.arange(30, 180+30, 30))
 y_ticks = list(map(lambda x: float('{:.0E}'.format(x)),np.linspace(0,max(hist_unnorm),5)))
@@ -93,7 +92,7 @@ hist_norm.binerrors *=cheat_scale
 plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=1.3*hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
 plt.xlabel(r'$\theta _{nn}$')
-plt.ylabel(r'$(n\text{-}n_{\text{corr.}})/(n\text{-}n_{\text{uncorr.}})$')
+plt.ylabel(r'$(nn_{\text{corr.}})/(nn_{\text{uncorr.}})$')
 plt.minorticks_on()
 # plt.yticks(list(map(lambda x:mt2.round_to_n(x,1),np.linspace(0, mt2.round_to_n(1.1*max(hist_norm),1), 5))))
 plt.yticks(np.linspace(0.,3,4))
