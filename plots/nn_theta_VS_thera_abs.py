@@ -103,7 +103,7 @@ if smooth:
 histSP_90 = histSP_90.Rebin(bin_factor)
 histDP_90 = histDP_90.Rebin(bin_factor)
 
-histSP_90 /= histDP_90
+histSP_90 /= (0.5*histDP_90)
 histSP_90.SetMarkerStyle(33)
 histSP_90.SetMarkerSize(1.5)
 
@@ -111,14 +111,14 @@ histSP_90.SetMarkerSize(1.5)
 histSP_90.Draw('hist E', make_new_canvas=0)
 histSP_90.GetXaxis().SetTitle('#theta_{nn}')
 
-histSP_90.GetYaxis().SetTitle('(n-n_{corr.})/(n-n_{uncorr.})')
+histSP_90.GetYaxis().SetTitle('(nn_{corr})/(nn_{uncorr})')
 
 var = '#theta_{abs}_{1,2}'
 title_90 = (['#theta_{{abs}}_{{1}} *or* #theta_{{abs}}_{{2}} #in {rng}'.format(rng=range_90)]*2 + [''])[case]
 # histSP_90.SetTitle(title_90)
 histSP_90.SetLineStyle(7)
 histSP_90.SetLineWidth(3)
-mt2.thesis_plot([histSP_90], big_font=0.05)
+mt2.thesis_plot([histSP_90], big_font=0.06)
 histSP_90.GetXaxis().SetNdivisions(6,5,0,0);
 
 c1.Modified()
@@ -139,13 +139,13 @@ if smooth:
 histSP_not_90 = histSP_not_90.Rebin(bin_factor)
 histDP_not_90 = histDP_not_90.Rebin(bin_factor)
 
-histSP_not_90 /= histDP_not_90
+histSP_not_90 /= (0.5*histDP_not_90)
 
 _max = max(np.concatenate([histSP_not_90.binvalues, histSP_90.binvalues]))
 
 histSP_not_90.Draw('hist E same',make_new_canvas=0)
 histSP_not_90.GetXaxis().SetTitle('#theta_{nn}')
-histSP_not_90.GetYaxis().SetTitle('(n-n_{corr.})/(n-n_{uncorr.})')
+histSP_not_90.GetYaxis().SetTitle('(nn_{corr})/(nn_{uncorr})')
 mt2.thesis_plot([histSP_not_90], big_font=0.05)
 histSP_not_90.GetXaxis().SetNdivisions(6,5,0,0);
 histSP_not_90.SetMarkerStyle(27)
@@ -164,15 +164,13 @@ histSP_not_90.SetMaximum(round(1.5*_max, 1))
 histSP_90.SetMaximum(round(1.4*_max, 1))
 
 leg = ROOT.TLegend(0.2,0.75,0.88,0.95)
-leg.AddEntry(histSP_90,     'At least one neutron with {0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} '.format(*range_90), 'lpf')
-leg.AddEntry(histSP_not_90, '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} not true for both neutrons'.format(*range_90), 'lpf')
+leg.AddEntry(histSP_90,     '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for at least one neutron'.format(*range_90), 'lpf')
+leg.AddEntry(histSP_not_90, '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for neither neutrons'.format(*range_90), 'lpf')
 
 leg.Draw()
 
 c1.Modified()
 c1.Update()
-
-
 
 if __name__ == "__main__":
     import ROOT as ROOT

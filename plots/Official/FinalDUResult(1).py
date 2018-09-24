@@ -107,7 +107,7 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     histSP = histSP.Rebin(courseness)
     histDP = histDP.Rebin(courseness)
 
-    histSP /= histDP
+    histSP /= (0.5*histDP)
     if smooth:
         histSP.MySmooth(smooth,edge_method=method)
 
@@ -118,11 +118,6 @@ for i, (e0, e1) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     print('n_coinc: {0}'.format(n_coinc))
     print('Accidental subtraction change: {:.2f}'.format((I1-I0)/I0))
 
-
-    if i == 0:
-        norm_factor = 1./max(histSP.binvalues)
-
-    histSP *= norm_factor
     title = '{0:.1f}<E<{1:.1f}'.format(e0,e1)
     histSP.SetTitle(title)
 
@@ -155,7 +150,6 @@ pickle.dump(data_dict, f)
 f.close()
 
 ##################   ROOT  #################_
-norm_factor = sum(histos[0].binvalues)
 for i, hist in enumerate(histos):
     c1.cd(i+1)
     hist.SetMaximum(global_max*1.1)

@@ -20,7 +20,6 @@ cut = ''
 print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_SP_doubles)
 print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_DP_doubles)
 
-
 hist_unnorm = histSP.Rebin(3)
 
 if target == 'DU':
@@ -35,7 +34,7 @@ histDP = histDP.Rebin(3)
 hist_norm = histSP.__copy__()
 if target=='DU':
     hist_norm -= 0.5*histDP
-hist_norm /= histDP
+hist_norm /= (0.5*histDP)
 
 hist_norm.SetStats(0)
 
@@ -62,7 +61,7 @@ plt.errorbar(hist_unnorm.x, hist_unnorm.binvalues, yerr=0.8*hist_unnorm.binerror
 
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 # plt.xlabel(r'$\theta _{nn}$')
-plt.ylabel(r'$nn_{\text{corr.}}$')
+plt.ylabel(r'$nn_{\text{corr}}$')
 
 plt.xticks(np.arange(30, 180+30, 30))
 y_ticks = list(map(lambda x: float('{:.0E}'.format(x)),np.linspace(0,max(hist_unnorm),5)))
@@ -85,14 +84,10 @@ np.random.seed(9)
 for i in range(len(hist_norm.binvalues)):
     hist_norm.binvalues[i] += np.random.randn()*hist_norm.binerrors[i]*0.7
 
-cheat_scale = 1.5/np.mean(hist_norm.binvalues)
-# hist_norm.binvalues *= cheat_scale
-# hist_norm.binerrors *=cheat_scale
-
-plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=1.3*hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
+plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
 plt.xlabel(r'$\theta _{nn}$')
-plt.ylabel(r'$(nn_{\text{corr.}})/(nn_{\text{uncorr.}})$')
+plt.ylabel(r'$(nn_{\text{corr}})/(nn_{\text{uncorr}})$')
 plt.minorticks_on()
 # plt.yticks(list(map(lambda x:mt2.round_to_n(x,1),np.linspace(0, mt2.round_to_n(1.1*max(hist_norm),1), 5))))
 # plt.yticks(np.linspace(0.,3,4))

@@ -10,9 +10,12 @@ from lmfit import Parameters
 import re
 
 
+combine = False
+
+
 if not fast:
     font = {'family':'DejaVu Sans',
-            'size': 20}
+            'size': 20 if combine else 20}
     mpl.rc('font', **font)
     mpl.rc("savefig", dpi=400)
     mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']  # for \text command
@@ -22,7 +25,6 @@ mpl.rc('text', usetex=True)
 f = open('/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/FinalDUResultData.pickle', 'rb')
 
 data_dict = pickle.load(f, encoding='latin1')
-
 
 def Legendre(x, p0, p1, p2):
     ps = [p0,p1,p2]
@@ -62,8 +64,16 @@ x_data =data_dict['x_data']
 
 x_err = [data_dict['theta_bin_width']/2.]*len(x_data)
 
-
 ParamErrors = []
+
+if not combine:
+    fig_sub, ax = plt.subplots(4, sharex=True, figsize=(5, 12))
+    ax = ax.flatten()
+
+    plt.subplots_adjust(left=0.18, hspace=0.3)
+
+table = '$\\frac{p_0}{p_2}$ & $p_0$ & $p_1$ & $p_2$  \\\ [0.5ex] \n \\hline\n \\hline\n'
+
 for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     if index ==0:
         init_norm = _dict['params'][0]/_dict['n_trues']
@@ -78,12 +88,9 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     y_err = _dict['y_err'] *scale
     y_data = _dict['y_data'] *scale
 
-
     model = Model(Legendre)
 
     init_params = legfit(np.cos(3.1415*x_data/180), y_data, 2,w = 1.0/y_err)
-
-
 
     params = Parameters()
     params.add('p0', init_params[0], min=0, max=2)
@@ -107,7 +114,7 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
         p = round(p,1)
         if p==0.:
             p = 0.0
-        r = '{1}{0}'.format(p, '\hspace{0.6cm}' if p>=0 else '')
+        r = '{1}{0}'.format(p, '' if p>=0 else '')
         return r
 
     label_pars = list(map(fix_param, params))
@@ -120,10 +127,24 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
     legend_labels_lines.append(label_lines)
     legend_labels_points.append(label_points)
 
-    line = plt.plot(x_fit, y_fit, alpha=0.8, linestyle=line_styles[index], c=colors[index], linewidth=0.65 + 0.25*index)[0] #dashes=(index+2,2 - index/2.))[0]
+    AX = ax[index] if not combine else plt
+
+    AX.set_title(r'\fontsize{{14pt}}{{1}}{}'.format(cut))
+
+    line = AX.plot(x_fit, y_fit, alpha=0.8, linestyle='-' if not combine else line_styles[index], c=colors[index] if combine else 'black', linewidth=0.65 + 0.25*index)[0]
 
     _x_data = np.array(x_data) + 0.7*(-1)**(index%2)
-    points = plt.errorbar(_x_data, y_data,yerr=y_err,xerr=x_err, marker=markers[index], markersize=8, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
+    points =AX.errorbar(_x_data, y_data, yerr=y_err, xerr=x_err, marker='d' if not combine else markers[index],
+                  markersize=3, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index] if combine else 'black')
+
+    AX.set_xticks(np.arange(0, 180 + 30, 30))
+    if index == 3:
+        AX.set_xlabel('$\\theta_{nn}$')
+    AX.set_ylabel(r'\fontsize{30pt}{1}{$\frac{(nn_{\text{corr}})}{(nn_{\text{uncorr}})}$}')
+    AX.set_ylim(0,1.4*_max)
+    AX.set_xlim(0, 185)
+    AX.set_yticks([0,1,2,3,4])
+    AX.grid(linestyle='-')
 
     legend_elements_points.append((points,))
     legend_elements_lines.append((line,))
@@ -138,61 +159,70 @@ for index, (cut, _dict) in enumerate(data_dict['cuts'].items()):
 
     ParamErrors.append(errs)
 
-    print('Number of trues for {0}: {1}'.format(cut, _dict['n_trues']))
-    print('Number of accidentals for {0}: {1}'.format(cut, _dict['n_accidentals']))
+    table += "{0} $\pm$ {e1} & {1} $\pm$ {e2} & {2} $\pm$ {e3} &  {3} $\pm$ {e4} \\\\ \n \\hline \n".\
+        format(ratio, *label_pars, e1 = errs[0],e2 = errs[1],e3 = errs[2],e4 = errs[3])
 
-print('Parameter errors:\n{}'.format(np.array(ParamErrors)))
 
-plt.subplots_adjust(top=0.65, left=0.16)
+    # print('Number of trues for {0}: {1}'.format(cut, _dict['n_trues']))
+    # print('Number of accidentals for {0}: {1}'.format(cut, _dict['n_accidentals']))
 
-l_points = plt.legend(legend_elements_points, legend_labels_points, title=r'\textbf{Measured}', fontsize=13, bbox_to_anchor=(0., 1.02, 0.40, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
+# print('Parameter errors:\n{}'.format(np.array(ParamErrors)))
+print(table)
 
-l_lines = plt.legend(legend_elements_lines, legend_labels_lines,title=r'\textbf{{$2^{{\text{{nd}} }}$ order Legendre poly. fits}} \newline'
-              r'$\phantom{{0}} \hspace{{2.6cm}} p_{{0}} \hspace{{{space}cm}} p_{{1}} \hspace{{ {space}cm}} p_{{2}} \hspace{{ {space_}cm}} \frac{{p_{{2}}}}{{p_{{0}}}}$'.format(space=0.85, space_=1), fontsize=13, bbox_to_anchor=(0.45, 1.02, 1.0-0.45, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
+if combine:
+    plt.subplots_adjust(top=0.65, left=0.16)
 
-for _i_, (text_p, text_l) in enumerate(zip(l_points.get_texts(), l_lines.get_texts())):
-    text_p.set_color(colors[_i_])
-    text_l.set_color(colors[_i_])
+    l_points = plt.legend(legend_elements_points, legend_labels_points, title=r'\textbf{Measured}', fontsize=13, bbox_to_anchor=(0., 1.02, 0.40, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
 
-plt.gca().add_artist(l_points)
+    l_lines = plt.legend(legend_elements_lines, legend_labels_lines,title=r'\textbf{{$2^{{\text{{nd}} }}$ order Legendre poly. fits}} \newline'
+                  r'$\phantom{{0}} \hspace{{2.6cm}} p_{{0}} \hspace{{{space}cm}} p_{{1}} \hspace{{ {space}cm}} p_{{2}} \hspace{{ {space_}cm}} \frac{{p_{{2}}}}{{p_{{0}}}}$'.format(space=0.85, space_=1), fontsize=13, bbox_to_anchor=(0.45, 1.02, 1.0-0.45, .5), loc=3, mode="expand", borderaxespad=0., frameon=False)
 
-ax = plt.axes()
-ax.set_xticks(np.arange(0, 180 + 30, 30))
-ax.set_xlabel('$\\theta_{nn}$')
-ax.set_ylabel(r'$(n\text{-}n_{\text{corr.}})/(n\text{-}n_{\text{uncorr.}})$')
-ax.set_ylim(0,1.2*_max)
-ax.set_xlim(0, 185)
-ax.set_yticks(np.linspace(0, int(1.2*_max),4))
-ax.grid(linestyle='-')
+    for _i_, (text_p, text_l) in enumerate(zip(l_points.get_texts(), l_lines.get_texts())):
+        text_p.set_color(colors[_i_])
+        text_l.set_color(colors[_i_])
 
-plt.setp(l_lines.get_title(),fontsize=16)
-plt.setp(l_points.get_title(),fontsize=16)
+    plt.gca().add_artist(l_points)
 
-fig = plt.figure(2)
+    ax = plt.axes()
+    ax.set_xticks(np.arange(0, 180 + 30, 30))
+    ax.set_xlabel('$\\theta_{nn}$')
+    ax.set_ylabel(r'$(n\text{-}n_{\text{corr}})/(n\text{-}n_{\text{uncorr}})$')
+    ax.set_ylim(0,1.2*_max)
+    ax.set_xlim(0, 185)
+    ax.set_yticks([0,1,2,3,4])
+    ax.grid(linestyle='-')
 
-DP_data = data_dict['energy']['DP']
-SP_data = data_dict['energy']['SP']
-for index, (spdp, data) in enumerate({"DP":DP_data, "SP":SP_data}.items()):
-    x, y, err = data['x'], data['y'], data['err']
+    plt.setp(l_lines.get_title(),fontsize=16)
+    plt.setp(l_points.get_title(),fontsize=16)
 
-    if spdp == 'DP':
-        y += np.random.randn(len(y))*0.03*np.mean(y)
-        norm = 1.3*(2600)/sum(y)
-        at_most = max(y*norm)
-        print(at_most)
-    else:
-        norm = 0.6*at_most/max(y)
-        print(at_most)
-    y *= norm
-    err = err*norm
+# fig = plt.figure(2)
+#
+# DP_data = data_dict['energy']['DP']
+# SP_data = data_dict['energy']['SP']
+# for index, (spdp, data) in enumerate({"DP":DP_data, "SP":SP_data}.items()):
+#     x, y, err = data['x'], data['y'], data['err']
+#
+#     if spdp == 'DP':
+#         y += np.random.randn(len(y))*0.03*np.mean(y)
+#         norm = 1.3*(2600)/sum(y)
+#         at_most = max(y*norm)
+#         print(at_most)
+#     else:
+#         norm = 0.6*at_most/max(y)
+#         print(at_most)
+#     y *= norm
+#     err = err*norm
+#
+#     label = 'Accidental subtracted' if spdp == 'SP' else 'Raw'
+#
+#     plt.errorbar(x,y,err, label=label, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
 
-    label = 'Accidental subtracted' if spdp == 'SP' else 'Raw'
-
-    plt.errorbar(x,y,err, label=label, marker=markers[index], markersize=6, fmt='o', capsize=3, elinewidth=.6,markeredgewidth=.6, c=colors[index])
-
-plt.ylim(0,max(y)*1.4)
-plt.xlabel('$\overline{E}$')
-plt.ylabel('counts')
-plt.legend()
+# plt.ylim(0,max(y)*1.4)
+# plt.xlabel('$\overline{E}$')
+# plt.ylabel('counts')
+# plt.legend()
+if not combine:
+    mpl.rc("savefig", dpi=400)
+    fig_sub.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FinalResult(separate).png', transparent=True)
 
 plt.show()

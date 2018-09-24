@@ -43,7 +43,7 @@ def transpose(hist):
 histos= []
 theta_abs_bins = []
 for angle in mt.angles:
-    theta_abs_bins.extend([angle-10, angle+10])
+    theta_abs_bins.extend([angle-12, angle+12])
     if angle == 150:
         break
 
@@ -108,7 +108,7 @@ for theta_cut, histSP in zip(theta_cuts, histos):
     histSP.GetZaxis().SetTitle('Y_{corr}/Y_{uncorr}')
     histSP.GetZaxis().SetLabelSize(.06)
 
-    histSP.GetZaxis().SetTitleOffset(1.)
+    histSP.GetZaxis().SetTitleOffset(2)
 
     histSP.GetYaxis().SetTitleOffset(1.5)
     histSP.GetXaxis().SetTitleOffset(1.5)
