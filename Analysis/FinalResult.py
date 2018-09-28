@@ -35,7 +35,7 @@ erg_hist.Project(treeSP, "neutrons.hits.erg")
 erg_bins, _ = mt2.median(erg_hist, n_erg_bins)
 del erg_hist
 
-fig, ax = plt.subplots(int(np.ceil(n_erg_bins/2.)), 2, figsize=(6, 12))
+fig, ax = plt.subplots(int(np.ceil(n_erg_bins/2.)), 2, figsize=(6, 12), sharex=True, sharey=True)
 axs = ax.flatten()
 for ax in axs:
     ax.set_yticks([0, 1, 2, 3, 4, 5])
@@ -88,7 +88,7 @@ for index, (E1, E2) in enumerate(zip(erg_bins[0:-1], erg_bins[1:])):
     histSP -= 0.5*histDP
     histSP /= (0.5*histDP_weighted)
 
-    title = r"${0:.2f}<\overline{{ E_{{n}} }}<{1:.2f}$".format(E1, E2)
+    title = r"${0:.1f}<\overline{{ E_{{n}} }}<{1:.1f}$".format(E1, E2)
     histSP.SetTitle(title)
     histSP_old.SetTitle(title)
     histSP.Draw(make_new_canvas=False)
