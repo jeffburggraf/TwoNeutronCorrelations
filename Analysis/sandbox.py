@@ -1,22 +1,44 @@
+import ROOT
+from TH1Wrapper import TH1F, TH2F
 import numpy as np
+import mytools2 as mt2
+import mytools as mt
 
 
-import TH1Wrapper
 
-hist = TH1Wrapper.TH1F(0,10,100)
+file = ROOT.TFile("test.root","recreate")
 
-f = open('/Users/jeffreyburggraf/FREYA/MyFREYA/2nCorr/G_ergs.txt', 'w')
-n_events_written = 0
+a = np.array([0.0], np.float32)
+tree = ROOT.TTree("tree", "tree")
+tree.Branch("a", a, "a/F")
 
-while n_events_written<800000:
-    n = np.random.exponential(1.85)
-    if 4<n<10.5:
-        if n_events_written:
-            f.write('\n')
-        f.write(str(round(n,3)))
-        n_events_written += 1
 
-f.close()
+for i in np.random.uniform(0,100,10000):
+    a[0] = i
+    tree.Fill()
+
+hist = TH1F(0,100,binwidths=1)
+
+
+
+l = np.linspace(0,100,10)
+cuts = []
+
+for i1,i2 in zip(l[:-1],l[1:]):
+    print(i1,i2)
+    cuts.append("{0}*({1})".format((i1+i2)/2.,mt.cut_rangeAND([i1,i2], "a")))
+
+cut = " + ".join(cuts)
+
+print(cut)
+
+hist.Project(tree, "a", cut = cut, weight=1.0/10000)
+tb = ROOT.TBrowser()
+
+hist.Draw()
+
+
+
 
 
 if __name__ == "__main__":
@@ -57,4 +79,7 @@ if __name__ == "__main__":
                 ___g___()
         except(KeyboardInterrupt, SystemExit):
             ___input_p___.terminate()
+
+
+
 

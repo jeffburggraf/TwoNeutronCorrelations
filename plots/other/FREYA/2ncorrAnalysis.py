@@ -43,8 +43,6 @@ class Pulse:
                 e1 = self.events[0][i]
                 e2 = self.events[1][j]
                 theta = 180/3.1415*mt.vectorAngle(e1.dir, e2.dir)
-                if theta<2:
-                    print(e1.erg, e1.dir), e2.erg, e2.dir
                 self.uncorr_theta.append(theta)
 
 
@@ -56,6 +54,7 @@ def get_line():
     values = map(float, line.split())
     return line
 
+nu_hist = TH1F(0,10,10)
 
 def run(max_events = None):
     pulses = []
@@ -64,6 +63,7 @@ def run(max_events = None):
 
     get_line()
     n = 0
+    nu = 0
     while True:
         if max_events:
             if n>max_events:
@@ -77,21 +77,25 @@ def run(max_events = None):
                 n += len(pulse.uncorr_theta)
                 pulses.append(pulse)
                 pulse = Pulse(values[0])
-
+                nu_hist.Fill(nu)
             else:
                 pulse.new_pulse(values[0])
+            nu = 0
 
         else:
+            nu += 1
             pulse.add_event(values)
 
         if not get_line():
             return pulses
 
 
-pulses = run(40000)
+pulses = run(4000000)
 
-histSP = TH1F(0,180,binwidths=5)
-histDP = TH1F(0,180,binwidths=5)
+histSP = TH1F(0,180,binwidths=7)
+histDP = TH1F(0,180,binwidths=7)
+
+nu_hist.Draw()
 
 for pulse in pulses:
     for theta in pulse.corr_theta:
@@ -105,13 +109,13 @@ histDP.normalize()
 
 histSP.SetMinimum(0)
 
-histSP.Draw('hist')
-histDP.Draw('same hist')
+histSP.Draw('hist E')
+histDP.Draw('same hist E')
 
 
 hist_W = histSP/histDP
 hist_W.SetMinimum(0)
-hist_W.Draw('hist')
+hist_W.Draw('hist E')
 
 
 
