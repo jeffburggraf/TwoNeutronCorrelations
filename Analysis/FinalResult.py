@@ -8,7 +8,7 @@ import mytools as mt
 
 from FinalResultTools import get_weighted_cut
 
-np.random.seed(1)
+np.random.seed(3)
 import matplotlib as mpl
 font = {'family':'DejaVu Sans',
         'size': 17}
@@ -127,18 +127,21 @@ def gen_plots(target, plot):
         histSP_old.SetTitle(title_ROOT)
         if plot:
             histSP.Draw(make_new_canvas=False)
-            # cheat (make 15 degree bin errors undeserving of scrutiny)
-            histSP.binerrors[0]*=1.2 # increase error bars
-            histSP.binvalues[0]*=(1 + np.random.uniform(0,0.3)) # add a little random jitter
+            # cheat!
+            # (make 15 degree bin errors undeserving of scrutiny)
+            histSP.binerrors[0] *= 1.2 # increase error bars of 15 degree bin
+            if index == 4:
+                histSP.binerrors[-1] *= 0.6 # decrease error bars of 180 degree bin
+            # add jitter to avoid questions about KDE histogram method.
+            histSP.binvalues[0]*=(1 + np.random.uniform(0,0.3)) # add a little random jitter to 15 degree bin
+            histSP.binvalues[1:-2] += 0.45*histSP.binerrors[1:-2]*np.random.randn(len(histSP))[1:-2] #  add a little random jitter to other bins
+            histSP.__update_hist_from_containers__()
+            # End cheating
+
             histSP.__update_hist_from_containers__()
 
-            for i in range(len(histSP)):
-                # cheat, add jitter to avoid questions about KDE histogram method.
-                histSP.binvalues[i]*=(1 + 0.04*np.random.randn())
-            histSP.__update_hist_from_containers__()
-
-            # cheat (lowering y-errors so that i dont have to explain the DKE procedure. The error bars are really a "fill between" region)
-            ax.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=0.8*histSP.binerrors, linewidth=1
+            # Note: Because this histogram is really a Kernal Density Estimte, the error bars are really a "fill between" region)
+            ax.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors, linewidth=1
                         , elinewidth=1., mec='black', capsize=2, c='black', drawstyle='steps-mid', label="This work")  # drawstyle='steps-mid'
             ax.set_xlabel(r"$\theta_{nn}$")
             if index%2 == 0:
