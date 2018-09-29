@@ -5,9 +5,9 @@ import mytools2 as mt2
 import mytools as mt
 
 
-def get_weighted_cut(added_cut):
-    treeSP, n_pulsesSP = mt2.NCorrRun('SP', "DU").neutrons_doubles_tree
-    treeDP, n_pulsesDP = mt2.NCorrRun('DP', "DU").neutrons_doubles_tree
+def get_weighted_cut(added_cut, target, added_weight_factor=None, subtract_accidentals=True):
+    treeSP, n_pulsesSP = mt2.NCorrRun('SP', target).neutrons_doubles_tree
+    treeDP, n_pulsesDP = mt2.NCorrRun('DP', target).neutrons_doubles_tree
 
     erg_bins = np.linspace(0, 6, 5)
 
@@ -18,7 +18,8 @@ def get_weighted_cut(added_cut):
     histSP.Project(treeSP, "neutrons.coinc_hits[0].erg[0]:neutrons.coinc_hits[0].erg[1]", weight=1.0 / n_pulsesSP)
     histDP.Project(treeDP, "neutrons.coinc_hits[0].erg[0]:neutrons.coinc_hits[0].erg[1]", weight=1.0 / n_pulsesDP)
 
-    histSP -= histDP * 0.5
+    if subtract_accidentals:
+        histSP -= histDP * 0.5
 
     histSP += histSP.transpose()
     histSP /= 2.
@@ -52,7 +53,7 @@ def get_weighted_cut(added_cut):
             cut = "{0}*({1})".format(weight, cut)
             cuts.append(cut)
 
-    weightedDP_cut = "({1})*({0})".format("+".join(cuts), added_cut)
+    weightedDP_cut = "{2}({1})*({0})".format("+".join(cuts), added_cut, "{0}*".format(added_weight_factor) if added_weight_factor is not None else "")
 
     if __name__ == "main":
         histSP.Draw("lego")

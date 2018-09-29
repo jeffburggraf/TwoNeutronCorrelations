@@ -1,31 +1,43 @@
 import ROOT
-from TH1Wrapper import TH1F, TH2F
 import numpy as np
-import mytools2 as mt2
+from TH1Wrapper import TH1F
 import mytools as mt
+import mytools2 as mt2
 
-binwidth = 5
-# f = ROOT.TFile("/Volumes/JeffMacEx/2nCorrData/Production/Forward/DP_FREYA/DP_FREYA_neutrons_coinc.root ")
-# tree = f.Get("tree")
+hist = TH1F(4,10.5,binwidths = 0.1)
+hist_test = TH1F(4,10.5,binwidths = 0.1)
 
-treeSP, n_pulsesSP = mt2.NCorrRun('SP',"FREYA").neutrons_doubles_tree
-treeDP, n_pulsesDP = mt2.NCorrRun('DP',"FREYA").neutrons_doubles_tree
-
-
-histSP = TH1F(0,180,binwidths = binwidth)
-histDP = TH1F(0,180,binwidths = binwidth)
-drw = "180/3.1415*neutrons.coinc_hits.coinc_theta"
-histSP.Project(treeSP, drw, weight=1.0/n_pulsesSP)
-histDP.Project(treeDP, drw, weight=1.0/n_pulsesDP)
-
-histSP -= 0.5*histDP
-histSP /= (histDP)
-
-histSP.Draw()
+xs = mt.ENDF_crossection("/Users/jeffreyburggraf/FREYA/data_freya/92238(g,f)xs.txt")
 
 
+for i in range(len(hist)):
+    x = hist.bincenters[0][i]
+    hist.binvalues[i] = np.e**(-0.54)*xs.Eval(x)
 
 
+hist.__update_hist_from_containers__()
+
+hist.normalize()
+
+hist.GetXaxis().SetTitle("Energy of fission inducing photon [MeV]")
+hist.GetYaxis().SetTitle("rel. rate [arb. units]")
+
+hist.Draw()
+hist.SetLineWidth(2)
+hist.SetLineColor(ROOT.kBlack)
+
+mt2.thesis_plot([hist], big_font=0.07)
+
+ROOT.gStyle.SetOptStat('m')
+
+path = "/Users/jeffreyburggraf/FREYA/MyFREYA/2nCorr/G_ergs.txt"
+f = open(path, "w")
+
+for i in range(100000):
+    if i:
+        f.write("\n")
+    f.write("{:.2f}".format(hist.GetRandom()))
+f.close()
 
 if __name__ == "__main__":
     import ROOT as ROOT
@@ -65,7 +77,3 @@ if __name__ == "__main__":
                 ___g___()
         except(KeyboardInterrupt, SystemExit):
             ___input_p___.terminate()
-
-
-
-
