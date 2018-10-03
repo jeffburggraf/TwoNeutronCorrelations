@@ -134,7 +134,7 @@ def gen_plots(target, plot):
                 histSP.binerrors[-1] *= 0.6 # decrease error bars of 180 degree bin
             # add jitter to avoid questions about KDE histogram method.
             histSP.binvalues[0]*=(1 + np.random.uniform(0,0.3)) # add a little random jitter to 15 degree bin
-            histSP.binvalues[1:-2] += 0.45*histSP.binerrors[1:-2]*np.random.randn(len(histSP))[1:-2] #  add a little random jitter to other bins
+            histSP.binvalues[1:-2] += 0.45*histSP.binerrors[1:-2]*np.random.randn(len(histSP))[1:-2] # add a little random jitter to other bins
             histSP.__update_hist_from_containers__()
             # End cheating
 

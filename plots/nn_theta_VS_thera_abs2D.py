@@ -17,7 +17,6 @@ import mytools2 as mt2
 import mytools as mt
 import ROOT
 
-# ROOT.TGaxis.SetMaxDigits(2)
 from TH1Wrapper import *
 import mytools2 as mt2
 
@@ -27,18 +26,10 @@ forward = True
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tree
 tree_DP, n_pulses_DP= mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tree
 
-# theta_cuts = np.linspace(24,180, 5)
 theta_cuts = [24,100,150,180]
+# theta_cuts = [24,120,160,180]
 theta_cuts = list(zip(theta_cuts[0:-1],theta_cuts[1:]))
 
-def transpose(hist):
-    _hist = hist.__copy__()
-    hist.transpose()
-    hist += _hist
-    hist.Multiply(0.5)
-    for i in range(len(hist.binvalues)):
-        hist.binvalues[i][i+1:] = 0
-    return hist
 
 histos= []
 theta_abs_bins = []
@@ -62,8 +53,8 @@ for i, thetas in enumerate(theta_cuts):
     print ('SP, {0}: {1} events'.format(thetas, histSP.Project(tree_SP, drw, cut, weight=1.0/n_pulses_SP)))
     print ('DP, {0}: {1} events\n'.format(thetas, histDP.Project(tree_DP, drw, cut, weight=1.0/n_pulses_DP)))
 
-    transpose(histSP)
-    transpose(histDP)
+    histSP = 0.5*(histSP + histSP.transpose())
+    histDP = 0.5*(histDP + histDP.transpose())
 
     histSP -= 0.5*histDP
     histSP /= histDP
@@ -80,6 +71,8 @@ c1.Divide(len(histos))
 cd_i = 1
 _max = 0
 
+pads = []
+
 data = OrderedDict()
 
 for theta_cut, histSP in zip(theta_cuts, histos):
@@ -89,29 +82,17 @@ for theta_cut, histSP in zip(theta_cuts, histos):
     _hist = histSP.__copy__()
     _hist *= 4
 
-    c1.cd(cd_i)
+    pad = c1.cd(cd_i)
+    pads.append(pad)
     cd_i += 1
     ROOT.gPad.SetPhi(-30)
 
     histSP.Draw('Lego', make_new_canvas=False)
-    histSP.SetStats(0)
+    histSP.SetMinimum(0)
 
-    histSP.GetXaxis().SetTitle('#theta 2')
-    histSP.GetXaxis().SetLabelSize(.04)
 
-    histSP.GetYaxis().SetTitle('#theta 1')
-    histSP.GetYaxis().SetLabelSize(.04)
-
-    histSP.GetZaxis().SetTitleSize(.05)
-    histSP.GetZaxis().CenterTitle()
-
-    histSP.GetZaxis().SetTitle('Y_{corr}/Y_{uncorr}')
-    histSP.GetZaxis().SetLabelSize(.06)
-
-    histSP.GetZaxis().SetTitleOffset(2)
-
-    histSP.GetYaxis().SetTitleOffset(1.5)
-    histSP.GetXaxis().SetTitleOffset(1.5)
+    # histSP.GetYaxis().SetNoExponent(ROOT.kTRUE);
+    # histSP.GetXaxis().SetNoExponent(ROOT.kTRUE);
 
     if max(histSP.binvalues.flatten())>_max:
         _max = max(histSP.binvalues.flatten())
@@ -140,8 +121,34 @@ for theta_cut, histSP in zip(theta_cuts, histos):
             lines.append(line)
 
 
-for hist in histos:
+for hist,pad in zip(histos,pads):
     hist.SetMaximum(1.15*_max)
+    hist.GetXaxis().SetTitleOffset(1.5)
+    hist.GetYaxis().SetTitleOffset(1.7)
+
+    hist.GetZaxis().SetTitle('nn_{corr}/nn_{uncorr}')
+    hist.GetZaxis().CenterTitle()
+    hist.GetZaxis().SetLabelSize(.06)
+    hist.GetZaxis().SetTitleSize(.08)
+    hist.GetZaxis().SetTitleOffset(1.1)
+
+    hist.GetXaxis().SetTitle('#theta_{2}')
+    hist.GetXaxis().SetTitleSize(.07)
+    hist.GetXaxis().SetLabelSize(.05)
+    hist.GetXaxis().CenterTitle()
+    hist.GetXaxis().SetTitleOffset(0.75)
+
+    hist.GetYaxis().SetTitle('#theta_{1}')
+    hist.GetYaxis().SetLabelSize(.05)
+    hist.GetYaxis().SetTitleSize(.07)
+    hist.GetYaxis().CenterTitle()
+    hist.GetYaxis().SetTitleOffset(1.3)
+
+    pad.SetLeftMargin(0.2)
+
+    hist.SetStats(0)
+
+    # hist.SetTitleSize(0.2)
 
 if __name__ == "__main__":
     import ROOT as ROOT

@@ -30,23 +30,10 @@ extenuate_90 = False
 range_90 = [78, 105]
 range_zero = [30, 60], [115, 180]
 
-if extenuate_zero and not extenuate_90:
-    n_bins = 12
-    smooth = 0
-    bin_factor = 3
-    case = 1
-    range_zero = [30, 55], [180-55, 180]
-elif not extenuate_zero and extenuate_90:
-    n_bins = 12
-    smooth = 2
-    bin_factor = 3
-    case = 2
-    range_90 = [79, 101]
-else:
-    n_bins = 14
-    smooth = 2.
-    bin_factor = 3
-    case = 0
+n_bins = 12
+smooth = 3
+bin_factor = 4
+case = 0
 
 
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tree
@@ -54,13 +41,10 @@ tree_DP, n_pulses_DP= mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tre
 
 theta_abs_hist = TH1F(0,180,binwidths=0.5)
 theta_abs_hist.Project(tree_DP, '180/3.141*neutrons.coinc_hits.theta_abs')
-theta_abs_hist.Draw('hist')
+theta_abs_hist.Draw('hist E')
 
 
 cut_90 = mt.cut_rangeOR(range_90, 'neutrons.coinc_hits[0].theta_abs[0]*180/3.14', 'neutrons.coinc_hits[0].theta_abs[1]*180/3.14')
-
-
-    # not_cut_90 = '! (' + cut_90 + ')'
 
     # if case == 1:
 __range_zero__ = [range_zero[0][1],range_zero[1][0]]
@@ -88,8 +72,9 @@ histSP_not_90 = TH1F(min_bin, 180, __n_bins__)
 histDP_not_90 = TH1F(min_bin, 180, __n_bins__)
 
 c1 = ROOT.TCanvas()
-# c1.Divide(2)
-# c1.cd(1)
+c1.Divide(1,2)
+pad1 = c1.cd(1)
+
 
 histSP_90.Project(tree_SP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', weight=1.0/n_pulses_SP,cut=cut_90)
 histDP_90.Project(tree_DP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', weight=1.0/n_pulses_DP, cut=cut_90)
@@ -97,35 +82,43 @@ histDP_90.Project(tree_DP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', weig
 histSP_90 -= 0.5*histDP_90
 
 if smooth:
-    histSP_90.MySmooth(smooth)
-    histDP_90.MySmooth(smooth)
+    histSP_90 = histSP_90.MySmooth(smooth, rebin= bin_factor)
+    histDP_90 = histDP_90.MySmooth(smooth, rebin= bin_factor)
 
-histSP_90 = histSP_90.Rebin(bin_factor)
-histDP_90 = histDP_90.Rebin(bin_factor)
+# histSP_90 = histSP_90.Rebin(bin_factor)
+# histDP_90 = histDP_90.Rebin(bin_factor)
 
 histSP_90 /= (0.5*histDP_90)
-histSP_90.SetMarkerStyle(33)
-histSP_90.SetMarkerSize(1.5)
+# histSP_90.SetMarkerStyle(33)
+# histSP_90.SetMarkerSize(1.5)
 
 
 histSP_90.Draw('hist E', make_new_canvas=0)
 histSP_90.GetXaxis().SetTitle('#theta_{nn}')
 
 histSP_90.GetYaxis().SetTitle('(nn_{corr})/(nn_{uncorr})')
+histSP_90.GetXaxis().SetTitle('#theta_{nn}')
+
 
 var = '#theta_{abs}_{1,2}'
 title_90 = (['#theta_{{abs}}_{{1}} *or* #theta_{{abs}}_{{2}} #in {rng}'.format(rng=range_90)]*2 + [''])[case]
 # histSP_90.SetTitle(title_90)
-histSP_90.SetLineStyle(7)
-histSP_90.SetLineWidth(3)
+# histSP_90.SetLineStyle(7)
+histSP_90.SetLineWidth(4)
 mt2.thesis_plot([histSP_90], big_font=0.06)
-histSP_90.GetXaxis().SetNdivisions(6,5,0,0);
-
-c1.Modified()
-c1.Update()
+pad1.SetGrid();
 histSP_90.SetStats(0)
 
-# c1.cd(2)
+histSP_90.GetXaxis().SetNdivisions(6,5,0,0);
+
+# c1.Modified()
+# c1.Update()
+pad2 = c1.cd(2)
+pad2.SetTopMargin(0.1)
+pad2.SetGrid();
+
+histSP_90.SetStats(0)
+
 
 histSP_not_90.Project(tree_SP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', weight=1.0/n_pulses_SP,cut=not_cut_90)
 histDP_not_90.Project(tree_DP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', weight=1.0/n_pulses_DP, cut=not_cut_90)
@@ -133,23 +126,25 @@ histDP_not_90.Project(tree_DP, '180/3.1415*neutrons.coinc_hits[0].coinc_theta', 
 histSP_not_90 -= 0.5*histDP_not_90
 
 if smooth:
-    histSP_not_90.MySmooth(smooth)
-    histDP_not_90.MySmooth(smooth)
+    histSP_not_90 = histSP_not_90.MySmooth(smooth, rebin=bin_factor)
+    histDP_not_90 = histDP_not_90.MySmooth(smooth, rebin=bin_factor)
 
-histSP_not_90 = histSP_not_90.Rebin(bin_factor)
-histDP_not_90 = histDP_not_90.Rebin(bin_factor)
-
+# histSP_not_90 = histSP_not_90.Rebin(bin_factor)
+# histDP_not_90 = histDP_not_90.Rebin(bin_factor)
+#
 histSP_not_90 /= (0.5*histDP_not_90)
+
 
 _max = max(np.concatenate([histSP_not_90.binvalues, histSP_90.binvalues]))
 
-histSP_not_90.Draw('hist E same',make_new_canvas=0)
+histSP_not_90.Draw('hist E',make_new_canvas=0)
 histSP_not_90.GetXaxis().SetTitle('#theta_{nn}')
 histSP_not_90.GetYaxis().SetTitle('(nn_{corr})/(nn_{uncorr})')
-mt2.thesis_plot([histSP_not_90], big_font=0.05)
+mt2.thesis_plot([histSP_not_90], big_font=0.06)
 histSP_not_90.GetXaxis().SetNdivisions(6,5,0,0);
-histSP_not_90.SetMarkerStyle(27)
-histSP_not_90.SetLineWidth(3)
+# histSP_not_90.SetMarkerStyle(27)
+histSP_not_90.SetLineWidth(4)
+histSP_90.SetStats(0)
 histSP_not_90.SetMarkerSize(1.5)
 
 
@@ -164,10 +159,19 @@ histSP_not_90.SetMaximum(round(1.5*_max, 1))
 histSP_90.SetMaximum(round(1.4*_max, 1))
 
 leg = ROOT.TLegend(0.2,0.75,0.88,0.95)
-leg.AddEntry(histSP_90,     '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for at least one neutron'.format(*range_90), 'lpf')
-leg.AddEntry(histSP_not_90, '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for neither neutrons'.format(*range_90), 'lpf')
 
-leg.Draw()
+
+histSP_not_90.SetTitle('{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for neither neutrons'.format(*range_90))
+histSP_90.SetTitle('{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for at least one neutron'.format(*range_90))
+# histSP_90.SetTitleSize(1)
+# histSP_not_90.SetTitleSize(1)
+# histSP_not_90.SetTitleOffset(0)
+# histSP_not_90.SetTitleSize(0.1, "fuck you root")
+# leg.AddEntry(histSP_90,     '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for at least one neutron'.format(*range_90), 'lpf')
+# leg.AddEntry(histSP_not_90, '{0}^{{#circ}}<#theta_{{abs}}<{1}^{{#circ}} for neither neutrons'.format(*range_90), 'lpf')
+
+# leg.Draw()
+
 
 c1.Modified()
 c1.Update()
