@@ -25,6 +25,7 @@ n_erg_bins = 5
 smooth = True
 # target = "FREYA"
 target = "DU"
+plot_FREYA = True
 # ===================
 
 fig = None
@@ -194,16 +195,15 @@ def gen_plots(target, plot):
 DU_histos, axs  = gen_plots("DU", 1)
 Freya_histos, _ = gen_plots("FREYA", 0)
 
-for i, (histDU, histF,ax) in enumerate(zip(DU_histos, Freya_histos, axs)):
-    if i == len(DU_histos) - 1:
-        # cheat. Not normalizing the highest energy plot. looks better.
-        ax.plot(histF.bincenters[0], histF.binvalues, label="FREYA", linestyle ='--')
-    else:
+if plot_FREYA:
+    for i, (histDU, histF,ax) in enumerate(zip(DU_histos, Freya_histos, axs)):
         ax.plot(histF.bincenters[0], histF.binvalues * sum(histDU.binvalues)/sum(histF.binvalues), label="FREYA", linestyle ='--')
 
-axs[-2].legend(bbox_to_anchor=(0.875, 0.35),bbox_transform=plt.gcf().transFigure)
+    axs[-2].legend(bbox_to_anchor=(0.875, 0.35),bbox_transform=plt.gcf().transFigure)
 
-plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/FinalResult_w_FREYA.png")
+
+plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/{}.png".format(
+    "FinalResult" if not plot_FREYA else "FinalResult_w_FREYA"))
 plt.legend()
 plt.show()
 

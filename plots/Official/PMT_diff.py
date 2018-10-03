@@ -46,7 +46,7 @@ for p in positions:
 
     all_entries.extend(entries)
 
-    errx.append(sigma_t)
+    errx.append(sigma_t/np.sqrt(300))
 
 pos = np.array(pos, dtype=np.float64)
 delta_t_mean = np.array(delta_t_mean, dtype=np.float64)
