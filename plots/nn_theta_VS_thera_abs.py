@@ -72,7 +72,7 @@ histSP_not_90 = TH1F(min_bin, 180, __n_bins__)
 histDP_not_90 = TH1F(min_bin, 180, __n_bins__)
 
 c1 = ROOT.TCanvas()
-c1.Divide(1,2)
+c1.Divide(2)
 pad1 = c1.cd(1)
 
 

@@ -26,8 +26,8 @@ forward = True
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tree
 tree_DP, n_pulses_DP= mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tree
 
-theta_cuts = [24,100,150,180]
-# theta_cuts = [24,120,160,180]
+# theta_cuts = [24,100,150,180]
+theta_cuts = [24,120,160,180]
 theta_cuts = list(zip(theta_cuts[0:-1],theta_cuts[1:]))
 
 
@@ -120,35 +120,49 @@ for theta_cut, histSP in zip(theta_cuts, histos):
             line.Draw('same')
             lines.append(line)
 
+axis_label_size = 0.09
 
 for hist,pad in zip(histos,pads):
-    hist.SetMaximum(1.15*_max)
-    hist.GetXaxis().SetTitleOffset(1.5)
-    hist.GetYaxis().SetTitleOffset(1.7)
+    hist.GetXaxis().SetNdivisions(4, 5, 0, 0);
+    hist.GetYaxis().SetNdivisions(4, 5, 0, 0);
+
+    pad.cd()
+    hist.SetMaximum(1.05*_max)
+    ROOT.gStyle.SetTitleFontSize(0.1)
+
 
     hist.GetZaxis().SetTitle('nn_{corr}/nn_{uncorr}')
     hist.GetZaxis().CenterTitle()
-    hist.GetZaxis().SetLabelSize(.06)
+    hist.GetZaxis().SetLabelSize(axis_label_size)
     hist.GetZaxis().SetTitleSize(.08)
-    hist.GetZaxis().SetTitleOffset(1.1)
+    hist.GetZaxis().SetTitleOffset(1.35)
 
-    hist.GetXaxis().SetTitle('#theta_{2}')
-    hist.GetXaxis().SetTitleSize(.07)
-    hist.GetXaxis().SetLabelSize(.05)
+    hist.GetXaxis().SetTitle('#theta1_{abs}')
+    hist.GetXaxis().SetTitleSize(.1)
+    hist.GetXaxis().SetTitleOffset(1.)
     hist.GetXaxis().CenterTitle()
-    hist.GetXaxis().SetTitleOffset(0.75)
 
-    hist.GetYaxis().SetTitle('#theta_{1}')
-    hist.GetYaxis().SetLabelSize(.05)
-    hist.GetYaxis().SetTitleSize(.07)
+    hist.GetXaxis().SetLabelOffset(.035)
+    hist.GetXaxis().SetLabelSize(axis_label_size)
+
+    hist.GetYaxis().SetTitle('')
+    hist.GetYaxis().SetTitleSize(.1)
+    hist.GetYaxis().SetTitleOffset(1.1)
     hist.GetYaxis().CenterTitle()
-    hist.GetYaxis().SetTitleOffset(1.3)
+
+    hist.GetYaxis().SetLabelSize(axis_label_size)
 
     pad.SetLeftMargin(0.2)
+    pad.SetRightMargin(0.16)
+    pad.SetBottomMargin(0.2)
 
     hist.SetStats(0)
 
     # hist.SetTitleSize(0.2)
+
+hist = TH1F(0,1,10)
+hist.GetXaxis().SetTitle('#theta2_{abs}')
+hist.Draw()
 
 if __name__ == "__main__":
     import ROOT as ROOT
