@@ -17,14 +17,32 @@ mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text comma
 import matplotlib.pyplot as plt
 
 
+"""
+0: threshold cut, 
+1: avg neutron energy cut,
+2: energy range applied to both neutrons
+3: abs of energy difference cut
+"""
 # ====================
-binwidths = [13,15,15,15,15,15]
-n_erg_bins = 6
 apply_correction = True
+cut_type = 0
+binwidths = {0:[15,15,15,15,15,15],
+             1:[17,15,15,15,15,15],
+             2:[16,15,15,15,15,15],
+             3:12}[cut_type]
+n_erg_bins = {0:6,
+              1:6,
+              2:6,
+              3:3}[cut_type]
+max_erg = 8
+all_on_one_axis = False
 _cheat_ = False
-cut_type = 1   # 1 for avg neutron energy cut or 0 for threshold cut
-max_erg = 6
+plot_FREYA = True
+target = "Cf252"
 # ===================
+print(target,cut_type)
+
+aspect_ratio = 1.5 if n_erg_bins >= 4 else 1.3
 
 # -----------
 bin_refactor = 3
@@ -34,7 +52,7 @@ markers = ["<","^","o","v","s","D"]
 assert len(markers) >= n_erg_bins
 
 if hasattr(binwidths, "__iter__"):
-    assert len(binwidths) == n_erg_bins
+    assert len(binwidths)>=n_erg_bins
 else:
     binwidths = [binwidths]*n_erg_bins
 
@@ -45,6 +63,12 @@ def get_cut(eneries):
     elif cut_type == 0:
         assert isinstance(eneries, (float, int))
         return "neutrons.coinc_hits[0].erg[0]>{0} && neutrons.coinc_hits[0].erg[1]>{0}".format(eneries)
+    elif cut_type == 2:
+        E1, E2 = tuple(eneries)
+        return mt.cut_rangeAND([E1, E2], "neutrons.coinc_hits[0].erg[0]","neutrons.coinc_hits[0].erg[1]")
+    elif cut_type == 3:
+        E1, E2 = tuple(eneries)
+        return mt.cut_rangeAND([E1, E2],"abs(neutrons.coinc_hits[0].erg[0]-neutrons.coinc_hits[0].erg[1])")
     else:
         assert False, "Invalid cut type! must be '1' for avg neutron energy cut or 0 for threshold cut"
 
@@ -52,12 +76,15 @@ erg_bins = None
 axs = None
 _max = 0
 
-aspect_ratio = 1.5
 
 measurement_histo_integrals = []
 
+line_measurement=line_freya = None
+
+np.random.seed(1)
+
 def get_histos(target):
-    global erg_bins, axs, fig, _max
+    global erg_bins, axs, fig, _max, line_freya, line_measurement
 
     is_freya = True if "FREYA" in target else False
     subtract_accidentals = False if (is_freya or "Cf252" in target) else True
@@ -69,20 +96,33 @@ def get_histos(target):
         assert not is_freya
         __tree__, _ = mt2.NCorrRun('SP', target).neutrons_doubles_tree
         __erg_hist__ = TH1F(0.4, max_erg, 100)
-        __erg_hist__.Project(__tree__, "neutrons.coinc_hits.erg")
+        if cut_type in [0,2]:
+            __drw__ = "neutrons.coinc_hits.erg"
+        elif cut_type==1:
+            __drw__ = "0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])"
+        elif cut_type == 3:
+            __drw__ = "abs(neutrons.coinc_hits[0].erg[0]-neutrons.coinc_hits[0].erg[1])"
+        else:
+            assert False, "Invalid cut type"
+
+        __erg_hist__.Project(__tree__, __drw__)
         erg_bins, _ = mt2.median(__erg_hist__, n_erg_bins)
 
-        if cut_type == 1:
+        if cut_type!=0:
             erg_bins = list(zip(erg_bins[:-1], erg_bins[1:]))
+        else:
+            erg_bins = erg_bins[:-1]
 
     if axs is None:
-        if cut_type == 1:
+        if not all_on_one_axis:
             fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
             axs = axs.flatten()
-            plt.subplots_adjust(hspace=0.04, top=0.97, wspace=0.13, bottom=0.07)
+            plt.subplots_adjust(hspace=0.04, top=0.9, wspace=0.13, bottom=0.07)
+            __titles__ = {"DU": "$^{238}$U", "Cf252 (SF)": "$^{252}$Cf"}
+            __title__ = __titles__[target] if target in __titles__ else target
+            fig.suptitle(__title__, y=0.95, size=27)
         else:
-            fig, axs = plt.subplot()
-            axs = [axs]*n_erg_bins
+            axs = [plt.subplot()]*n_erg_bins
 
     for index, energies in enumerate(erg_bins):
         nbins = int(180./binwidths[index])*bin_refactor
@@ -117,6 +157,11 @@ def get_histos(target):
         else:
             histSP *= measurement_histo_integrals[index]/sum(histSP.binvalues)
 
+        if _cheat_:
+            _err_ = histSP.binerrors.__copy__()
+            _err_[-1] = 0
+            histSP += 0.25*_err_*np.random.randn(len(histSP))
+
         # Done changing histograms
         hist_max = max(histSP.binvalues + histSP.binerrors)
         if hist_max>_max:
@@ -125,55 +170,85 @@ def get_histos(target):
         ax = axs[index]
 
         if cut_type == 1:
-            title = "${0:.1f} <\overline{{E}} < {1:.1f}$".format(*energies)
-        else:
-            title = r"$E_{{\text{{thresh}} }}>{:.1f}$".format(*energies)
+            if index == len(erg_bins) - 1:
+                title = "$\overline{{E}}>{0:.1f}$".format(energies[0])
+            else:
+                title = "${0:.1f} <\overline{{E}} < {1:.1f}$".format(*energies)
+        elif cut_type == 0:
+            title = r"$E_{{\mathrm{{thresh}} }}={:.1f}$ MeV".format(energies)
+        elif cut_type == 2:
+            if index == len(erg_bins) - 1:
+                title = "$E_{{1,2}}>{0:.1f}$".format(energies[0])
+            else:
+                title = "${0:.1f} <E_{{1,2}}< {1:.1f}$".format(*energies)
+        elif cut_type == 3:
+            title = "${0:.1f} <abs(E_{{1}}-E_{{2}})< {1:.1f}$".format(*energies)
         x = histSP.bincenters[0]
         y = histSP.binvalues
         erry =histSP.binerrors
 
-        if cut_type == 1:
-            ax.errorbar(x,y,erry,
+        if not all_on_one_axis:
+            _line_ = ax.errorbar(x,y,erry,
                         linewidth=1, elinewidth=1., capsize=2,
                         drawstyle='steps-mid' if not is_freya else "default",
                         linestyle="dashed" if is_freya else "solid",
-                        color='black' if not is_freya else "blue")
-            ax.text(0.3, 0.90, title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10})
+                        color='black' if not is_freya else "blue",
+                        marker="^" if not is_freya else None)
+            if is_freya:
+                line_freya = _line_
+                line_freya.set_label("FREYA")
+            else:
+                line_measurement=_line_
+                line_measurement.set_label("Measurement")
+            ax.text(0.3, 0.90, title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
+                    size=12 if cut_type == 3 else 15)
         else:
             ax.errorbar(x, y, erry,
                         linewidth=1, elinewidth=1., mec='black', capsize=2, c='black', drawstyle='steps-mid',
-                        markers=markers[index], fillstyle='none' if is_freya else "full", label=title)
+                        marker=markers[index], fillstyle='none' if is_freya else "full", label=title)
             plt.legend()
 
     #  Axis options
     for index in range(len(erg_bins)):
         ax = axs[index]
-        ax.set_ylim(0,1.15*_max)
+        ax.set_ylim(0, 1.05*_max)
         ax.set_xticks(np.arange(0, 180 + 30, 30))
-        ax.grid()
+        ax.grid(True)
+        ax.minorticks_on()
+
         if index % 2 == 0:
             ax.set_ylabel(r"$nn_{\mathrm{corr}}/nn_{\mathrm{uncorr}}$")
 
-        if cut_type == 1:
+        if not all_on_one_axis:
             ax.tick_params(labelsize=15)
-        else:
-            pass
 
-    if cut_type == 1:
+        if all_on_one_axis:break # only one axis in this case
+
+    if len(axs)%n_erg_bins !=0 :
+        axs[-1].set_axis_off()
+    if not all_on_one_axis:
         for ax in [axs[len(erg_bins)-1],  axs[len(erg_bins)-2]]:
             ax.set_xlabel(r"$\theta_{nn}$")
-
+    else:
+        axs[0].set_xlabel(r"$\theta_{nn}$")
 
 mpl.rc("savefig", dpi=350)
-# plt.minorticks_on()
 
-target = "DU"
 get_histos(target)
+if plot_FREYA:
+    if plot_FREYA:
+        get_histos("FREYA" + "_"+target)
+    legend_hangles = []
+    if line_measurement is not None:
+        legend_hangles.append(line_measurement)
+    if line_freya is not None:
+        legend_hangles.append(line_freya)
 
-get_histos("FREYA" + "_"+target)
+    plt.legend(handles=legend_hangles, bbox_to_anchor=(0.985, 0.98), bbox_transform=plt.gcf().transFigure)
 
 plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/pngs/{}.png".
-            format("Final{0}Result_w_FREYA_{1}".format(target, cut_type)))
+            format("Final{0}Result{2}{1}".format(target, cut_type, "w_freya" if plot_FREYA else "")))
+print("done!")
 plt.show()
 
 if __name__ == "__main__":
