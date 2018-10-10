@@ -1,0 +1,216 @@
+import sys
+sys.path.append('/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis')
+import ROOT
+from TH1Wrapper import TH1F
+import numpy as np
+import mytools2 as mt2
+import mytools as mt
+import matplotlib as mpl
+mpl.use('TkAgg')
+
+font = {'family':'DejaVu Sans',
+        'size': 17}
+mpl.rc('font', **font)
+# mpl.rc('text', usetex=True)
+mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
+
+import matplotlib.pyplot as plt
+
+
+# ====================
+binwidths = [13,15,15,15,15,15]
+n_erg_bins = 6
+apply_correction = True
+_cheat_ = False
+cut_type = 1   # 1 for avg neutron energy cut or 0 for threshold cut
+max_erg = 6
+# ===================
+
+# -----------
+bin_refactor = 3
+# -----------
+
+markers = ["<","^","o","v","s","D"]
+assert len(markers) >= n_erg_bins
+
+if hasattr(binwidths, "__iter__"):
+    assert len(binwidths) == n_erg_bins
+else:
+    binwidths = [binwidths]*n_erg_bins
+
+def get_cut(eneries):
+    if cut_type == 1:
+        E1, E2 = tuple(eneries)
+        return mt.cut_rangeAND([E1,E2],"0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])")
+    elif cut_type == 0:
+        assert isinstance(eneries, (float, int))
+        return "neutrons.coinc_hits[0].erg[0]>{0} && neutrons.coinc_hits[0].erg[1]>{0}".format(eneries)
+    else:
+        assert False, "Invalid cut type! must be '1' for avg neutron energy cut or 0 for threshold cut"
+
+erg_bins = None
+axs = None
+_max = 0
+
+aspect_ratio = 1.5
+
+measurement_histo_integrals = []
+
+def get_histos(target):
+    global erg_bins, axs, fig, _max
+
+    is_freya = True if "FREYA" in target else False
+    subtract_accidentals = False if (is_freya or "Cf252" in target) else True
+
+    treeSP, n_pulsesSP = mt2.NCorrRun('SP', target).neutrons_doubles_tree
+    treeDP, n_pulsesDP = mt2.NCorrRun('DP', target).neutrons_doubles_tree
+
+    if erg_bins is None:
+        assert not is_freya
+        __tree__, _ = mt2.NCorrRun('SP', target).neutrons_doubles_tree
+        __erg_hist__ = TH1F(0.4, max_erg, 100)
+        __erg_hist__.Project(__tree__, "neutrons.coinc_hits.erg")
+        erg_bins, _ = mt2.median(__erg_hist__, n_erg_bins)
+
+        if cut_type == 1:
+            erg_bins = list(zip(erg_bins[:-1], erg_bins[1:]))
+
+    if axs is None:
+        if cut_type == 1:
+            fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
+            axs = axs.flatten()
+            plt.subplots_adjust(hspace=0.04, top=0.97, wspace=0.13, bottom=0.07)
+        else:
+            fig, axs = plt.subplot()
+            axs = [axs]*n_erg_bins
+
+    for index, energies in enumerate(erg_bins):
+        nbins = int(180./binwidths[index])*bin_refactor
+        cut_SP = get_cut(energies)
+
+        if apply_correction:
+            cut_DP = "(DP_weight)*{cut}".format(cut=cut_SP)
+        else:
+            cut_DP = cut_SP
+
+        histSP = TH1F(0,180,nbinss=nbins)
+        histDP = TH1F(0,180,nbinss=nbins)
+        __histDP__ = TH1F(0,180,nbinss=nbins)
+
+        histSP.Project(treeSP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_SP, weight=1.0/n_pulsesSP)
+        histDP.Project(treeDP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_DP, weight=1.0/n_pulsesDP)
+        __histDP__.Project(treeDP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_SP, weight=1.0/n_pulsesDP)
+
+        histDP *= sum(__histDP__.binvalues)/sum(histDP.binvalues)
+
+        histSP = histSP.MySmooth(bin_refactor, bin_refactor)
+        histDP = histDP.MySmooth(bin_refactor, bin_refactor)
+        # __histDP__ = __histDP__.MySmooth(3, 3)
+
+        if subtract_accidentals:
+            histSP -= 0.5*(histDP)
+
+        histSP /= (0.5*histDP)
+
+        if not is_freya:
+            measurement_histo_integrals.append(sum(histSP.binvalues))
+        else:
+            histSP *= measurement_histo_integrals[index]/sum(histSP.binvalues)
+
+        # Done changing histograms
+        hist_max = max(histSP.binvalues + histSP.binerrors)
+        if hist_max>_max:
+            _max = hist_max
+
+        ax = axs[index]
+
+        if cut_type == 1:
+            title = "${0:.1f} <\overline{{E}} < {1:.1f}$".format(*energies)
+        else:
+            title = r"$E_{{\text{{thresh}} }}>{:.1f}$".format(*energies)
+        x = histSP.bincenters[0]
+        y = histSP.binvalues
+        erry =histSP.binerrors
+
+        if cut_type == 1:
+            ax.errorbar(x,y,erry,
+                        linewidth=1, elinewidth=1., capsize=2,
+                        drawstyle='steps-mid' if not is_freya else "default",
+                        linestyle="dashed" if is_freya else "solid",
+                        color='black' if not is_freya else "blue")
+            ax.text(0.3, 0.90, title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10})
+        else:
+            ax.errorbar(x, y, erry,
+                        linewidth=1, elinewidth=1., mec='black', capsize=2, c='black', drawstyle='steps-mid',
+                        markers=markers[index], fillstyle='none' if is_freya else "full", label=title)
+            plt.legend()
+
+    #  Axis options
+    for index in range(len(erg_bins)):
+        ax = axs[index]
+        ax.set_ylim(0,1.15*_max)
+        ax.set_xticks(np.arange(0, 180 + 30, 30))
+        ax.grid()
+        if index % 2 == 0:
+            ax.set_ylabel(r"$nn_{\mathrm{corr}}/nn_{\mathrm{uncorr}}$")
+
+        if cut_type == 1:
+            ax.tick_params(labelsize=15)
+        else:
+            pass
+
+    if cut_type == 1:
+        for ax in [axs[len(erg_bins)-1],  axs[len(erg_bins)-2]]:
+            ax.set_xlabel(r"$\theta_{nn}$")
+
+
+mpl.rc("savefig", dpi=350)
+# plt.minorticks_on()
+
+target = "DU"
+get_histos(target)
+
+get_histos("FREYA" + "_"+target)
+
+plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/pngs/{}.png".
+            format("Final{0}Result_w_FREYA_{1}".format(target, cut_type)))
+plt.show()
+
+if __name__ == "__main__":
+    import ROOT as ROOT
+    from multiprocessing import Process, Queue
+    import time, sys, os
+
+
+    def input_thread(q, stdin):
+        while True:
+            print ('ROOT: ')
+            cmd = stdin.readline()
+            q.put(cmd)
+
+
+    def root(char):
+        assert isinstance(char, str), "Argument must be string!"
+        ROOT.gROOT.ProcessLine(char)
+
+
+    if __name__ == '__main__':
+        ___queue___ = Queue()
+        ___newstdin___ = os.fdopen(os.dup(sys.stdin.fileno()))
+        ___input_p___ = Process(target=input_thread,
+                                args=(___queue___, ___newstdin___))
+        ___input_p___.daemon = True
+        ___input_p___.start()
+        ___g___ = ROOT.gSystem.ProcessEvents
+        try:
+            while 1:
+                if not ___queue___.empty():
+                    ___cmd___ = ___queue___.get()
+                    try:
+                        exec (___cmd___, globals())
+                    except:
+                        print (sys.exc_info())
+                time.sleep(0.01)
+                ___g___()
+        except(KeyboardInterrupt, SystemExit):
+            ___input_p___.terminate()

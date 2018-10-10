@@ -4,27 +4,41 @@ import numpy as np
 import mytools2 as mt2
 import mytools as mt
 
-binwidth = 5
+binwidth = 12
 # f = ROOT.TFile("/Volumes/JeffMacEx/2nCorrData/Production/Forward/DP_FREYA/DP_FREYA_neutrons_coinc.root ")
 # tree = f.Get("tree")
 
-treeSP, n_pulsesSP = mt2.NCorrRun('SP',"FREYA").neutrons_doubles_tree
-treeDP, n_pulsesDP = mt2.NCorrRun('DP',"FREYA").neutrons_doubles_tree
+treeSP, n_pulsesSP = mt2.NCorrRun('SP',"DU").neutrons_doubles_tree
+treeDP, n_pulsesDP = mt2.NCorrRun('DP',"DU").neutrons_doubles_tree
+
+
+# def fuckyou():
+#     global f1
+#     f1 = ROOT.TFile("/Volumes/JeffMacEx/2nCorrData/Production/Forward/DP_DU/DP_weights.root")
+#     weight_tree = f1.Get("tree")
+#     print(weight_tree)
+# # f1.Close()
+#     return weight_tree
+#
+# weight_tree = fuckyou()
+# print(weight_tree)
+# # treeDP.AddFriend(weight_tree)
 
 
 histSP = TH1F(0,180,binwidths = binwidth)
 histDP = TH1F(0,180,binwidths = binwidth)
 drw = "180/3.1415*neutrons.coinc_hits.coinc_theta"
 histSP.Project(treeSP, drw, weight=1.0/n_pulsesSP)
-histDP.Project(treeDP, drw, weight=1.0/n_pulsesDP)
+histDP.Project(treeDP, drw, cut="(1)", weight=1.0/n_pulsesDP)
+
 
 histSP -= 0.5*histDP
 histSP /= (histDP)
 
 histSP.Draw()
-
-
-
+#
+#
+#
 
 
 if __name__ == "__main__":

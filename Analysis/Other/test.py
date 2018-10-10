@@ -1,43 +1,30 @@
 import ROOT
-import numpy as np
-from TH1Wrapper import TH1F
-import mytools as mt
+import os
+from TH1Wrapper import TH2F, TH1F
+import re
 import mytools2 as mt2
+import time
+import numpy as np
 
-hist = TH1F(4,10.5,binwidths = 0.1)
-hist_test = TH1F(4,10.5,binwidths = 0.1)
+treeDP, _ = mt2.NCorrRun("DP","DU").neutrons_doubles_tree
 
-xs = mt.ENDF_crossection("/Users/jeffreyburggraf/FREYA/data_freya/92238(g,f)xs.txt")
+f1 = ROOT.TFile("/Volumes/JeffMacEx/2nCorrData/Production/Forward/DP_DU/DP_weights.root")
+weight_tree = f1.Get("tree")
 
+# treeDP.AddFriend(weight_tree)
 
-for i in range(len(hist)):
-    x = hist.bincenters[0][i]
-    hist.binvalues[i] = np.e**(-0.54)*xs.Eval(x)
+hist1 = TH1F(0,10,50)
+hist2 = TH1F(0,10,50)
 
+hist1.Project(treeDP, "neutrons.coinc_hits[].erg[]","DP_weight")
+hist2.Project(treeDP, "neutrons.coinc_hits[].erg[]","")
 
-hist.__update_hist_from_containers__()
+hist1.Draw("hist E")
+hist2.Draw("same hist E" )
+hist2.SetLineColor(ROOT.kRed)
 
-hist.normalize()
-
-hist.GetXaxis().SetTitle("Energy of fission inducing photon [MeV]")
-hist.GetYaxis().SetTitle("rel. rate [arb. units]")
-
-hist.Draw()
-hist.SetLineWidth(2)
-hist.SetLineColor(ROOT.kBlack)
-
-mt2.thesis_plot([hist], big_font=0.07)
-
-ROOT.gStyle.SetOptStat('m')
-
-path = "/Users/jeffreyburggraf/FREYA/MyFREYA/2nCorr/G_ergs.txt"
-f = open(path, "w")
-
-for i in range(100000):
-    if i:
-        f.write("\n")
-    f.write("{:.2f}".format(hist.GetRandom()))
-f.close()
+print(sum(hist2.binvalues))
+print(sum(hist1.binvalues))
 
 if __name__ == "__main__":
     import ROOT as ROOT
@@ -77,3 +64,5 @@ if __name__ == "__main__":
                 ___g___()
         except(KeyboardInterrupt, SystemExit):
             ___input_p___.terminate()
+
+
