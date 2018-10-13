@@ -1,172 +1,141 @@
 \section{Experimental Methods}
-\subsection{Photon Beam}
-% ToDo: Think about if/where to include the calculation of the ratio of knockout neutrons to fission neutrons. Have only done calculation for Thorium.
-A bremsstrahlung photon beam is produced passing 10.5 MeV electrons through a 1" thick slab of aluminum.
-Aluminum was chosen as the radiator because it has a neutron knockout threshold above the energy of the electron beam.
-This ensured that the bremsstrahlung radiator would not be a source of fast neutrons which would have the potential to make their way into the experimental cell and cause false neutron events.
-Downstream from the bremsstrahlung radiator, a sweeping magnet removes excess electrons from the photon beam (see Figure~\ref{fig:Facility}).
-After the sweeping magnet, the beam travels through a series of polyethylene and lead collimators.
-Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photons.
+\subsection{Particle Time of Flight Determination}
+\label{ToF_reconstruction}
+The ToF of detected particles is used to distinguish between neutrons and photons, and to determine neutron energy.
+A particle's reconstructed position is used to determine direction of motion, which is then used to calculate the opening angle between pairs of detected particles.
+Data from all PMTs is read out each pulse, and if multiple signals are received from a given PMT, only the first is accepted because subsequent signals have a restricted timing window due to dead-time.
+Position and ToF are each determined using the timing of coincident signals from both PMTs of a detector.
 
+The sum of the times required for scintillation light to travel from the point of scintillation to both PMTs is equal to the time required for the light to travel the full length of the scintillator, which is a constant.
+This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, taken using a collimated $^{60}$Co source to generate photon events at several different locations along the scintillator, all with equal ToF.
+In Fig.~\ref{fig:ConstPMTAvg}(a), it can be seen that the time required for the scintillation light to propagate through the scintillator effects the timing of each PMT individually, however, the average of the times of both PMTs is a constant, unaffected by the location at which the particle undergoes scintillation.
+The requirement that there be coincident events in two PMTs also reduces noise.
+With an effective index of refraction of 2.0, light takes 5 ns to travel the scintillator's full length.
+For this reason, taking the average of signals from two PMTs is advantageous because it removes a roughly 5 ns timing error that would otherwise exist due to the time required for scintillation light to propagate through the scintillator.
 \begin{figure}[h]
-\includegraphics[width=0.9\textwidth]{Content/Methods/MCNPBremDistribution.png}
-\caption{MCNP simulation of the energy distribution of the photons that reach the target.
-The points are from the simulation.
-The line is an exponential fit of the form $Ae^{-bx}$.}
-\label{fig:BremDist}
+\centering
+\hbox{\hspace{3.25em}\subfloat[]{\includegraphics[width=0.6\textwidth]{Content/Methods/ConstPMTAvg.png}}}
+
+\subfloat[]{\includegraphics[width=0.6\textwidth]{Content/Methods/ConstPMTAvgProject.png}}
+\caption{(a) A collimated $^{60}$Co source is used to produce photon events with constant ToF at seven locations along the detector.
+The average between the signals from both PMTs is virtually constant, thus the use of two PMTs removes timing error due to the time required for scintillation light to travel through the scintillator.
+Error bars are uncertainty in the mean of each data point.
+(b) The uncertainty in ToF measurements is equal to the standard deviation of this histogram ($\pm$2 ns), since coincident photons from $^{60}$Co are emitted at the same time.}
+\label{fig:ConstPMTAvg}
 \end{figure}
 
-The reason for choosing a bremsstrahlung end-point of 10.5, is that when attempting a measurement of prompt neutrons from photofission, an ambiguity can arise between neutrons from photofission and neutrons from $(\gamma, xn)$ if $x$ is greater than one.
-For photons with energies within the GDR region incident on actinides, fission and $(\gamma, 2n)$ tend to have similar cross-sections, and there is also significant overlap between the energy spectra neutrons from both reactions.
-Because the current measurement is concerned only with observing two neutrons in coincidence, it suffices to set the Bremsstrahlung end-point below the target's ($\gamma, 2n$) threshold, which is $\sim$12 MeV for $^{238}U$.
-This does not eliminate the possibility of detecting two neutrons from  two ($\gamma, 1n$) reactions in a single pulse, which is referred to as an accidental coincidence.
-An \textit{accidental} neutron coincidence occurs when two uncorrelated neutrons are detected in the same pulse.
-The rate of accidentals follow the poissonian distribution, setting them apart from correlated events, and as a result, accidentals can be subtracted from the data.
-The details and justifications for this procedure are discussed in section~\ref{Subtraction of Accidentals}.
-
-The electron beam pulse width was set to 3 ns and had a 1.1A peak current, with a repetition rate of 240 Hz.
-The 3 ns pulse width is not a large source of error in the measurements of neutron time of flight (ToF), since neutron events had a median TOF of $\approx$80 ns.
-ToF is the time taken for a particle to travel from the target to the face of a detector.
-The accelerator's current was set by requiring that there be, on average, fewer than one fission per pulse in order to diminish the number of accidentals.
-% ToDo Discussion about the LINAC's low duty factor??
-
-\subsection{Particle time of flight determination}
-\label{reconstruction}
-ToF was used to distinguish between photons and neutrons, and to measure neutron energy.
-Each of the scintillators were equipped with two PMTs, one fixed at each end of the scintillator, with the exception of those located farthest downstream at $\pm30^{\circ}$ which each had a single PMT (see Figure~\ref{fig:DetGeom}).
-In order to diminish dead-time, the detectors at $\pm30^{\circ}$ were segmented to create two independent detectors.
-See section~\ref{section:Detectors} for a more detailed discussion about the detector design.
-ToF was determined by averaging the timing of signals from both PMTs of a given detector, then subtracting a constant calibration offset.
-The timing of events in the PMTs were always measured relative to a signal provided by the accelerator at the beginning of each pulse, referred to as the \textit{beam gun}.
-The timing resolution of each PMT is 2ns~\cite{PMT}.
-
-Scintillation light that is detected by the PMTs has an effective index of refraction of $\sim$3, which is greater than the actual value for that material.
-This difference is due to the multiple reflections of the scintillation photons from the optical boundaries of the detector which increased the time of the light collection.
-Consequently, there can be up to an 8 ns delay between when a particle scintillates in the detector and the scintillation light reaches a PMT.
-The effective index of refraction was found by measuring the time taken for scintillation light to travel the full length of the detector.
-The time of flight was calculated by taking the average between the times of signals in the top and bottom PMTs, and then subtracting a calibration offset.
-In taking the average, there is a reduction in the sensitivity of the result to the variation of propagation times as a function of the position at which the particle scintillated.
-This cannot be done in the detectors located at $\pm30^{\circ}$, because they have only one PMT.
-However, since they are 1/3 the length of the rest, scintillation light takes at most only 2.5 ns to propagate to the PMT, which is a tolerable amount of random error.
-See section~\ref{Errors} for a deeper discussion of experimental errors.
-
-\begin{figure}[h]
-\includegraphics[width=0.7\textwidth]{Content/Methods/LightPaths.png}
-\caption{The average of times taken for scintillation light to travel from the point of its creation to each PMT has low variance.
-This average includes the time required for light to travel the full length of the detector, which is a constant for photons that travel exactly parallel to the length of the detector.
-Scintillation photons that travel parallel to the length of the detector are favored for detection by the PMTs because they reach the PMT first and experience less attenuation.
-Therefore, the distribution of $\Delta t_{\text{avg}}$ is reflective of the ToF distribution of the particle's producing scintillation light.}
-\label{fig:LightPaths}
-\end{figure}
-
-The ToF of a particle obeys the following relationship:
+ToF is calculated by the following expression:
 \begin{displaymath}
-\text{ToF}_i = t_{i}^0 + \Delta t_{\text{avg}}
+\text{ToF} = t^{PMTs}_{\text{avg}} - t_{\text{beam}} + C
 \end{displaymath}
-where $\text{ToF}_i$ is the ToF of a particle observed in detector $i$, $t_{i}^0$ is a constant timing offset, which is the same for every pulse, and $\Delta t_{\text{avg}} $ is the average between the timing of signals in the top and bottom PMTs of a given scintillator.
-The reason for the subscript, $i$, is that the timing offset is different for each scintillator due to, for example, differences in the lengths of the PMT signal cables.
-Any process that produces a timing delay that does not change from pulse to pulse contributes to $ t_{i}^0$.
-Examples of this are:
-\begin{itemize}
+where $t^{PMTs}_{\text{avg}}$ is the average of the times of signals from both PMTs of a scintillator, $t_{\text{beam}}$ is the time of a signal provided by the accelerator at the beginning of each pulse, and $C$ is a constant timing offset determined by observing photons that scatter from the target.
+Any process that produces a timing delay that does not change from pulse to pulse contributes to $C$.
+Examples of this are:\begin{itemize}
 \item the time required for photons to travel from the bremsstrahlung radiator to the target
 \item the propagation of signals through the wires connecting the PMTs
 \item delays in the electronics
 \item the transit time in the PMTs.
 \item the time required for scintillation light to propagate from the point of creation to both PMTs.
 \end{itemize}
-The final example above is nearly constant only after the average between two PMTs is taken, $\Delta t_{\text{avg}}$, at which point this effect produces standard deviation of 3 ns in measured ToF.
-The time required for scintillation light to travel to a single PMT can vary from $\approx$1 ns for particles that scintillate near a PMT, to $\approx$10 ns for particles that scintillate at the opposing end of the scintillator.
-Variance in ToF measurements due to this is reduced by taking the average between the timing of signals from both PMTs of a scintillator.
-$\Delta t_{\text{avg}}$ is 1/2 times the sum of the two times, and this sum includes the time for light to travel to both PMTs, which is just the time for light to travel the total length of the detector.
-This value is a constant if the scintillation light travels parallel to the detector's length.
-This isn't always the case, however, so the effective velocity at which scintillation light travels lengthwise through the detector has non-zero variance which contributes to the uncertainty of ToF measurement.
-The setup favors the detection of scintillation photons that travel lengthwise through the scintillator, since these travel the shortest distance and therefore experience less attenuation.
-In taking the average between two PMTs, the uncertainty in ToF is reduced by about a factor of three compared to using a single PMT.
-
-The variance of the effective velocity of scintillation light was measured using a $^{60}$Co source, which emits coincident photons.
-The $^{60}$Co source is placed at five positions along the face of a lead shielded scintillator.
-At each position, a small hole is drilled through the lead to give the $^{60}$Co source a line-of-sight to a well defined point on the scintillator.
-A high timing-resolution photon detector is placed next to the $^{60}$Co source, hereafter referred to as the trigger.
-With the $^{60}$Co source in place, coincident rate between the trigger and the scintillation detector increases by orders of magnitude compared to baseline.
-This increase is caused by two coincident photons reaching the trigger and the scintillation detector at the same time.
-With this setup, the time of at which the decay occurred is known from the high trigger, and thus so is the time of scintillation.
-This allows the study of the times taken for scintillation light to propagate through the scintillator.
-The times of signals from each PMT, taken relative to the trigger, are averaged.
-These results can be seen in figures~\ref{fig:ConstPMTAvg} and~\ref{fig:Co60ValidationProject}.
-% **ToDo: Make a figure for the setup of the co60 calibration.
-\begin{figure}[]
-    \centering
-    \includegraphics[width = 0.9\textwidth]{Content/Methods/ConstPMTAvg.png}
-    \caption{A $^{60}$Co source, which emits coincident photons, is placed at five differnt positions along the face of a lead shielded scintillator.
-    At each position, a small hole is drilled through the lead to give the $^{60}$Co source a line-of-sight to a well-defined point on the scintillator.
-    Then, a high timing resolution scintillation photon detector made from ATP plastic is placed close to the $^{60}$Co source.
-    When the $^{60}$Co source decays, emitting two photons simultaneously, one photon is detected by the high timing-resolution detector serving as the ``start'' time, and the other scintillates in the detector being calibrated.}
-    \label{fig:ConstPMTAvg}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width = 0.9\textwidth]{Content/Methods/ConstPMTAvgProject.png}
-    \caption{
-    The sum of times in the top and bottom PMTs are reflective of the time taken from scintillation light to travel the full length of the scintillator.
-    Taken during calibration with a $^{60}$Co source.
-    Ideally, the time taken for scintillation light to travel the length of the detector would be a constant, and the ToF resolution would be equal to the resolution of the PMTs at $\approx$ 1 ns.
-    This is not the case, however, because scintillation light doesn't always take the shortest path to a PMT.
-    The 3 ns standard deviation of this curve represents the uncertainty in the time at which a particle is detected.
-    This plot is the result of projecting the data used in fig~\ref{fig:Co60Validation} onto the y-axis.
-}
-    \label{fig:Co60ValidationProject}
-\end{figure}
-
-The value of the constant offset for ToF calculation is determined by observing photons that scattered from the target.
-Comparing the timing spectra of a non-neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent peak caused by the scattering of photons from the target.
-Aluminium does not produce photo-neutrons because the beams's Bremsstrahlung end-point is below Aluminium's ($\gamma$, n) threshold.
-Photons scattered from the target must travel between 125 cm to 130 cm to reach a face of a detector, depending on whether the photons reach the detector near the center or at the edge.
+The value of $C$ may be different for each detector, but this is not a problem because of the well-defined peak produced by photons, which always have a ToF of 4 ns due to the time required to travel the 1.25 m between the target and any detector.
+Comparing the timing spectra of a non-neutron producing target made from aluminum, to the spectra produced when no target is used reveals a prominent narrow peak centered at 4~ns.
+Aluminium does not produce photo-neutrons because the beams's Bremsstrahlung end-point is below aluminium's ($\gamma$, n) threshold.
+Photons scattered from a target must travel between 125 cm to 130 cm to reach a face of a detector, depending on whether the photons reach the detector near the center or at the edge.
 It takes light 4.0 ns and 4.3 ns to travel 125 cm and 130 cm, respectively.
 The difference between these two times is negligible for these purposes, so the ToF of photons that scatter from the target is assumed to be 4 ns.
-With this assumption, the location of the photon peak in the timing spectra can be used to calculate the offset in each detector.
-See figure~\ref{fig:ToFDetermination} for an illustration of this process.
-% python file: ProductionAnalysis/TOFGraphs
-\begin{figure}[htbp]
-\subfloat[$\Delta T$s with no target in place. ]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF0.png}}
-\subfloat[$\Delta T$s with Aluminum target.]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF1.png}}
 
-\subfloat[Average of $\Delta T_{\text{top}}$ and $\Delta t_{\text{bot}}$ with Aluminum target in place.]{\includegraphics[width = 0.53\textwidth]{Content/Methods/ToF2.png}}
-\subfloat[Application of  a calibration offset.]{\includegraphics[width = 0.5\textwidth]{Content/Methods/ToF3.png}}
-\caption{
-(a) $\Delta T$ spectra from both PMTs of a detector while no target is in place.
-(b) The introduction of a non-neutron producing target, made from aluminum, produces a prominent peak caused by the scattering of photons from the target.
-(c) Taking the average between the $\Delta T$s of the top and bottom PMTs produces a sharper peak than in (b), since the sum of times from both PMTs is a reflection of the time required for light to travel the entire length of a detector, regardless of the location of the particle hit.
-The width of this peak if reflective of the uncertainty in time of flight measurements. 
-(d) A calibration offset is applied so that the photons have the correct time of flight of 4 ns.}
-\label{fig:ToFDetermination}
+Under the assumption that neutrons travel to the detectors unimpeded, the calculation of neutron energy from ToF is straightforward.
+This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and the shielding of the detectors, and is discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}, respectively.
+Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the uncertainty in measured neutron energy according to the propagation of ToF measurement uncertainty through the calculation of neutron energy.
+\begin{figure}[]
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF2Erg.png}}
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/DeltaErg.png}}
+    \caption{(a) Mapping from ToF to neutron energy.
+    (b) Uncertainty in neutron energy measurements as a function of measured neutron energy.}
+    \label{fig:ErgUncertainty}
 \end{figure}
-   
+
 \subsection{Particle Position Reconstruction}
-% ToDo: The determionation of position could use a figure. The figure could indicate verticle reconstruction, and horizontal error. 
-Spacial resolution in the horizontal plane is determined by the physical dimensions of the detector.
-The geometric center of a detector is used for the position, in the horizontal plane, of a particle hit.
-The detector's dimensions in the horizontal plane are comparatively small at 3.8x15 cm$^2$, so in doing this, a positional uncertainty of $\pm$7.5 cm is introduced, which expressed in terms of an angle is $\pm4^{\circ}$.
-The final results of this work use an opening angle bin width of 20$^{\circ}$, so $\pm4^{\circ}$ is not large enough be a cause for concern.
-The largest contributor to uncertainty in particle position is the position in the vertical direction, which is determined by the timing difference between signals in the top and bottom PMTs.
+The detectors are not capable of measuring the position of a detected particle along the axes parallel to the detectors width (15.24~cm wide) and depth (3.81~cm deep), which contributes $\pm3^{\circ}$ to the total angular uncertainty.
+The position of a particle hit along the 76.2~cm length of the scintillator is calculated from the timing difference of signals from both of a detector's PMTs.
+The difference between the times of signals from the two PMTs, $\Delta t^{PMTs}$, is given by:
+\begin{equation}
+\begin{split}
+\Delta t^{PMTs} & = t^{PMT_1}-t^{PMT_2} \\ 
+& = \frac{(L/2 + x) n_{\text{eff}}}{c} - \frac{(L/2-x) n_{\text{eff}}}{c} \\
+& = 2x \frac{n_{\text{eff}}}{c} 
+\end{split}
+\end{equation}
+therefore, 
+\begin{equation}
+\label{eq:position}
+x = \frac{c}{2n_{\text{eff}}} \Delta t^{PMTs} 
+\end{equation}
+where $t^{PMT_{top}}$ and $t^{PMT_{bot}}$ are the times of signals from the top and bottom PMTs of a detector, $L$ is the length of the scintillator, $c$ is the speed of light, $n_{\text{eff}}$ is the effective index of refraction of the scintillator, and $x$ is the distance of the particle hit from the center of the scintillator.
+Using data taken from coincident photons from $^{60}$Co at different values of $x$, a least squares linear fit between $x$ and $\Delta t^{PMTs}$ was performed.
+The resulting fit parameters are used to find the position of detected particles.
 
-The determination of a particle's position in the vertical direction relies on the timing of coincident signals from both the PMTs of a detector.
-The timing difference obeys a linear relationship with respect to the location of the particle hit along the length of the detector.
-The z-coordinate will hereafter refer to a particle's position along the vertical axis, where $z=0$ corresponds to the geometric center of the detectors.
+The slope of the linear fit in Fig.~\ref{fig:PMTDifference}(a), along with Eq.~\ref{eq:position}, can be used to calculate the effective index of refraction, giving a value of 2.0 .
+The index of refraction measured here is said to be ``effective" because its measurement is sensitive to scintillation light's speed only along the axis parallel to the scintillator's longest dimension, and because scintillation light does not necessarily take a straight path to the PMTs, this speed is not equal to the intrinsic speed of light in the material.
+The actual index of refraction of PVT is known to be 1.58, or $\sim{20}\%$ less than the value measured here, indicating that there is some reflection of detected scintillation light from the boundaries of the scintillator.
+This effect contributes to the width of the peaks in Fig.~\ref{fig:PMTDifference}(b).
 
-As discussed before, detected scintillation light tends to take fairly direct paths to the PMTs, experiencing few reflections off the boundary of the scintillation cell.
-As a result, the timing difference between signals in the top and bottom PMTs is proportional to the difference in path lengths that the scintillation light must travel to reach each PMT, which is in turn proportional to the z-coordinate of the particle hit.
-The exact linear relationship is determined through calibration by using collimated photons from a $^{60}$Co source.
-Calibration is achieved by measuring the PMT top-bottom timing difference while the $^{60}$Co source is fixed at five different locations along the detectors length.
-The setup for calibration was discussed in section~\ref{reconstruction}.
-The result is shown in figure~\ref{fig:PMTDifference}.
-
-\begin{figure}
+\begin{figure}[]
     \centering
-    \includegraphics[width = 0.9\textwidth]{Content/Methods/PMTDifference.png}
-    \caption{A collimated $^{60}$Co source is used to produce events at five precise locations on the detector.
-    The particle's position along the detector's length is shown to vary linearly with respect to the timing difference between events in the top and bottom PMTs of a detector.}
+    \subfloat[]{\includegraphics[width=0.7\textwidth]{Content/Methods/PMTDifference_hist.png}}
+    
+    \subfloat[]{\includegraphics[width = 0.70\textwidth]{Content/Methods/PMTDifference.png}}
+
+    \caption{
+    A collimated $^{60}$Co source is used to produce photon events at five different positions along the scintillator with a spot size of less than 1~cm.
+    Aggregating the data produces the five peaks seen in (a).
+    The $\pm9$~cm width of each of these peaks is due to uncertainty in the measurement of particle position.
+    As seen in (b), the mean PMT timing difference of events at each position varies linearly with respect to the distance of the $^{60}$Co from the center of the detector. 
+    The result of a linear least squares fit to this data is used to calculate the position of detected particles.
+    }
     \label{fig:PMTDifference}
 \end{figure}
+
+
+\subsection{DU Target}
+%ToDO: picture of targets
+\label{subsection:targets}
+\begin{figure}[]
+\centering
+    \subfloat[]{\includegraphics[width=0.47\textwidth]{Content/Methods/MTvsAl.png}}
+    \subfloat[]{\includegraphics[width=0.47\textwidth]{Content/Methods/DUvsAl.png}}
+    \caption{(a) Comparison between the ToF spectrum of a non-neutron producing target made from Al, to the ToF spectrum produced when no target is used.
+    The large increase in events around 4 ns is due to photons that scatter from the Al target.
+    When no target is in place, sources of the peak include: the collimator leading into the experimental cell, and the beam dump.
+    The photon peak seen here is used to find the timing offsets such that $t=0$ corresponds to the moment of fission.
+    (b) Comparison between the Al and DU targets show a pronounced increase in events between 35 and 130 ns due to neutrons.}
+    \label{fig:ToF}
+\end{figure}
+A depleted uranium (DU) target with dimensions of 4$\times$2$\times$0.05 $\text{cm}^3$ was used as the primary target.
+DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
+Because the target lacked cylindrical symmetry, it was rotated slowly about the vertical axis during the experiment.
+This was done in order to remove the potential for bias due to the elastic scattering of neutrons within the target.
+See section~\ref{subsection:Elastic_scattering} for details.
+
+\subsection{Other Targets}
+ToDo! D2O, ect...
+
+\subsection{Electronics}
+A data acquisition system based on NIM/VME standard was used.
+A schematic of the data acquisition logic is shown in Figure~\ref{fig:WiringDiagram}.
+The PMTs are supplied voltages ranging from 1300 to 1500 V by a LeCroy 1458 high voltage mainframe.
+Analog signals from the PMTs were fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV.
+The logic signals from the discriminator were then converted to ECL logic and fed into a CAEN model V1290A TDC.
+The timing of signals from the PMTs were always measured relative to a signal from the accelerator provided at the beginning of each pulse.
+Only the first signal from a given PMT each pulse is accepted.
+On the software side, the CODA software package developed by Jefferson Laboratory~\cite{CODA} was used to carry out the acquisition of data from the TDC and convert it into a usable format.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\textwidth]{Content/Methods/WiringDiagram.png}
+\caption{Wiring diagram of the electronics setup. }
+\label{fig:WiringDiagram}
+\end{figure}
+
 \subsubsection{Detector Shielding}
 The detector's shielding was designed with the aim of reducing cross-talk, the detection of photons, and noise.
 The front face of the detectors, facing towards the target, were subject to the highest gammas flux due to the scatting of the beam from the target.
@@ -182,15 +151,6 @@ Because of particularly high gamma flux, an additional 2" of lead was placed at 
 Placing lead behind the detectors was avoided in consideration of an MCNP-POLIMI simulation, which indicated that lead placed here facilitates cross-talk.
 Because cross-talk events are in fact correlated, they cannot be removed in analysis by the subtraction of accidentals.
 For more information about cross-talk, see section~\ref{crosstalk}.
-
-\subsection{Targets}
-\todo{Pictues of target}
-A depleted uranium (DU) target with dimensions of 4x2x0.05 $\text{cm}^3$ was used as the primary target for the measurement of two-neutron correlations.
-DU received the majority of the allotted beam time because it is an even-even nucleus and as a consequence the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
-
-In order to eliminate potential biases caused by the asymmetrical structure of the target, it is desirable to have a target geometry with symmetry that is consistent with the cylindrical symmetry of the neutron detector array.
-To accomplish this, a thin rectangular target was rotated slowly about the vertical axis during data acquisition.
-In doing so, the measurement is reflective of the average of events which occurred while the target was at all orientations between 0 and 2$\pi$, thereby cylindrical symmetry is effectively preserved.
 
 \subsection{Measurements with $^{252}$Cf}
 %ToDo: Place our results of Cf measurements here in comparison to past measurements.

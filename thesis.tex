@@ -79,6 +79,9 @@
 
 
 \usepackage{subfig}
+\usepackage{placeins}
+\usepackage{scalerel}
+
 
 
 %% Document information
@@ -126,17 +129,28 @@
 
 \input{Content/Introduction/Introduction.tex}
 \input{Content/Methods/Methods.tex}
-\input{Content/Results/Results.tex}
 \input{Content/Errors/Errors.tex}
+\input{Content/Results/Results.tex}
+
 
 \chapter{Concluding Remarks}
 % TODO: Make this section complete. 
-In summary, we have reported on the first ever measurement of two-neutron opening angle distributions from the photofission of $^{238}$U, and their dependence on mean neutron energy.
-Photofission was achieved by means of a Bremsstrahlung photon beam produced by the passage of 10.5 MeV electrons through a 1" thick slab of Aluminum.
-Electrons were produced by a 44 MeV capable, low duty factor, pulsed linear accelerator housed at the Idaho Accelerator Center.
+Two-neutron angular correlations in the photofission of $^{238}$U were measured using 10.5 MeV end-point bremsstrahlung photons produced via a low duty factor, pulsed linear electron accelerator.
+The measured angular correlations reflect the underlying back-to-back nature of the fission fragments.
+The method of analysis uses a single set of experimental data to produce a opening angle distribution of correlated and uncorrelated neutron pairs.
+A ratio is taken between these two sets to provide a self-contained result of angular correlations that is independent of neutron detector efficiencies.
+Two-neutron angular correlation measurements were also made using neutrons from the SF of $^{252}$Cf and are in good agreement with previous measurements.
 
-By virtue of performing a measurement of pairs of correlated fission neutrons, an equivalent distribution of uncorrelated neutron pairs was able be constructed, which served as a normalizing distribution.
-By normalizing measurements to this distribution, the dependence of the measurement on detector efficiencies and geometry is eliminated.
+Measured two-neutron opening angular correlations were in fair agreement with simulations that used FREYA version 2.0.3, which uses a neutron-induced model to approximate photofission.
+These data will be useful for fine-tuning the photofission models that will be incorporated into future versions of FREYA.
+
+An anomaly was observed in the rate of neutron emission at opening angles near 180$^{\circ}$, in which diminished rates resulted in a local maximum at about 160$^{\circ}$ instead of the expected 180$^{\circ}$ as seen in all past measurements of neutron-induced and spontaneous fission.
+We offer two possible explanations for this effect:
+\begin{enumerate*}[label=(\roman*), itemjoin={{, }}, itemjoin*={{, or }}]
+  \item There is a decrease in neutron emission along the fission axis
+  \item the neutrons may indeed be emitted isotropically in the rest frame of the fission fragment, but one fragment essentially shadows the neutrons emitted from the other fragment, either through absorption or scattering.
+  \end{enumerate*}
+A definitive interpretation of this decreased two-neutron correlation for large opening angles in photo-fission requires further study.
 
 \appendix
 

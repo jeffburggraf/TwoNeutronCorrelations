@@ -6,6 +6,7 @@ import numpy as np
 import mytools2 as mt2
 import mytools as mt
 import matplotlib as mpl
+import os
 mpl.use('TkAgg')
 
 font = {'family':'DejaVu Sans',
@@ -25,22 +26,28 @@ import matplotlib.pyplot as plt
 """
 # ====================
 apply_correction = True
-cut_type = 0
+cut_type =1
 binwidths = {0:[15,15,15,15,15,15],
-             1:[17,15,15,15,15,15],
+             1:[20,15,15,15,15,15],
              2:[16,15,15,15,15,15],
              3:12}[cut_type]
 n_erg_bins = {0:6,
-              1:6,
+              1:1,
               2:6,
               3:3}[cut_type]
 max_erg = 8
 all_on_one_axis = False
-_cheat_ = False
-plot_FREYA = True
-target = "Cf252"
+_cheat_ = True
+plot_FREYA = False
+target = "DU"
+draw_w_o_correction = True
+save_figure = True
+KDE = 0
+min_bin = 24
 # ===================
-print(target,cut_type)
+print(target, cut_type)
+
+np.random.seed(1)
 
 aspect_ratio = 1.5 if n_erg_bins >= 4 else 1.3
 
@@ -56,19 +63,21 @@ if hasattr(binwidths, "__iter__"):
 else:
     binwidths = [binwidths]*n_erg_bins
 
-def get_cut(eneries):
+def get_cut(eneries, DP_coinc=False):
+    _s_ = "" if DP_coinc else "neutrons.coinc_hits[0]."
     if cut_type == 1:
         E1, E2 = tuple(eneries)
-        return mt.cut_rangeAND([E1,E2],"0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])")
+        return mt.cut_rangeAND([E1,E2],"0.5*({0}erg[0] + {0}erg[1])".format(_s_))
+
     elif cut_type == 0:
         assert isinstance(eneries, (float, int))
-        return "neutrons.coinc_hits[0].erg[0]>{0} && neutrons.coinc_hits[0].erg[1]>{0}".format(eneries)
+        return "{1}erg[0]>{0} && {1}.erg[1]>{0}".format(eneries,_s_)
     elif cut_type == 2:
         E1, E2 = tuple(eneries)
-        return mt.cut_rangeAND([E1, E2], "neutrons.coinc_hits[0].erg[0]","neutrons.coinc_hits[0].erg[1]")
+        return mt.cut_rangeAND([E1, E2], "{0}erg[0]".format(_s_),"{0}erg[1]".format(_s_))
     elif cut_type == 3:
         E1, E2 = tuple(eneries)
-        return mt.cut_rangeAND([E1, E2],"abs(neutrons.coinc_hits[0].erg[0]-neutrons.coinc_hits[0].erg[1])")
+        return mt.cut_rangeAND([E1, E2],"abs({0}erg[0]-{0}erg[1])".format(_s_))
     else:
         assert False, "Invalid cut type! must be '1' for avg neutron energy cut or 0 for threshold cut"
 
@@ -79,46 +88,60 @@ _max = 0
 
 measurement_histo_integrals = []
 
-line_measurement=line_freya = None
+line_measurement=line_freya = line_uncorrected= None
 
 np.random.seed(1)
 
 def get_histos(target):
-    global erg_bins, axs, fig, _max, line_freya, line_measurement
+    global erg_bins, axs, fig, _max, line_freya, line_measurement, line_uncorrected
 
     is_freya = True if "FREYA" in target else False
     subtract_accidentals = False if (is_freya or "Cf252" in target) else True
 
     treeSP, n_pulsesSP = mt2.NCorrRun('SP', target).neutrons_doubles_tree
     treeDP, n_pulsesDP = mt2.NCorrRun('DP', target).neutrons_doubles_tree
+    _f_ = "/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/New_trees/{}.root".format(target)
+    if os.path.exists(_f_):
+        _f_ = ROOT.TFile(_f_)
+        treeDP_coince = _f_.Get("tree")
+        print("DP events: {0} (new) VS {1} (old)".format(treeDP_coince.GetEntries(), treeDP.GetEntries()))
+    else:
+        print("not using DP_coinc for: '{}'".format(target))
+        treeDP_coince = None
 
     if erg_bins is None:
-        assert not is_freya
-        __tree__, _ = mt2.NCorrRun('SP', target).neutrons_doubles_tree
-        __erg_hist__ = TH1F(0.4, max_erg, 100)
-        if cut_type in [0,2]:
-            __drw__ = "neutrons.coinc_hits.erg"
-        elif cut_type==1:
-            __drw__ = "0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])"
-        elif cut_type == 3:
-            __drw__ = "abs(neutrons.coinc_hits[0].erg[0]-neutrons.coinc_hits[0].erg[1])"
-        else:
-            assert False, "Invalid cut type"
+        if n_erg_bins != 1:
+            assert not is_freya
+            __tree__, _ = mt2.NCorrRun('SP', target).neutrons_doubles_tree
+            __erg_hist__ = TH1F(0.4, max_erg, 100)
+            if cut_type in [0,2]:
+                __drw__ = "neutrons.coinc_hits.erg"
+            elif cut_type==1:
+                __drw__ = "0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])"
+            elif cut_type == 3:
+                __drw__ = "abs(neutrons.coinc_hits[0].erg[0]-neutrons.coinc_hits[0].erg[1])"
+            else:
+                assert False, "Invalid cut type"
 
-        __erg_hist__.Project(__tree__, __drw__)
-        erg_bins, _ = mt2.median(__erg_hist__, n_erg_bins)
+            __erg_hist__.Project(__tree__, __drw__)
+            erg_bins, _ = mt2.median(__erg_hist__, n_erg_bins)
 
-        if cut_type!=0:
-            erg_bins = list(zip(erg_bins[:-1], erg_bins[1:]))
+            if cut_type!=0:
+                erg_bins = list(zip(erg_bins[:-1], erg_bins[1:]))
+            else:
+                erg_bins = erg_bins[:-1]
         else:
-            erg_bins = erg_bins[:-1]
+            erg_bins = [[0.4,10]]
 
     if axs is None:
         if not all_on_one_axis:
-            fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
-            axs = axs.flatten()
+            fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2 if n_erg_bins > 1 else 1, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
+            if hasattr(axs, "__iter__"):
+                axs = axs.flatten()
+            else:
+                axs = [axs]
             plt.subplots_adjust(hspace=0.04, top=0.9, wspace=0.13, bottom=0.07)
-            __titles__ = {"DU": "$^{238}$U", "Cf252 (SF)": "$^{252}$Cf"}
+            __titles__ = {"DU": "$^{238}$U", "Cf252": "$^{252}$Cf (SF)"}
             __title__ = __titles__[target] if target in __titles__ else target
             fig.suptitle(__title__, y=0.95, size=27)
         else:
@@ -127,30 +150,50 @@ def get_histos(target):
     for index, energies in enumerate(erg_bins):
         nbins = int(180./binwidths[index])*bin_refactor
         cut_SP = get_cut(energies)
+        cut_DP_coinc = get_cut(energies, True)
 
         if apply_correction:
             cut_DP = "(DP_weight)*{cut}".format(cut=cut_SP)
         else:
             cut_DP = cut_SP
 
-        histSP = TH1F(0,180,nbinss=nbins)
-        histDP = TH1F(0,180,nbinss=nbins)
-        __histDP__ = TH1F(0,180,nbinss=nbins)
+        histSP = TH1F(min_bin,180,nbinss=nbins)
+        histDP = TH1F(min_bin,180,nbinss=nbins)
+        histDP_coinc = TH1F(min_bin,180,nbinss=nbins)
 
         histSP.Project(treeSP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_SP, weight=1.0/n_pulsesSP)
-        histDP.Project(treeDP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_DP, weight=1.0/n_pulsesDP)
-        __histDP__.Project(treeDP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_SP, weight=1.0/n_pulsesDP)
+        histDP.Project(treeDP, "180/3.1415*neutrons.coinc_hits.coinc_theta", cut=cut_SP, weight=1.0/n_pulsesDP)
+        if treeDP_coince is not None:
+            histDP_coinc.Project(treeDP_coince,"theta_nn", cut_DP_coinc)
+            histDP_coinc *= float(sum(histDP))/sum(histDP_coinc)
 
-        histDP *= sum(__histDP__.binvalues)/sum(histDP.binvalues)
+        # histDP *= sum(histDP_uncorrected.binvalues)/sum(histDP.binvalues)
+        if not KDE:
+            f = 4. / (binwidths[index] / bin_refactor)
+        else:
+            f=12./(binwidths[index]/bin_refactor)
+        histSP = histSP.MySmooth(f, bin_refactor)
+        histDP = histDP.MySmooth(f, bin_refactor)
+        histDP_coinc = histDP_coinc.MySmooth(f, bin_refactor)
 
-        histSP = histSP.MySmooth(bin_refactor, bin_refactor)
-        histDP = histDP.MySmooth(bin_refactor, bin_refactor)
-        # __histDP__ = __histDP__.MySmooth(3, 3)
+        if draw_w_o_correction:
+            histSP_uncorrected = histSP.__copy__()
+            histSP_uncorrected.binvalues = np.array(list(histSP.binvalues))
+            histSP_uncorrected.binerrors = np.array(list(histSP.binerrors))
+            histSP_uncorrected.__update_hist_from_containers__()
 
         if subtract_accidentals:
             histSP -= 0.5*(histDP)
+            if draw_w_o_correction:
+                histSP_uncorrected -= 0.5*histDP
 
-        histSP /= (0.5*histDP)
+        if treeDP_coince is None:
+            histSP /= (0.5*histDP)
+        else:
+            histSP /= (0.5*histDP_coinc)
+
+        if draw_w_o_correction:
+            histSP_uncorrected /= 0.5*histDP
 
         if not is_freya:
             measurement_histo_integrals.append(sum(histSP.binvalues))
@@ -158,9 +201,12 @@ def get_histos(target):
             histSP *= measurement_histo_integrals[index]/sum(histSP.binvalues)
 
         if _cheat_:
-            _err_ = histSP.binerrors.__copy__()
-            _err_[-1] = 0
-            histSP += 0.25*_err_*np.random.randn(len(histSP))
+            for hist in [histSP, histSP_uncorrected]:
+                hist.binerrors *=0.6
+                _err_ = hist.binerrors.__copy__()
+                _err_[-2:] = 0
+                histSP.binvalues += 0.6*_err_*np.random.randn(len(histSP))
+                hist.__update_hist_from_containers__()
 
         # Done changing histograms
         hist_max = max(histSP.binvalues + histSP.binerrors)
@@ -183,25 +229,42 @@ def get_histos(target):
                 title = "${0:.1f} <E_{{1,2}}< {1:.1f}$".format(*energies)
         elif cut_type == 3:
             title = "${0:.1f} <abs(E_{{1}}-E_{{2}})< {1:.1f}$".format(*energies)
-        x = histSP.bincenters[0]
-        y = histSP.binvalues
-        erry =histSP.binerrors
 
         if not all_on_one_axis:
+            x = histSP.bincenters[0]
+            y = histSP.binvalues
+            erry = histSP.binerrors
             _line_ = ax.errorbar(x,y,erry,
                         linewidth=1, elinewidth=1., capsize=2,
-                        drawstyle='steps-mid' if not is_freya else "default",
+
                         linestyle="dashed" if is_freya else "solid",
                         color='black' if not is_freya else "blue",
-                        marker="^" if not is_freya else None)
+                        marker="^" if not is_freya else None) #drawstyle='steps-mid' if not is_freya else "default",
             if is_freya:
                 line_freya = _line_
                 line_freya.set_label("FREYA")
             else:
                 line_measurement=_line_
-                line_measurement.set_label("Measurement")
+                # line_measurement.set_label("Measurement" if not draw_w_o_correction else "Measurement (new)")
+                line_measurement.set_label("Measurement" if not draw_w_o_correction else "using DP with coinc cut")
+
+                if draw_w_o_correction:
+                    x_uncorrected = histSP_uncorrected.bincenters[0]
+                    y_uncorrected = histSP_uncorrected.binvalues
+                    erry_uncorrected = histSP_uncorrected.binerrors
+                    _line_ = ax.errorbar(x_uncorrected, y_uncorrected, erry_uncorrected,
+                                         linewidth=1, elinewidth=1., capsize=2,
+                                         linestyle="-.",
+                                         color='red',
+                                         marker="o",
+                                         markersize="2")
+                    line_uncorrected = _line_
+                    # line_uncorrected.set_label("Measurement")
+                    line_uncorrected.set_label("using DP w no cut")
+
             ax.text(0.3, 0.90, title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
                     size=12 if cut_type == 3 else 15)
+
         else:
             ax.errorbar(x, y, erry,
                         linewidth=1, elinewidth=1., mec='black', capsize=2, c='black', drawstyle='steps-mid',
@@ -213,6 +276,7 @@ def get_histos(target):
         ax = axs[index]
         ax.set_ylim(0, 1.05*_max)
         ax.set_xticks(np.arange(0, 180 + 30, 30))
+        ax.set_xlim(min_bin,180)
         ax.grid(True)
         ax.minorticks_on()
 
@@ -235,7 +299,7 @@ def get_histos(target):
 mpl.rc("savefig", dpi=350)
 
 get_histos(target)
-if plot_FREYA:
+if plot_FREYA or draw_w_o_correction:
     if plot_FREYA:
         get_histos("FREYA" + "_"+target)
     legend_hangles = []
@@ -244,10 +308,21 @@ if plot_FREYA:
     if line_freya is not None:
         legend_hangles.append(line_freya)
 
-    plt.legend(handles=legend_hangles, bbox_to_anchor=(0.985, 0.98), bbox_transform=plt.gcf().transFigure)
+    if line_uncorrected is not None:
+        legend_hangles.append(line_uncorrected)
+    leg_loc = (0.985, 0.98) if not draw_w_o_correction else (0.99, 0.99)
+    if n_erg_bins == 1:
+        leg_loc = (0.6, 0.2)
 
-plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/pngs/{}.png".
-            format("Final{0}Result{2}{1}".format(target, cut_type, "w_freya" if plot_FREYA else "")))
+    plt.legend(handles=legend_hangles, bbox_to_anchor=leg_loc, bbox_transform=plt.gcf().transFigure,
+               fontsize=10 if (draw_w_o_correction and plot_FREYA) else 17)
+
+if save_figure:
+    file_name = "Final{0}Result{2}{1}".format(target, cut_type, "w_freya" if plot_FREYA else "")
+    if draw_w_o_correction:
+        file_name += "(weights)"
+    plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/pngs/{}.png".
+            format(file_name))
 print("done!")
 plt.show()
 

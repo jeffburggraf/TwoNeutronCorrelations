@@ -1,72 +1,61 @@
 \chapter{Introduction}
-\section{Physics of Nuclear Photofission}
-Photofission occurs during the de-excitation of a nucleus after the absorption of a photon.
-For photon energies between 6 and 25 MeV, this absorption occurs primarily through the giant dipole resonance (GDR).
+
+\section{\label{sec:level1}Introduction}
+
+\subsection{Fission and Neutron Correlations}
+The photofission reaction occurs during the de-excitation of a nucleus after the absorption of a photon.
+For photon energies between 6 and 25 MeV, this absorption occurs primarily via the giant dipole resonance (GDR).
 One distinct and useful aspect of photofission, particularly when compared to neutron-induced fission, is the simple set of selection rules for the transfer of angular momentum.
 In photofission, there is a relatively low transfer of angular momentum to the nucleus, and as a result photon absorption occurs primarily via E1 absorption and to a lesser extent E2 absorption.
-This restricts $J^{\pi}$ values for even-even nuclei to $1^{+}$ and $1^{-}$, and gives rise to anisotropies in the fission fragment angular distribution that are far more pronounced than they are for other types of fission~\cite{1977FragAss}.
-For this reason, photofission is commonly used as a means to study sub-nuclear structures and the fundamentals of the fission process.
-
-\subsection{Neutrons from Photofission}
-Fission neutron emission can be classified into two categories: delayed and prompt.
+Because of this selectivity, photofission is commonly used as a means to study sub-nuclear structures and the fundamentals of the fission process.
+For even-even nuclei, $J^{\pi}$ values of the excited state are restricted to the electric dipole ($1^{-}$) and electric quadrupole ($2^{+}$) states, which gives rise to anisotropies in the fission fragment angular distribution that are far more pronounced than for other types of fission~\cite{1977FragAss}.
+Detailed studies of the dynamics of fission provide significant insight into the fundamental physics of this process, and have the potential to shed light on model parameters needed for a comprehensive theoretical description of fission.
+Fission neutron emission can be classified into two categories, depending on the time of emission: delayed and prompt.
 Delayed neutrons account for only $\sim1\%$ of total neutron emission in actinide photofission~\cite{Caldwell2017DelayedNs}.
-Delayed neutrons are not important to this study and this measurement is insensitive to them.
-Prompt neutrons are defined as neutrons that are emitted either immediately after ($<10^{-14}$ seconds), or during the scission of the nucleus, and account for the remaining $\sim99\%$ of neutron emission~\cite{Caldwell2017DelayedNs}.
-Prompt neutron production is known to occur by means of two distinct mechanisms, the dominant of which is neutron emission from the fully accelerated fragments.
+Delayed neutrons are not important to this study, and this measurement is insensitive to them.
+Prompt fission neutrons are defined as neutrons that are emitted either immediately after ($<10^{-14}$ seconds) fission or during the scission of the nucleus, and account for the remaining $\sim99\%$ of neutron emission~\cite{Caldwell2017DelayedNs}.
+Prompt fission neutron production occurs by means of two distinct mechanisms.
+The dominant mechanism is neutron emission from the fully accelerated fragments.
 The second mechanism, referred to as \textit{early} or \textit{scission} neutron emission, is the emission of neutrons during either the scission of the nucleus, or the acceleration of the fission fragments.
 Both cases are described below.
 
 A large number of past studies have established that the majority of prompt fission neutrons (80\%--98\%) are emitted from the fully accelerated fragments, while the remaining 2\%--20\% percent are scission neutrons~\cite{Scission2005}.
-The nature of scission neutrons has remained elusive ever since their first observation in 1962 by Bowman et al.~\cite{Bowman}.
-Models of prompt neutron emission are based mainly on observations of neutron angular distributions relative to the fission axis--the axis along which the fragments travel in the center of momentum frame.
-Another observational input for prompt neutron modeling is the neutron-neutron (n-n) opening angle distribution of correlated neutron pairs.
-Because fission neutrons are predominantly emitted from the fully accelerated fragments, the distribution of n-n opening angles is highly reflective of the underlying fundamental fission kinematics.
+The nature of scission neutrons has remained elusive since their first tentative observation in 1962 by Bowman \emph{et al.}~\cite{Bowman}.
+Models of prompt neutron emission in binary fission are based mainly on observations of neutron angular distributions relative to the fission axis--the axis along which the fragments travel in the center of momentum frame.
+Another observational input for prompt neutron modeling is the neutron-neutron opening angle distribution of correlated neutron pairs, as seen in the lab frame, hereafter denoted $\theta_{nn}$.
+Because fission neutrons are predominantly emitted from the fully accelerated fragments, the distribution of $\theta_{nn}$ is reflective of the underlying fundamental fission kinematics.
+There are, on average, about 2 or 3 neutrons released per fission, depending on the isotope and how the fission is induced.
+It has been shown that neutrons released from the fully accelerated fission fragments are evaporated isotropically in the fragment's rest frame, where they are emitted at speeds comparable to that of the fragments themselves~\cite{JORGENSEN}.
+This leads to the well-known U--shaped distribution in $\theta_{nn}$, which has been reported in studies of neutron-induced, spontaneous, and, in this study, photon-induced fission.
+%(see Fig.'s~\ref{fig:Cf252_us_vs_them},~\ref{fig:FinalDUResult}, and~\ref{fig:theta_abs_two_neutron}).
 
-There are, on average, about 2 or 3 neutrons released per fission.
-It has been shown that neutrons released from the fully accelerated fission fragments are evaporated isotropically in the fragment's rest frame, where they are emitted at speeds comparable to that of the fragments themselves~\cite{fragmentRestFrame}.
-Thus, a significant portion of the kinetic energy of these neutrons comes from the translational motion of the fission fragments from which they are emitted.
-This leads to a characteristic distribution in the opening angles between pairs of neutrons, given that the neutrons are emitted during the same fission.
-To gain a qualitative understanding of the distribution, consider a pair of neutrons that are emitted from opposite fragments.
-Due to the conservation of momentum, the fully accelerated fission fragments are traveling nearly back-to-back, and so the boost that each neutron receives from the fragments will cause a tendency for the neutrons to travel in opposite directions.
-As a result, the opening angle between the them is most likely to be close to $180^{\circ}$, and least likely to be close to $0^{\circ}$.
-Conversely, if two neutrons are emitted from the same fragment, they are both boosted in the same direction, which will tend to push them toward parallel trajectories.
-In this case, opening angles close to $0^{\circ}$ are favored.
-The favoring of both small and large opening angles gives rise to a U-shaped distribution with a minimum near $90^{\circ}$.
+The U--shaped distribution of $\theta_{nn}$ can be understood as the result of the boost provided to the neutrons by the fission fragments in binary fission.
+Due to the conservation of momentum, the fully accelerated fission fragments are traveling nearly back-to-back, and neutrons emitted from different fragments are boosted in opposite directions, and neutrons emitted from the same fragment are boosted in the same direction.
+Thus, if the velocity of the fission fragments is large enough to account for a significant portion of the kinetic energy of fission neutrons, then neutron pairs emitted from the accelerated fragments will experience a favoring of opening angles near 0$^{\circ}$ and 180$^{\circ}$, and a suppression of opening angles around $90^{\circ}$.
+The favoring of large and small opening angles shows a strong dependence on neutron energy, because neutrons with higher energy are more likely to have been emitted along the same direction of the fission fragments.
+% GAW - comment - is it kinetic energy or momentum? Sorry, long time since I thought about boosting between frames
+% GAW - comment - Why is this even being mentioned here? I don't see yet how it fits in
 
-A key feature of the two-neutron opening angle distribution is its dependence on neutron energy.
-As neutron energy increases, the characteristic U-shape of the opening angle distribution is expected to become stronger.
-In other words, there is a decrease in the rate of opening angles near the center of the distribution (at $90^{\circ}$) relative to the rates at $0^{\circ}$ and $180^{\circ}$.
-This relationship is understood as a direct consequence of the boost that the fission fragments provide to emitted neutrons.
-Fragments with the highest total kinetic energy give the largest boost to emitted neutrons.
-This, in turn, also intensifies the favoring of opening angles near $0^{\circ}$ and $180^{\circ}$.
+\subsection{Connection to Physics}
+Two-neutron correlations in fission, and particularly photon-induced fission, are expected to shed light on several fundamental aspects of the fission process including the neutron multiplicity distributions associated with the light and heavy fission fragments, the nuclear temperatures of the fission fragments, and the mass distribution of the fission fragments as a function of energy released.
+In addition, the unique kinematics of fission and the resulting two-neutron correlations have the potential to be the basis for a new tool to detect fissionable materials~\cite{Talou2018}.
+Furthermore, two-neutron opening angle measurements are useful for the study of scission neutrons.
+Scission neutrons are thought to be emitted isotropically in the lab frame, and so they have the effect of flattening out the U-shaped two-neutron opening angle distribution.
+Because of this effect, these measurements add to the growing breadth of nuclear data needed to confirm the exact extent of the scission-neutron component in fission, which remains an open problem in nuclear physics.
 
-Two-neutron correlations in the fission, and particularly photon-induced fission, is expected to shed light on several fundamental aspects of the fission process including the multiplicity distributions associated with the light and heavy fission fragments, the nuclear temperatures of the fission fragments, and the mass distribution of the fission fragments as a function of energy released.
-These measurements also provide important nuclear data, the unique kinematics of fission and the resulting two neutron correlations have the potential to be the basis for a new tool to detect fissionable materials.
-
-\subsubsection{Scission neutrons} 
-Scission neutrons are neutrons that are emitted before the rupture of the nucleus.
-The time between rupture and the emission of prompt neutrons is on the order of $10^{-14}$ seconds, so timing cannot be used to distinguish prompt from scission neutrons.
-The existence of scission neutrons was first postulated by~\cite{Bowman} in 1962, in order to explain a discrepancy between a neutron emission model, which was accepted at the time, and their measured angular distribution of prompt neutrons from the spontaneous fission of $^{252}\text{Cf}$.
-By measuring the velocities of both fission fragments and a neutron--in 3-fold coincidence--the authors of~\cite{Bowman} concluded that there must exist a small portion ($\text{10-15\%}$) of emitted neutrons, dubbed scission neutrons, that are emitted isotropically in the lab frame before before scission.
-In the mid-late 1980s, this experiment was repeated by~\cite{seregina1985} and~\cite{JORGENSEN}, who found that the number of scission neutrons is below $5\%$ and $10\%$, respectively.
-In 2000, the authors of~\cite{KORNILOV2001} claimed to have found errors in~\cite{Bowman,JORGENSEN}, and~\cite{seregina1985}, and that all three results reach an agreement of a $10\%$ scission component after corrections for energy-resolution, timing, and neutron scattering from objects nearby the fission source.
-Most recently,~\cite{serot2017influence} developed a "three-component" neutron emission model that accurately predicts the measured spectrum of gamma and neutron emission from $^{252}\text{Cf}$.
-This model suggested a scission neutron component of $<$2\%.
-
-Scission neutrons are thought to be emitted isotropically in the lab frame, and so they have the effect of flattening out the "U"-shaped two-neutron opening angle distribution.
-Because this relationship, these measurements add to the growing breadth of nuclear data needed to demystify scission neutrons, the understanding of which still remains an open problem in nuclear physics.
-
-\section{Previous work}
-The first measurement of angular correlation among coincident neutrons from fission was performed by Debenedetti et al. \cite{1948twoNCorr} in 1948 using neutrons from the neutron induced fission of $^{235}\text{U}$.
-It was already known at the time that fission neutrons are preferentially emitted in the same direction as the fission fragments.
-Because of this, in reference~\cite{1948twoNCorr} it was hypothesised that there are measurable correlations between fission neutrons.
-This hypothesis was confirmed when they found that neutrons tend to be emitted preferentially at large opening angles.
-The next measurement of this type was performed nearly 30 years later by Pringle and Brooks in 1975~\cite{1975Cf252}, in which neutrons emitted from the spontaneous fission (SF) of $^{252}$Cf were found to have high coincidence rates at small opening angles near 0$^{\circ}$, and at large opening angles near $180^{\circ}$.
-In order to remove the effects of detector geometry and efficiencies, reference~\cite{1975Cf252} divided a correlated opening angle distribution by an uncorrelated opening angle distribution, which is similar to a technique used in this work.
-To date, numerous measurements of n-n angular correlation using $^{252}$Cf have been performed (see works~\cite{1975Cf252, 2008CF252, Pozzi2014}).
-This makes $^{252}$Cf a good benchmark for n-n angular correlation measurements.
-Other correlated n-n measurements have been performed using induced thermal induced fission of $^{235}$U, $^{233}$U, and $^{239}$Pu~\cite{Sokolov2010}.
-
-Recent decades have seen a surge in photonuclear measurements motivated by a need to accurately simulate photonuclear interactions to support various applications, for example, in waste transmutation and the detection of nuclear materials.
-Despite this, photonuclear data is still far scarcer than neutron induced data.
-This is particularly true for correlated two-neutron measurements, as this work is the first report of such a measurement using photofission.
+\subsection{Past Measurements, Spontaneous and Neutron Induced Fission}
+As of this writing, tabulated data for photofission is far scarcer than for neutron induced fission.
+The first measurement of the angular correlation among coincident neutrons from fission was performed by Debenedetti \emph{et al.}~\cite{1948twoNCorr} in 1948 from neutron induced fission of $^{235}\text{U}$.
+The next measurement of this type was performed by Pringle and Brooks in 1975~\cite{1975Cf252}, in which neutrons emitted from the spontaneous fission (SF) of $^{252}$Cf were found to have high coincidence rates at small opening angles near 0$^{\circ}$ and large opening angles near $180^{\circ}$.
+In order to produce a result that is insensitive to the effects of detector geometry and efficiency, the present work uses techniques similar to reference~\cite{1975Cf252}, in which a ratio is taken between a correlated opening angle distribution and an uncorrelated opening angle distribution.
+To date, numerous measurements of two-neutron angular correlation using $^{252}$Cf have been performed~\cite{1975Cf252, 2008CF252, Pozzi2014}.
+This makes $^{252}$Cf a good benchmark for two-neutron angular correlation measurements.
+See Fig.~\ref{fig:Cf252_us_vs_them}, which compares measurements in this work to past measurements of two-neutron correlations in the SF of $^{252}$Cf.
+Correlated two-neutron measurements have also been performed using thermal induced fission of $^{235}$U, $^{233}$U, and $^{239}$Pu~\cite{Sokolov2010}.
+\begin{figure}[h]
+\includegraphics[width=0.7\textwidth]{Content/Introduction/Cf252_us_vs_them.png}
+\caption{$\theta_{nn}$ distribution from the SF of $^{252}$Cf.
+ The neutron detection threshold for Pringle~\cite{1975Cf252}, Gagarski~\cite{2008CF252}, and Pozzi~\cite{Pozzi2016} is 0.425 MeV, 0.425 MeV, and 0.7 MeV, respectively, and for this work is 0.5 MeV.
+}
+\label{fig:Cf252_us_vs_them}
+\end{figure}

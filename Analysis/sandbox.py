@@ -25,15 +25,14 @@ treeDP, n_pulsesDP = mt2.NCorrRun('DP',"DU").neutrons_doubles_tree
 # # treeDP.AddFriend(weight_tree)
 
 
-histSP = TH1F(0,180,binwidths = binwidth)
-histDP = TH1F(0,180,binwidths = binwidth)
-drw = "180/3.1415*neutrons.coinc_hits.coinc_theta"
-histSP.Project(treeSP, drw, weight=1.0/n_pulsesSP)
-histDP.Project(treeDP, drw, cut="(1)", weight=1.0/n_pulsesDP)
+histSP = TH1F(0,10,binwidths=0.5)
+drw = "0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])"
+histSP.Project(treeSP, drw,  cut="neutrons.coinc_hits[0].ForwardDet[]==1")
+# histDP.Project(treeDP, drw, cut="(1)", weight=1.0/n_pulsesDP)
 
 
-histSP -= 0.5*histDP
-histSP /= (histDP)
+# histSP -= 0.5*histDP
+# histSP /= (histDP)
 
 histSP.Draw()
 #
