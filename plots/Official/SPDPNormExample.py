@@ -5,38 +5,48 @@ import mytools as mt
 import mytools2 as mt2
 
 from TH1Wrapper import TH1F
+import os
 
 target = "DU"
 
 treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 treeDP_doubles, pulses_DP_doubles = mt2.NCorrRun("DP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
+_f_ = "/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/New_trees/{}.root".format(target)
+if os.path.exists(_f_):
+    _f_ = ROOT.TFile(_f_)
+    treeDP_coince = _f_.Get("tree")
+    print("DP events: {0} (new) VS {1} (old)".format(treeDP_coince.GetEntries(), treeDP_doubles.GetEntries()))
+else:
+    print("not using DP_coinc for: '{}'".format(target))
+    treeDP_coince = None
 
-binwidth = 8
-histSP = TH1F(20,180,binwidths=binwidth/3)
-histDP = TH1F(20,180,binwidths=binwidth/3)
+binwidth = 12
+
+rebin_factor = 3
+nbins = int((180-20)/binwidth)
+histSP = TH1F(20,180, nbinss=nbins*rebin_factor)
+histDP = TH1F(20,180, nbinss=nbins*rebin_factor)
+histDP_coinc = TH1F(20,180, nbinss=nbins*rebin_factor)
 tb = ROOT
 # cut = '0.5*(neutrons.coinc_hits[0].erg[0] + neutrons.coinc_hits[0].erg[1])>0.5'
 cut = ''
 print histSP.Project(treeSP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_SP_doubles)
 print histDP.Project(treeDP_doubles, '180/3.1415*neutrons.coinc_hits[].coinc_theta', cut, weight=1.0/pulses_DP_doubles)
+print histDP_coinc.Project(treeDP_coince, 'theta_nn', "", weight=1.0/pulses_DP_doubles)
 
-hist_unnorm = histSP.Rebin(3)
+hist_unnorm = histSP.MySmooth(1, rebin_factor)
 
-if target == 'DU':
-    hist_unnorm -= histDP.Rebin(3)*0.5
 
-histSP.MySmooth(3.5)
-histDP.MySmooth(3.5)
+histSP = histSP.MySmooth(1, rebin_factor)
+histDP = histDP.MySmooth(1, rebin_factor)
+histDP_coinc = histDP_coinc.MySmooth(1, rebin_factor)
 
-histSP = histSP.Rebin(3)
-histDP = histDP.Rebin(3)
-
-hist_norm = histSP.__copy__()
 if target=='DU':
-    hist_norm -= 0.5*histDP
-hist_norm /= (0.5*histDP)
+    histSP -= 0.5*histDP
 
-hist_norm.SetStats(0)
+histSP /= (0.5*histDP_coinc)
+
+histSP.SetStats(0)
 
 # hist_norm *= 0.8/max(hist_norm.binvalues)
 
@@ -81,17 +91,17 @@ ax2.grid(linestyle='-')
 ax1.grid(linestyle='-')
 
 np.random.seed(9)
-for i in range(len(hist_norm.binvalues)):
-    hist_norm.binvalues[i] += np.random.randn()*hist_norm.binerrors[i]*0.7
+# for i in range(len(hist_norm.binvalues)):
+#     hist_norm.binvalues[i] += np.random.randn()*hist_norm.binerrors[i]*0.7
 
-plt.errorbar(hist_norm.bincenters[0], hist_norm.binvalues, yerr=hist_norm.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
+plt.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
 plt.xlabel(r'$\theta _{nn}$')
 plt.ylabel(r'$(nn_{\text{corr}})/(nn_{\text{uncorr}})$')
 plt.minorticks_on()
 # plt.yticks(list(map(lambda x:mt2.round_to_n(x,1),np.linspace(0, mt2.round_to_n(1.1*max(hist_norm),1), 5))))
 # plt.yticks(np.linspace(0.,3,4))
-plt.ylim(0, max(hist_norm.binvalues*1.15))
+plt.ylim(0, max(histSP.binvalues*1.15))
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
 # plt.xlim(hist_norm.__binLeftEdges__[0][0], hist_norm.__binRightEdges__[0][-1])

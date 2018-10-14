@@ -39,26 +39,35 @@ The detection of two uncorrelated events in coincidence, whether the cause of wh
 The reconstruction of the signal from accidentals as a function of opening angle, denoted by $nn_{\text{uncorr}}(\theta)$, is achieved using a manufactured set of opening angles, denoted by $nn_{\scaleto{DP}{4pt}}(\theta)$, which is produced by pairing events that occurred during different pulses.
 This is done by examining pulses in pairs of two, which are required to have occurred within 0.2 seconds of each other, and for those pairs that have an event in both pulses, the opening angle is calculated between the events in the same way that it would be for coincident events from the same pulse.
 
-The usefulness of $nn_{\scaleto{DP}{4pt}}(\theta)$ is that it is proportional to $nn_{\text{uncorr}}(\theta)$, and thus can be used to unfold the signal produced by correlated coincidences from a signal that is a mix of correlated and accidental coincidences.
+
+The usefulness of $nn_{\scaleto{DP}{4pt}}(\theta)$ is that it is proportional to $nn_{\text{uncorr}}(\theta)$, and thus can be used to subtract accidental coincidences.
+As mentioned above, it is also used to divide out the effects of the detectors geometric acceptance and efficiencies.
+When it is used for this purpose, only pulses that had two neutron events are used, and, therefore, every pulse pair consists of four neutrons in total, from which four possible uncorrelated neutron pairs can be formed.
+The reason for doing this is to increase the percentage of fission neutrons, as opposed to neutrons from $(\gamma,n)$, in the data used for normalization.
+If it were not done this way, then there would be a greater difference in the energy distributions of neutrons that make up the numerator and denominator in $nn_{\text{corr}}(\theta)/nn_{\text{uncorr}}(\theta)$.
+This is because the detection of multiple neutrons from $(\gamma,n)$ are accidental coincidences, which are inevitably present in the denominator, but are completely subtracted out from from the numerator using the procedure described in the following analysis.
+
 Because accidental coincidences consist of two independent events, it does not matter whether the two events occurred during the same pulse or during two different pulses, given that the two different pulses occurred at around the same time and thus under the same experimental conditions.
 Therefore, $nn_{\text{uncorr}}(\theta)$ will have an opening angle distribution with the same shape as  $nn_{\scaleto{DP}{4pt}}(\theta)$.
 However, $nn_{\text{uncorr}}(\theta)$ is not equal to $nn_{\scaleto{DP}{4pt}}(\theta)$, because there are, on average, twice as many events in a pulse-pair than there are in a single pulse.
 For this reason, as the following analysis shows,~$nn_{\text{uncorr}}(\theta) = \frac{1}{2}nn_{\scaleto{DP}{4pt}}(\theta)$.
 
 The number of uncorrelated events detected per pulse is assumed to follow the Poissonian distribution, which describes the occurrence of independent random events.
-Let $\lambda$ represent the mean number of uncorrelated events per pulse. 
+Let $\lambda$ represent the mean number of uncorrelated events per pulse.
 To determine the value of $\lambda$, one needs to know whether a given coincident event is in fact an accidental, as $\lambda$ only quantifies the rate of accidental coincidences.
 Such information is not known, but the largest possible value for $\lambda$ is the mean number of events per pulse, as this assumes all events are uncorrelated.
 This placed an upper bound on $\lambda$ of $3\times 10^{-6}$, which is small enough to neglect all terms on the order of $\lambda^3$ or greater.
 
-The per-pulse accidental coincidence rate from individual pulses summed over all opening angle bins, denoted by $\sum_{\theta} nn_{\text{uncorr}}(\theta)$, is equal to the poissonian probability of there being exactly two uncorrelated events detected in a single pulse\footnote{For the sake of brevity, cases of greater than two-fold coincidence are not considered in this analysis, and it is not necessary to do so because of the low detection rates during this work. It can be shown, however, that accounting for any number of coincidences, from zero all the way up to $\infty$-fold coincident events in a pulse or pulse-pair, gives the same answer.}:
+The per-pulse accidental coincidence rate from individual pulses summed over all opening angle bins, denoted by $\sum_{\theta} nn_{\text{uncorr}}(\theta)$, is equal to the poissonian probability of there being exactly two uncorrelated events detected in a single pulse\footnote{For the sake of brevity, cases of greater than two-fold coincidence are not considered in this analysis, and it is not necessary to do so because of the low detection rates during this work.
+It can be shown, however, that accounting for any number of coincidences, from zero all the way up to $\infty$-fold coincident events in a pulse or pulse-pair, gives the same answer.}:
 \begin{equation} \label{math:SP}
     \begin{split}
     \sum_{\theta} nn_{\text{uncorr}}(\theta) & = \frac{e^{-\lambda}\lambda^{2}}{2!} \\
         &\approx \frac{\lambda^2}{{2}} + \mathcal{O}(\lambda^3) \, .
     \end{split}
 \end{equation}
-For the case of different-pulse pairs, a ``coincidence'' occurs when there is an event in both pulses. Cases in which there are more than two events can be neglected due to their rare occurrence in this work, therefore, the total per-pulse rate for different-pulse pairs is the square of the poissonian probability of there being one event:
+For the case of different-pulse pairs, a ``coincidence'' occurs when there is an event in both pulses.
+Cases in which there are more than two events can be neglected due to their rare occurrence in this work, therefore, the total per-pulse rate for different-pulse pairs is the square of the poissonian probability of there being one event:
 \begin{equation} \label{math:DP}
     \begin{split}
    \sum_{\theta} nn_{\scaleto{DP}{4pt}}(\theta)&= \left(e^{-\lambda}\lambda\right)^{2} \\

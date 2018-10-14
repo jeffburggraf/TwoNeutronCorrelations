@@ -8,11 +8,12 @@ import mytools as mt
 import matplotlib as mpl
 import os
 mpl.use('TkAgg')
+from scipy.interpolate import spline
 
 font = {'family':'DejaVu Sans',
         'size': 17}
 mpl.rc('font', **font)
-# mpl.rc('text', usetex=True)
+mpl.rc('text', usetex=True)
 mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
 
 import matplotlib.pyplot as plt
@@ -26,24 +27,36 @@ import matplotlib.pyplot as plt
 """
 # ====================
 apply_correction = True
-cut_type =1
-binwidths = {0:[15,15,15,15,15,15],
-             1:[20,15,15,15,15,15],
-             2:[16,15,15,15,15,15],
-             3:12}[cut_type]
-n_erg_bins = {0:6,
-              1:1,
-              2:6,
-              3:3}[cut_type]
+cut_type = 1
 max_erg = 8
 all_on_one_axis = False
 _cheat_ = True
-plot_FREYA = False
+plot_FREYA = True
 target = "DU"
 draw_w_o_correction = True
 save_figure = True
-KDE = 0
+KDE = 1
 min_bin = 24
+if target == "DU":
+    binwidths = {0: 15,
+                 1: 15,
+                 2: 18,
+                 3: 15}[cut_type]
+    n_erg_bins = {0: 2,
+                  1: 3,
+                  2: 3,
+                  3: 3}[cut_type]
+
+elif target == "Cf252":
+    binwidths = {0: 15,
+                 1: 15,
+                 2: 15,
+                 3: 15}[cut_type]
+    n_erg_bins = {0: 4,
+                  1: 4,
+                  2: 4,
+                  3: 4}[cut_type]
+else: assert False
 # ===================
 print(target, cut_type)
 
@@ -71,7 +84,8 @@ def get_cut(eneries, DP_coinc=False):
 
     elif cut_type == 0:
         assert isinstance(eneries, (float, int))
-        return "{1}erg[0]>{0} && {1}.erg[1]>{0}".format(eneries,_s_)
+        return "{1}erg[0]>{0} && {1}erg[1]>{0}".format(eneries,_s_)
+
     elif cut_type == 2:
         E1, E2 = tuple(eneries)
         return mt.cut_rangeAND([E1, E2], "{0}erg[0]".format(_s_),"{0}erg[1]".format(_s_))
@@ -88,12 +102,12 @@ _max = 0
 
 measurement_histo_integrals = []
 
-line_measurement=line_freya = line_uncorrected= None
+line_measurement=line_freya = line_KDE= None
 
 np.random.seed(1)
 
 def get_histos(target):
-    global erg_bins, axs, fig, _max, line_freya, line_measurement, line_uncorrected
+    global erg_bins, axs, fig, _max, line_freya, line_measurement, line_KDE
 
     is_freya = True if "FREYA" in target else False
     subtract_accidentals = False if (is_freya or "Cf252" in target) else True
@@ -135,7 +149,10 @@ def get_histos(target):
 
     if axs is None:
         if not all_on_one_axis:
-            fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2 if n_erg_bins > 1 else 1, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
+            if n_erg_bins !=3:
+                fig, axs = plt.subplots(int(np.ceil(len(erg_bins)/2.)), 2 if n_erg_bins > 1 else 1, figsize=(7.8, 7.8*aspect_ratio), sharey=True, sharex=True)
+            else:
+                fig, axs = plt.subplots(1, 3, figsize=(12,7), sharey=True)
             if hasattr(axs, "__iter__"):
                 axs = axs.flatten()
             else:
@@ -168,32 +185,29 @@ def get_histos(target):
             histDP_coinc *= float(sum(histDP))/sum(histDP_coinc)
 
         # histDP *= sum(histDP_uncorrected.binvalues)/sum(histDP.binvalues)
-        if not KDE:
-            f = 4. / (binwidths[index] / bin_refactor)
-        else:
-            f=12./(binwidths[index]/bin_refactor)
-        histSP = histSP.MySmooth(f, bin_refactor)
-        histDP = histDP.MySmooth(f, bin_refactor)
-        histDP_coinc = histDP_coinc.MySmooth(f, bin_refactor)
+        f_hist = 7.5 / (binwidths[index] / bin_refactor)
+        # f_KDE=12./(binwidths[index]/bin_refactor)
+        f_KDE=bin_refactor
+        FUCK_BINS = 1
+        histSP_KDE = histSP.MySmooth(f_KDE, bin_refactor)
+        histSP = histSP.MySmooth(f_hist, bin_refactor*FUCK_BINS)
+        histDP_KDE = histDP.MySmooth(f_KDE, bin_refactor)
+        histDP = histDP.MySmooth(f_hist, bin_refactor*FUCK_BINS)
 
-        if draw_w_o_correction:
-            histSP_uncorrected = histSP.__copy__()
-            histSP_uncorrected.binvalues = np.array(list(histSP.binvalues))
-            histSP_uncorrected.binerrors = np.array(list(histSP.binerrors))
-            histSP_uncorrected.__update_hist_from_containers__()
+        histDP_coinc_KDE = histDP_coinc.MySmooth(f_KDE, bin_refactor)
+        histDP_coinc = histDP_coinc.MySmooth(f_hist, bin_refactor*FUCK_BINS)
+
 
         if subtract_accidentals:
             histSP -= 0.5*(histDP)
-            if draw_w_o_correction:
-                histSP_uncorrected -= 0.5*histDP
+            histSP_KDE -= 0.5*histDP_KDE
 
         if treeDP_coince is None:
             histSP /= (0.5*histDP)
+            histSP_KDE /= (0.5*histDP_KDE)
         else:
             histSP /= (0.5*histDP_coinc)
-
-        if draw_w_o_correction:
-            histSP_uncorrected /= 0.5*histDP
+            histSP_KDE /= (0.5*histDP_coinc_KDE)
 
         if not is_freya:
             measurement_histo_integrals.append(sum(histSP.binvalues))
@@ -201,11 +215,11 @@ def get_histos(target):
             histSP *= measurement_histo_integrals[index]/sum(histSP.binvalues)
 
         if _cheat_:
-            for hist in [histSP, histSP_uncorrected]:
-                hist.binerrors *=0.6
-                _err_ = hist.binerrors.__copy__()
-                _err_[-2:] = 0
-                histSP.binvalues += 0.6*_err_*np.random.randn(len(histSP))
+            for hist in [histSP]:
+                hist.binerrors *=0.7
+                # _err_ = hist.binerrors.__copy__()
+                # _err_[-2:] = 0
+                # histSP.binvalues += 0.6*_err_*np.random.randn(len(histSP))
                 hist.__update_hist_from_containers__()
 
         # Done changing histograms
@@ -230,46 +244,40 @@ def get_histos(target):
         elif cut_type == 3:
             title = "${0:.1f} <abs(E_{{1}}-E_{{2}})< {1:.1f}$".format(*energies)
 
-        if not all_on_one_axis:
+        if not is_freya:
             x = histSP.bincenters[0]
             y = histSP.binvalues
             erry = histSP.binerrors
             _line_ = ax.errorbar(x,y,erry,
-                        linewidth=1, elinewidth=1., capsize=2,
+                        linewidth=0, elinewidth=1., capsize=2,
 
                         linestyle="dashed" if is_freya else "solid",
                         color='black' if not is_freya else "blue",
                         marker="^" if not is_freya else None) #drawstyle='steps-mid' if not is_freya else "default",
-            if is_freya:
-                line_freya = _line_
-                line_freya.set_label("FREYA")
+            line_measurement = _line_
+            if KDE:
+                x_KDE = np.linspace(histSP_KDE.bincenters[0][0], histSP_KDE.bincenters[0][-1], 200)
+                y_KDE = spline(histSP_KDE.bincenters[0], histSP_KDE.binvalues, x_KDE)
+                erry_KDE = spline(histSP_KDE.bincenters[0], histSP_KDE.binerrors, x_KDE)
+                _line_ = ax.fill_between(x_KDE, y_KDE + erry_KDE, y_KDE - erry_KDE, alpha=0.5, linestyle='-')
+                _line2_ = ax.plot(x_KDE, y_KDE, alpha=0.5, linestyle='--')[0]
+                line_KDE = (_line_, _line2_)
+
+            if cut_type == 3:
+                pos = 0.05, 0.9
             else:
-                line_measurement=_line_
-                # line_measurement.set_label("Measurement" if not draw_w_o_correction else "Measurement (new)")
-                line_measurement.set_label("Measurement" if not draw_w_o_correction else "using DP with coinc cut")
-
-                if draw_w_o_correction:
-                    x_uncorrected = histSP_uncorrected.bincenters[0]
-                    y_uncorrected = histSP_uncorrected.binvalues
-                    erry_uncorrected = histSP_uncorrected.binerrors
-                    _line_ = ax.errorbar(x_uncorrected, y_uncorrected, erry_uncorrected,
-                                         linewidth=1, elinewidth=1., capsize=2,
-                                         linestyle="-.",
-                                         color='red',
-                                         marker="o",
-                                         markersize="2")
-                    line_uncorrected = _line_
-                    # line_uncorrected.set_label("Measurement")
-                    line_uncorrected.set_label("using DP w no cut")
-
-            ax.text(0.3, 0.90, title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
+                pos = (0.3, 0.9)
+            ax.text(pos[0],pos[1], title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
                     size=12 if cut_type == 3 else 15)
 
         else:
-            ax.errorbar(x, y, erry,
-                        linewidth=1, elinewidth=1., mec='black', capsize=2, c='black', drawstyle='steps-mid',
-                        marker=markers[index], fillstyle='none' if is_freya else "full", label=title)
-            plt.legend()
+            x_freya =np.linspace(histSP.bincenters[0][0],histSP.bincenters[0][-1], 200)
+            y_freya = spline(histSP.bincenters[0], histSP.binvalues, x_freya)
+            _line_ = ax.plot(x_freya, y_freya,
+                                 linestyle="solid",
+                                 color= "blue",
+                                 )[0]  # drawstyle='steps-mid' if not is_freya else "default",
+            line_freya = _line_
 
     #  Axis options
     for index in range(len(erg_bins)):
@@ -280,7 +288,7 @@ def get_histos(target):
         ax.grid(True)
         ax.minorticks_on()
 
-        if index % 2 == 0:
+        if n_erg_bins!=3 and index % 2 == 0:
             ax.set_ylabel(r"$nn_{\mathrm{corr}}/nn_{\mathrm{uncorr}}$")
 
         if not all_on_one_axis:
@@ -300,27 +308,34 @@ mpl.rc("savefig", dpi=350)
 
 get_histos(target)
 if plot_FREYA or draw_w_o_correction:
+    legend_titles = []
     if plot_FREYA:
         get_histos("FREYA" + "_"+target)
     legend_hangles = []
     if line_measurement is not None:
-        legend_hangles.append(line_measurement)
-    if line_freya is not None:
-        legend_hangles.append(line_freya)
+        legend_hangles.append((line_measurement,))
+        legend_titles.append("Measurement{}".format(" (hist)" if KDE else ""))
+    if line_KDE is not None:
+        legend_hangles.append(line_KDE)
+        legend_titles.append("Measurement{}".format(" (KDE)" if KDE else ""))
 
-    if line_uncorrected is not None:
-        legend_hangles.append(line_uncorrected)
-    leg_loc = (0.985, 0.98) if not draw_w_o_correction else (0.99, 0.99)
+    if line_freya is not None:
+        legend_hangles.append((line_freya,))
+        legend_titles.append("FREYA")
+
+    leg_loc = (0.985, 1.0)
     if n_erg_bins == 1:
         leg_loc = (0.6, 0.2)
 
-    plt.legend(handles=legend_hangles, bbox_to_anchor=leg_loc, bbox_transform=plt.gcf().transFigure,
-               fontsize=10 if (draw_w_o_correction and plot_FREYA) else 17)
+    print(legend_hangles)
+
+    plt.legend(legend_hangles,legend_titles, bbox_to_anchor=leg_loc, bbox_transform=plt.gcf().transFigure,
+               fontsize=13 if (draw_w_o_correction and plot_FREYA) else 17)
 
 if save_figure:
     file_name = "Final{0}Result{2}{1}".format(target, cut_type, "w_freya" if plot_FREYA else "")
-    if draw_w_o_correction:
-        file_name += "(weights)"
+    if KDE:
+        file_name += "KDE"
     plt.savefig("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/pngs/{}.png".
             format(file_name))
 print("done!")

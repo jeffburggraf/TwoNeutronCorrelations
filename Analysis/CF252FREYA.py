@@ -6,7 +6,6 @@ import numpy as np
 import mytools2 as mt2
 import mytools as mt
 
-from FinalResultTools import get_weighted_cut
 
 np.random.seed(3)
 import matplotlib as mpl
