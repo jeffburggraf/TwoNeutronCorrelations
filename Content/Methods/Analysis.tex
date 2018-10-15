@@ -28,7 +28,7 @@ The structure seen here is reflective of the underlying two-neutron angular corr
 Figure~\ref{fig:SPDPNormalization}(b) reveals how a clear picture of two-neutron correlations is produced by taking the ratio between $nn_{\text{corr}}(\theta)$ and $nn_{\text{uncorr}}(\theta)$.
 \begin{figure}[]
 \centering
-    \includegraphics[width=0.965\textwidth]{Content/Methods/SPDPNormalization.png}
+    \includegraphics[width=0.7\textwidth]{Content/Methods/SPDPNormalization.png}
     \caption{(a) Two-neutron opening angle distribution from the photofission of $^{238}$U before normalization, and, (b) after normalization to the distribution of uncorrelated two-neutron events from different pulses. All neutrons have energy greater than 0.4 MeV.}
     \label{fig:SPDPNormalization}
 \end{figure}
@@ -101,17 +101,3 @@ Using Eq.'s~(\ref{eq:corr_uncorr})~and~(\ref{eq:uncorr_DP}),  $nn_{\text{corr}}(
     &= nn_{\text{raw}}(\theta) - \frac{1}{2}nn_{\scaleto{DP}{4pt}}(\theta) \, .
     \end{split}
 \end{equation}
-
-\subsection{Correction for Uncorrelated Neutron Energy Distribution}
-The measured yield of correlated neutron pairs as a function of the energy of both neutrons,  denoted by $Y_{\text{2n-corr}}(E_1,E_2))$, is different from that of uncorrelated neutron pairs, denoted by $Y_{\text{2n-uncorr}}(E_1,E_2))$.
-There are two reasons for this.
-The first is that, because $Y_{\text{2n-uncorr}}(E_1,E_2))$ consists of uncorrelated neutron pairs, it has the form
-\begin{equation}
-	 Y_{\text{2n-uncorr}}(E_1,E_2) = Y_{\text{n-uncorr}}(E_1) Y_{\text{n-uncorr}}(E_2) \, .
-\end{equation}
-The second reason is that, unlike $Y_{\text{2n-corr}}(E_1,E_2))$, $Y_{\text{2n-uncorr}}(E_1,E_2) $, is influenced by the presence of accidental neutron coincidences due to multiple $(\gamma, 1)$ reactions in a single pulse, which produce neutrons of a lower mean energy than fission neutrons.
-The two-neutron detection efficiency depends on the energy of both neutrons, so it would not necessarily be true that the effects of detector efficiency cancel in the fraction $\frac{nn_{\text{corr}}(\theta)}{nn_{\text{uncorr}}(\theta)}$ as previously stated.
-The solution is to apply a weight to each uncorrelated two-neutron event, such that $Y_{\text{2n-uncorr}}(E_1,E_2))=Y'_{\text{2n-corr}}(E_1,E_2))$,
-where $Y'_{\text{2n-corr}}(E_1,E_2))$ is the weighted yield of uncorrelated neutrons as a function of the energy of both neutrons.
-This correction produces a small effect that is only significant for neutrons at small angles above about 3.6~MeV. 
-

@@ -38,7 +38,7 @@ for index, target in enumerate(["D2O", "DU"]):
     triple_hits_SP = treeSP_doubles.Project("","","neutrons.nhits ==3 ") / pulses_SP_singles
     triple_hits_err_SP = np.sqrt(treeSP_doubles.Project("","", "neutrons.nhits ==3 ")) / pulses_SP_singles
 
-    triple_hits_DP = 0.5*treeDP_doubles.Project("", "", "neutrons.nhits ==3 ") / pulses_DP_doubles
+    triple_hits_DP = 2*treeDP_doubles.Project("", "", "neutrons.nhits ==3 ") / pulses_DP_doubles
     triple_hits_err_DP = np.sqrt(treeDP_doubles.Project("", "", "neutrons.nhits ==3 ")) / pulses_DP_doubles
     
     x = np.array([0,1,2,3],np.float64)
@@ -62,7 +62,7 @@ for index, target in enumerate(["D2O", "DU"]):
     func.SetParName(0,"#lambda")
 
     gr_SP = ROOT.TGraphErrors(len(x), x, y_SP, x_err, y_err_SP)
-    gr_DP = ROOT.TGraphErrors(len(x), x, y_DP, x_err, y_err_DP)
+    gr_DP = ROOT.TGraphErrors(len(x), x, y_SP - 0.5*y_DP, x_err, y_err_DP)
     # gr.Draw("*A")
     grs.append((gr_SP,gr_DP))
     funcs.append(func)
@@ -103,6 +103,8 @@ for index, (func, (gr_SP,gr_DP)) in enumerate(zip(funcs, grs)):
     gr_SP.GetHistogram().SetMinimum(1E-8);
     gr_SP.GetHistogram().SetMaximum(1.5);
 
+    gr_SP.GetYaxis().SetTitleOffset(1.6)
+    gr_SP.GetXaxis().SetNdivisions(6)
     ROOT.gStyle.SetOptFit(1111)
 
 # TB = ROOT.TBrowser()
