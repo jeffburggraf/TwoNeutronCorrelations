@@ -13,6 +13,30 @@ FREYA was told to use the fission fragment mass distribution $Y(A)$ and the aver
 In ref~\cite{Talou2018}, the authors warn that using FREYA in this way to model photofission is only an approximation and could lead to incorrect results.
 Nonetheless, the approximation is presented here because it is the only photofission model available to the authors of the present work.
 
+\section{Asymmetries in $\theta_{abs}$ of Neutron Singles}
+Using data acquired during this study, it is possible to construct distributions of $\theta_{abs}$ of neutron singles.
+$\theta_{abs}$ is defined as the angle of a neutron with respect to the direction of the incident photon beam.
+These distributions were calculated by normalizing photo-neutron yields to the measured yield of neutrons from SF of $^{252}$Cf, which have no preferred direction and are thus isotropic.
+However, these two yields were measured under very different experimental conditions.
+This is different from the case of two-neutron opening angle measurements, in which a single set of neutron events is used to generate two yields, uncorrected yield and correlated yield, which are subject to the exact same experimental conditions.
+ There is a high potential for systematics errors due to the differences in experimental conditions that existed during measurements of photo-neutrons and neutrons from the SF of $^{252}$Cf.
+ 
+The photo-neutron data must be corrected for detector dead-time, which, due to the presence of the photon beam, is about an order of magnitude higher for the photo-neutron measurements than for $^{252}$Cf measurements.
+Accidental coincidences caused by noise and photons can be estimated from data taken with a non-neutron producing aluminum target, which must then be corrected for dead-time and scaled to account for the fact that the two data sets have different gamma detection rates, and then the result is subtracted from the photo-neutron data.
+Furthermore, neutrons from the SF of $^{252}$Cf do not have the same energy distribution as photo-neutrons, which could lead to incorrect results.
+
+Despite all this, the result for D$_{2}$O agrees fairly well with the established distribution, but the same may not be true for $^{238}$U and $^{232}$Th, which have a signal-to-noise ratio that is about 7 and 100 times less than for D$_{2}$O, respectively.
+
+\begin{figure}
+    \includegraphics[width = 1\textwidth]{Content/Results/Singles.png}
+    \caption{Accessory calculations were performed of the relative rates of neutrons singles as a function of $\theta_{abs}$. 
+    Results are expressed as a ratio of the yield of photo-neutron singles from D$_{2}O$, $^{238}$U (DU), and $^{232}$Th, to the yield of neutron singles from the SF of $^{252}$Cf.
+   The result for D$_{2}$O is in fair agreement with past measurements, however, these results have high potential for systematic errors due to the differences in experimental conditions under which the yields in the numerator and denominator were measured.
+       }
+    \label{fig:Singles}
+\end{figure}
+
+\FloatBarrier
 \section{correlation}
 Figure~(TODO) shows the measured $\theta_{nn}$ distribution from the photofission of $^{238}$U for various ranges of mean neutron energy compared to a FREYA simulation.
 

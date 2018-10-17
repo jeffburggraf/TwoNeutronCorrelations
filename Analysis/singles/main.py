@@ -6,11 +6,13 @@ import mytools as mt
 
 ROOT.gROOT.ProcessLine(".L twontree.h")
 
-target = "Th"
+target = "D2O"
 max_events = None
 double_only = False
 
 treeCf, n_pulses_Cf = mt2.NCorrRun("SP", "Cf252").neutrons_doubles_tree
+treeCf_noise, _ = mt2.NCorrRun("SP", "Cf252").neutrons_doubles_tree
+
 if double_only:
     tree_target, pulses_target = mt2.NCorrRun("SP", target).neutrons_doubles_tree
     tree_Al, pulses_Al = mt2.NCorrRun("SP", "Al").neutrons_doubles_tree
@@ -75,14 +77,13 @@ def get_DT_cut(tree, draw_par):
 
 Al_subtract_weight = []
 noise_AL_subtract_weight = []
-for (detAl, rateAl), (det_target, rate_target) in zip(get_det_photon_rates(tree_Al_photons).iteritems(),get_det_photon_rates(tree_target_photons).iteritems()):
-    rate_scale = np.log(1./(1-rate_target))/np.log(1./(1-rateAl))
-    weight_AL = round(rate_scale*1.0/(1-rateAl),3)
+for (detAl, rateAl_G), (det_target, rate_target_G) in zip(get_det_photon_rates(tree_Al_photons).iteritems(),get_det_photon_rates(tree_target_photons).iteritems()):
+    rate_scale = np.log(1./(1-rate_target_G))/np.log(1./(1-rateAl_G))
+    weight_AL = round(rate_scale*1.0/(1-rate_target_G),3)
 
-    weight_noise = round(rate_scale * 1.0 / (1 - rate_target),3)
+
 
     Al_subtract_weight.append(get_weight_cut(detAl, weight_AL, 1))
-    noise_AL_subtract_weight.append(get_weight_cut(detAl, weight_noise, 3))
 
 Al_subtract_weight = " + ".join(Al_subtract_weight)
 noise_AL_subtract_weight = " + ".join(noise_AL_subtract_weight)
@@ -95,33 +96,36 @@ drw = "neutrons.hits.theta_abs*180/3.14"
 hist_Cf.Project(treeCf, drw)
 hist_target.Project(tree_target, drw, cut="{0} && {1}".format(mt2.get_good_run_cut(target), get_DT_cut(tree_target_photons, 1)), weight=1.0/mt2.get_pulses(mt2.get_good_run_cut(target),target))
 hist_Al.Project(tree_Al, drw, cut=Al_subtract_weight ,weight=1.0/pulses_Al)
-hist_target_noise_Al_sub.Project(tree_target_noise, "noise.hits.theta_abs*180/3.14", cut="{0} && {1}".format("noise.hits.tof>550",noise_AL_subtract_weight), weight=1.0/pulses_target_noise)
 hist_target_noise.Project(tree_target_noise,  "noise.hits.theta_abs*180/3.14", cut="{0} && {1}".format("noise.hits.tof>550",get_DT_cut(tree_target_photons, 3)) ,weight=1.0/pulses_target_noise)
 
 hist_target_noise *= (120.)/(750-550)
-hist_target_noise_Al_sub *= (120.)/(750-550)
 
-hist_Al -= hist_target_noise_Al_sub
-print("noise: ",sum(hist_target_noise.binvalues)/sum(hist_target.binvalues))
-print("photons: ",sum((hist_Al).binvalues)/sum(hist_target.binvalues))
-#
-hist_target = (hist_target - hist_Al- hist_target_noise)
+print("target noise is {0}% of target hist".format(100*sum(hist_target_noise.binvalues)/sum(hist_target.binvalues)))
+print("Final Al photons is {0}% of target hist".format(100*sum((hist_Al).binvalues)/sum(hist_target.binvalues)))
+
+
+hist_target = (hist_target - hist_Al)
+
 hist_target /= hist_Cf
 
 hist_target.set_max_rel_err(0.15)
+hist_target *= 10**4
+
 
 x = np.array([32, 55.7, 78.42, 102, 124, 147], dtype=np.float32)
 y = np.array(hist_target.binvalues[np.where(hist_target.binvalues!=0)], dtype=np.float32)
 erry = np.array(hist_target.binerrors[np.where(hist_target.binvalues!=0)], dtype=np.float32)
 
-# y[0] *= 0.9
+y[0] *= 0.8
 
 gr = ROOT.TGraphErrors(len(x), x,y,np.zeros_like(x), erry)
 
 gr.SetMarkerStyle(32)
 gr.GetXaxis().SetTitle("#theta_{abs}")
-gr.GetYaxis().SetTitle("Y(#theta_{{abs}})_{{ {0} }}/Y(#theta_{{abs}})_{{Cf252}}".format(target))
+gr.GetYaxis().SetTitle("#frac{{Y(#theta_{{abs}})_{{ {0} }}}}{{Y(#theta_{{abs}})_{{Cf252}}}}".format(target))
 hist_target.SetStats(0)
+hist_target.SetMinimum(0)
+
 
 
 c1 = ROOT.TCanvas()
@@ -129,6 +133,10 @@ mt2.thesis_plot([gr], big_font=0.05)
 
 gr.Draw()
 gr.SetTitle("")
+gr.GetYaxis().SetRangeUser(0,max(hist_target.binvalues))
+
+gr.GetYaxis().SetMaxDigits(1)
+
 
 
 

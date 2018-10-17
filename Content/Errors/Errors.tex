@@ -25,8 +25,8 @@ The result, seen in fig~\ref{fig:OpeningAngleRes}, can be interpreted as the ope
     \includegraphics[width = 0.75\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
     \caption{Uncertainties in opening angle determined by the propagation of position uncertainties through the opening angle calculation.
      The uncertainty of a given opening angle measurement depends on which detectors are involved and the position of the particles on the detectors.
-     For this reason, the average uncertainty of measurements falling within each bin is taken.
-    The y-axis can be viewed as a measure of the angular resolution in the sense that it represents the smallest angular difference that can be considered statistically significant.
+     For this reason, the mean uncertainty of measurements falling within each angle bin is plotted.
+    The y-axis can be viewed as a measure of angular resolution, in the sense that it represents the smallest angular difference that can be considered statistically significant.
     }
     \label{fig:OpeningAngleRes}
 \end{figure}
@@ -59,7 +59,7 @@ Figure~\ref{fig:CrossTalkExample} illustrates a cross-talk event due to a neutro
 In order to be convinced that such events occur at negligible rates, a detailed MCNP-PoliMi~\cite{MCNP_POLIMI} simulation was performed to model cross-talk.
 \begin{figure}
     \centering
-    \includegraphics[width = 0.75\textwidth]{Content/Errors/CrossTalkExample.png}
+    \includegraphics[width = 0.95\textwidth]{Content/Errors/CrossTalkExample.png}
     \caption{A hypothetical example of a neutron cross-talk event.
 An incoming neutron detected and then scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
 The scattering of a neutron from an intermediate nucleus, in this case a lead nucleus, is kinematically required in order for cross-talk to occur in this experiment.}
@@ -105,14 +105,31 @@ Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoinci
     \label{fig:CrosstalkVScoincidence}
 \end{figure}
 
-\subsection{Elastic Scattering in Target}
+\subsection{Neutron Scattering within Target}
 \label{subsection:Elastic_scattering}
 A potential source of error in opening angle measurements is the scattering of neutrons within the fission target.
-This is a cause for concern, because the scattering of neutrons from heavy nuclei highly alters the neutron's direction of travel, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
-The target's dimensions are small enough that the rate of photon absorption, and thus photo-neutron production, is virtually uniform throughout the entire target volume.
-MCNP was used to simulate the production of uncorrelated pairs of fission neutrons uniformly throughout the target volume, indicating that 5\% of neutron pairs undergo at least one scattering event between the two before they exit the target.
+This is a cause for concern, because the scattering of neutrons from heavy nuclei is very likely to deflect neutrons at large angles, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
+Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons that are initially traveling towards a given detector are deflected away by scattering if said detector is aligned along the wide (2~cm) axis of the strip, as opposed to the thin (0.05~cm) axis.
+This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
+Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.
+Thus, by rotating the target, cylindrical symmetry is preserved in the average, producing a result equivalent to that if a cylindrical target were used. 
 
-The chance that a neutron undergoes scattering within the target depends on how much target material the neutron travels through before exiting. 
-This has the potential to create bias, because neutrons must travel through varying amounts of target material depending on which detector they reach.  
-In particular, this could have an impact on measurements concerning the angle of neutrons with respect to the incoming photon beam.
-In order to eliminate this problem, the target was rotated slowly about the vertical axis during data acquisition, creating a result equivalent to that if the target were actually a cylinder.
+The target's dimensions are small enough that the rate of photon absorption, and thus photo-neutron production, is virtually uniform throughout the entire target volume.
+MCNP was used to simulate the production of pairs of fission neutrons uniformly throughout the target volume with energies typical for fission neutrons.
+The probability that at least one neutron, out pairs of two neutrons, scatters before exiting the target was calculated from the simulation.
+For the target used in this work, the simulation indicated that 6\% of the opening angles between neutron pairs once they exit the target have been altered due to scattering within the target.
+
+A thin strip is the ideal target shape with regard to the rate of neutron elastic scattering per unit volume.
+See Fig~\ref{fig:ElasticScatteringPlot} for the result of an MCNP simulation of the elastic scattering rates for both thin strip and cylindrical targets.
+For this work, which used a thin strip target with a width 40 times greater than its thickness, the simulation indicated that the rate of elastic scattering is roughly a factor of two less than for a cylindrical target of the same volume.
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.95\textwidth]{Content/Errors/ElasticScatteringPlot.png}
+    \caption{
+     Result of an MCNP simulation in which neutron-neutron pairs, with energies sampled from a typical watt fission spectrum, were generated uniformly throughout the volume of DU targets.
+        The y-axis is the rate of opening angle contamination due to the scattering of, within the DU target in which they were produced, either one or both neutrons in neutron-neutron pairs.
+    The lack of symmetry of a thin strip target can be removed by slowly rotating the target around the vertical axis during data acquisition, making it the optimal target geometry for the minimization of the rate of neutron scattering.
+    The point on the x-axis label ``this work'' corresponds to the target used in this work, which had a length of 4~cm, a width of 2~cm, and a thickness of 0.05~cm.
+    }
+    \label{fig:ElasticScatteringPlot}
+\end{figure}

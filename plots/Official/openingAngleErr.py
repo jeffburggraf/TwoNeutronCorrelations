@@ -35,10 +35,9 @@ s="""(32400*ex2**2*(-((x2*(x1**2 + y1**2 + z1**2)*(x1*x2 + y1*y2 + z1*z2))/
      -   (Pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/
      -        ((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))))"""
 
+ROOT.gROOT.ProcessLine(".L twontree.h")
 
-print (mt2.FortranFormConvert(s))
-#
-treeSP, _ = mt2.NCorrRun("SP","DU",generate_dictionary=True,Forward = True).neutrons_doubles_tree
+treeSP, _ = mt2.NCorrRun("SP","DU",generate_dictionary=0,Forward = True).neutrons_doubles_tree
 
 def get_error(x1,y1,z1,x2,y2,z2, ex1,ey1,ez1, ex2,ey2,ez2):
     result =  (32400*ex2**2*(-((x2*(x1**2 + y1**2 + z1**2)*(x1*x2 + y1*y2 + z1*z2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + x1/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))) + (32400*ex1**2*(-((x1*(x1*x2 + y1*y2 + z1*z2)*(x2**2 + y2**2 + z2**2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + x2/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))) + (32400*ey2**2*(-((y2*(x1**2 + y1**2 + z1**2)*(x1*x2 + y1*y2 + z1*z2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + y1/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))) + (32400*ey1**2*(-((y1*(x1*x2 + y1*y2 + z1*z2)*(x2**2 + y2**2 + z2**2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + y2/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))) + (32400*ez2**2*(-(((x1**2 + y1**2 + z1**2)*z2*(x1*x2 + y1*y2 + z1*z2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + z1/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))) + (32400*ez1**2*(-((z1*(x1*x2 + y1*y2 + z1*z2)*(x2**2 + y2**2 + z2**2))/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))**1.5) + z2/np.sqrt((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2)))**2)/(np.pi**2*(1 - (x1*x2 + y1*y2 + z1*z2)**2/((x1**2 + y1**2 + z1**2)*(x2**2 + y2**2 + z2**2))))
@@ -88,13 +87,12 @@ print (list(err_hist.__binLeftEdges__))
 
 err_hist.Draw("hist p")
 err_hist.SetStats(0)
-mt2.thesis_plot(err_hist)
+mt2.thesis_plot([err_hist],big_font=0.045)
 
-err_hist.GetXaxis().SetTitle("Opening angle [degrees]")
-err_hist.GetYaxis().SetTitle("Average uncertainty in opening angle [degrees]")
+err_hist.GetXaxis().SetTitle("Reconstructed opening angle [degrees]")
+err_hist.GetYaxis().SetTitle("Mean uncertainty in opening angle [degrees]")
 err_hist.SetMarkerStyle(22)
 n_fills.Draw()
-
 
 
 if __name__ == "__main__":

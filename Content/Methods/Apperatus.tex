@@ -23,11 +23,29 @@ The scintillators were made from Polyvinyl Toluene (PVT), an organic plastic sci
 Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting light guides.
 A Hamamatsu 580-17 photomultiplier (PMT) tube is fixed to each light guide using optical glue.
 In order to increase the chance that scintillation light remains inside the scintillator, the scintillators were polished to remove micro-imperfections and were wrapped in reflective aluminized mylar.
+
 \begin{figure}[]
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/Detectors.png}
     \caption{3-D render of the bare, unshielded scintillators, along with PMTs and light guides.}
     \label{fig:DetGeom}
+\end{figure}
+
+The relative efficiencies of the neutron detectors as a function of neutron energy were calculated by diving measured and theoretical yields from the SF of $^{252}$Cf.
+The results are shown in Fig.~\ref{fig:RelErgEfficiency}, which uses the aggregate of events from all detectors, and in Fig.~\ref{fig:RelErgEfficiencyVariation}, which shows the result for each detector individually.
+See section~\ref{Analysis} for a discussion on how the effects of detector efficiency are accounted for in this work.
+\begin{figure}[]
+    \centering
+    \includegraphics[width = 0.9\textwidth]{Content/Methods/RelErgEfficiency.png}
+    \caption{The relative efficiency of the neutron detection system as a function of neutron energy is calculated by dividing the measured energy distribution by a theoretical energy distribution of neutrons from the SF of $^{252}$Cf.}
+    \label{fig:RelErgEfficiency}
+\end{figure}
+\begin{figure}[]
+    \centering
+    \includegraphics[width = 1\textwidth]{Content/Methods/RelErgEfficiencyVariation.png}
+    \caption{
+    The neutron efficiency as a function of neutron energy varies among the detectors, which are identified in this figure according to the angle of the center of each detector from the photon beam. }
+    \label{fig:RelErgEfficiencyVariation}
 \end{figure}
 
 Ten out of the fourteen scintillators had dimensions of 76.2$\times$15.2$\times$3.8 cm$^3$.
@@ -43,7 +61,7 @@ In order to test for systematic errors that may have resulted from the use of th
 \begin{figure}
     \centering
     \includegraphics[width = 0.65\textwidth]{Content/Methods/DetShielding.png}
-    \caption{Scintillator shielding designed to reduce the detection of gammas, room return, and detector cross-talk.}
+    \caption{Detector shielding was designed to reduce the detection of gammas, room return, and detector cross-talk.}
     \label{fig:shielding}
 \end{figure}
 The detector shielding, depicted in Fig.~\ref{fig:shielding}, was constructed using lead and polyethylene with the aim of reducing cross-talk, the detection of photons, and noise.
