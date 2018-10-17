@@ -78,10 +78,8 @@ def get_DT_cut(tree, draw_par):
 Al_subtract_weight = []
 noise_AL_subtract_weight = []
 for (detAl, rateAl_G), (det_target, rate_target_G) in zip(get_det_photon_rates(tree_Al_photons).iteritems(),get_det_photon_rates(tree_target_photons).iteritems()):
-    rate_scale = np.log(1./(1-rate_target_G))/np.log(1./(1-rateAl_G))
-    weight_AL = round(rate_scale*1.0/(1-rate_target_G),3)
-
-
+    rate_scale = np.log(1-rate_target_G)/np.log(1-rateAl_G)
+    weight_AL = round(rate_scale*1.0/(1-rateAl_G),3)
 
     Al_subtract_weight.append(get_weight_cut(detAl, weight_AL, 1))
 
@@ -95,8 +93,9 @@ drw = "neutrons.hits.theta_abs*180/3.14"
 
 hist_Cf.Project(treeCf, drw)
 hist_target.Project(tree_target, drw, cut="{0} && {1}".format(mt2.get_good_run_cut(target), get_DT_cut(tree_target_photons, 1)), weight=1.0/mt2.get_pulses(mt2.get_good_run_cut(target),target))
-hist_Al.Project(tree_Al, drw, cut=Al_subtract_weight ,weight=1.0/pulses_Al)
-hist_target_noise.Project(tree_target_noise,  "noise.hits.theta_abs*180/3.14", cut="{0} && {1}".format("noise.hits.tof>550",get_DT_cut(tree_target_photons, 3)) ,weight=1.0/pulses_target_noise)
+hist_Al.Project(tree_Al, drw, cut="{0} && {1}".format(mt2.get_good_run_cut("Al"),Al_subtract_weight), weight=1.0/mt2.get_pulses(mt2.get_good_run_cut("Al"),"Al"))
+hist_Al.Draw()
+# hist_target_noise.Project(tree_target_noise,  "noise.hits.theta_abs*180/3.14", cut="{0} && {1}".format("noise.hits.tof>550",get_DT_cut(tree_target_photons, 3)) ,weight=1.0/pulses_target_noise)
 
 hist_target_noise *= (120.)/(750-550)
 
@@ -108,8 +107,12 @@ hist_target = (hist_target - hist_Al)
 
 hist_target /= hist_Cf
 
-hist_target.set_max_rel_err(0.15)
+
+
 hist_target *= 10**4
+integral = sum(hist_target.bin_widths()*hist_target.binvalues)
+
+hist_target.set_max_rel_err(0.15)
 
 
 x = np.array([32, 55.7, 78.42, 102, 124, 147], dtype=np.float32)
@@ -138,7 +141,49 @@ gr.GetYaxis().SetRangeUser(0,max(hist_target.binvalues))
 gr.GetYaxis().SetMaxDigits(1)
 
 
+if target == "D2O":
+    file = ROOT.TFile("/Volumes/JeffMacEx/PycharmProjects/MCNP_sims/D2O/ptrac0.root")
+    tree = file.Get("tree")
 
+    hist = TH1F(0,180,binwidths=10)
+
+    for evt in tree:
+        if evt.evt_type[0] == 2:
+            hist.Fill(180. / np.pi * np.arccos(evt.dirz[0] / np.sqrt(evt.dirx[0] ** 2 + evt.diry[0] ** 2)))
+
+    iso = np.sin(np.pi / 180 * np.array(hist.bincenters[0]))
+
+    hist /= iso
+
+    hist *= max(hist_target)/max(hist)
+
+    gr_theory = hist.GetTGraph()
+    gr_theory.SetMarkerStyle()
+    #
+    # y = []
+    # for i in hist.bincenters[0]:
+    #     y.append(gr_theory.Eval(i))
+    # y = np.array(y, np.float64)
+    # y *= max(hist_target.binvalues)/max(y)
+    # print(y)
+    #
+    # gr_theory = ROOT.TGraph(len(hist_target), np.array(hist_target.bincenters[0], np.float64), y)
+
+    gr_theory.Draw("* same")
+    gr_theory.SetMarkerStyle(27)
+
+    leg = ROOT.TLegend()
+    leg.AddEntry(gr_theory, "MCNP", "p")
+    leg.AddEntry(gr, "Measurement", "p")
+    leg.Draw()
+
+
+
+# for i in mt2.runs["Al"]:
+#     hist = TH1F(0,200,200)
+#     hist.Project(tree_Al, "neutrons.hits.tof", "RunNumber == {0}".format(i))
+#     hist.SetTitle(i)
+#     hist.Draw()
 
 
 if __name__ == "__main__":
