@@ -40,7 +40,10 @@ for e1,e2 in ToF_bins:
 cuts = "||".join(cuts)
 cuts_n = "||".join(cuts_n)
 
-print(cuts)
+n_coince = histSP.Project(treeSP, "0", "neutrons.ncoinc == 1")
+n_coince += 3*histSP.Project(treeSP, "0", "neutrons.ncoinc == 3")
+# n_coince -= 0.5*n_pulsesSP/n_pulsesDP*( histSP.Project(treeDP, "0", "neutrons.ncoinc == 1") + 2*histDP.Project(treeSP, "0", "neutrons.ncoinc == 2"))
+print(n_coince)
 
 histSP.Project(treeSP, "neutrons.coinc_hits[0].tof[0]", cuts)
 histSP /= n_pulsesSP
@@ -88,7 +91,7 @@ leg.Draw()
 leg.SetTextSize(0.05)
 
 mt2.thesis_plot([gr1], big_font=0.05)
-
+tb = ROOT.TBrowser()
 if __name__ == "__main__":
     import ROOT as ROOT
     from multiprocessing import Process, Queue
