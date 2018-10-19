@@ -69,6 +69,8 @@
 
 %% Helpful macros.
 \input{macrosetup}
+\usepackage{booktabs,multirow,bm,siunitx}
+
 
 %% Make document internal hyperlinks wherever possible. (TOC, references)
 %% This MUST be loaded after varioref, which is loaded in 'extrapackages'
@@ -82,12 +84,12 @@
 \usepackage{placeins}
 \usepackage{scalerel}
 
-
+\interfootnotelinepenalty=10000
 
 %% Document information
 %% ====================
 
-\title{Two-Neutron Correlations in the Photofission of Actinides}
+\title{Two-Neutron Correlations in the Photofission of $^{238}$U}
 \author{Jeffrey S. Burggraf}
 \thesistype{phd Thesis}
 \advisors{Advisors: Prof.\ Dr.\ D. S. Dale}
@@ -97,7 +99,6 @@
 % double spacing for comments. 
 \DisemulatePackage{setspace}
 \usepackage{setspace} 
-\setstretch{1.75}
 \usepackage[margin=1.5in]{geometry}
 \usepackage[inline]{enumitem}
 \usepackage{xcolor}
@@ -123,7 +124,10 @@
 
 %% TOC with the proper setup, do not change.
 \cleartorecto
+\setstretch{1.25}
 \tableofcontents
+\setstretch{1.75}
+
 \mainmatter
 
 \listoffigures
