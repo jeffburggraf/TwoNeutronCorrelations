@@ -26,12 +26,12 @@ import matplotlib.pyplot as plt
 """
 # ====================
 apply_correction = True
-cut_type =3
+cut_type =0
 max_erg = 8
 all_on_one_axis = False
 _cheat_ = True
 plot_FREYA = True
-target = "Cf252"
+target = "DU"
 draw_w_o_correction = True
 save_figure = True
 KDE = 1
@@ -321,11 +321,16 @@ def get_histos(target):
             ax.set_xlabel(r"$\theta_{nn}$")
             ax.set_xticks(np.arange(30, 180 + 30, 30))
     else:
+
         axs[0].set_xlabel(r"$\theta_{nn}$")
 
     if n_erg_bins == 3:
+        for ax in axs[1:]:
+            ax.set_xlabel(r"$\theta_{nn}$")
+            ax.set_xticks(np.arange(30, 180 + 30, 30))
         empty_string_labels = [''] * len(np.arange(30, 180 + 30, 30))
         axs[0].set_xticklabels(empty_string_labels)
+        plt.subplots_adjust(wspace=0.05)
 
 mpl.rc("savefig", dpi=350)
 
@@ -350,7 +355,6 @@ if plot_FREYA or draw_w_o_correction:
     if n_erg_bins == 1:
         leg_loc = (0.6, 0.2)
 
-    print(legend_hangles)
 
     plt.legend(legend_hangles,legend_titles, bbox_to_anchor=leg_loc, bbox_transform=plt.gcf().transFigure,
                fontsize=13 if (draw_w_o_correction and plot_FREYA) else 17)

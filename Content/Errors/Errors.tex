@@ -2,11 +2,11 @@
 \label{Errors}
 \section{Random Errors}
 \subsection{Resolution of measurement}
-The position of a detected particle is known to within a specified resolution, which translates into a resolution in the measurement of the opening angle between a pair of particles.
-A particle's reconstructed position along a detector lengthwise is achieved by using the timing difference between two PMTs, producing a result known to within $\pm$13 cm.
+The position of a detected particle is known to within a specified distance, which translates into a resolution in the measurement of the opening angle between a pair of particles.
+A particle's reconstructed position along a detector's length has an error of $\pm$13 cm.
 Due to the detector's 15 cm width, there is also a positional uncertainty of $\pm 7.5$ cm in the direction perpendicular to the detector's length.
-The amount of uncertainty in a two-neutron opening angle measurement is a function of the uncertainty in the positions of each neutron.
-This function is determined by the propagation of the positional uncertainties through the formula for the calculation of opening angle, which is given by
+The amount of uncertainty in a single two-neutron opening angle measurement is determined from of the uncertainties in the positions of each detected neutron.
+These positional uncertainties are propagated through the formula for the calculation of opening angle, which is
 \begin{displaymath}
     \theta_{nn} = \text{arccos}\left(\frac{\vec{v_{1}}^{\,}\cdot\vec{v_{2}}^{\,}}{|\vec{v_{1}}^{\,}||\vec{v_{2}}^{\,}|}\right)
 \end{displaymath}
@@ -23,17 +23,17 @@ The result, seen in Fig.~\ref{fig:OpeningAngleRes}, can be interpreted as the op
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.85\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
-    \caption{Uncertainties in opening angle determined by the propagation of position uncertainties through the opening angle calculation.
+    \caption{Uncertainties in opening angle determined from the propagation of position uncertainties through the opening angle calculation.
      The uncertainty of a given opening angle measurement depends on which detectors are involved and the position of the particles on the detectors.
-     For this reason, the mean uncertainty of measurements falling within each angle bin is plotted.
-    The y-axis can be viewed as a measure of angular resolution, in the sense that it represents the smallest angular difference that can be considered statistically significant.
+     For this reason, the uncertainty of measurements falling within each angle bin is a distribution, so the average uncertainties are plotted here.
+    The y-axis can be viewed as a measure of angular resolution in the sense that it represents the smallest angular difference that can be considered statistically significant.
     }
     \label{fig:OpeningAngleRes}
 \end{figure}
 
 \subsection{Counting error}
-The uncertainty in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per poissonian  statistics, were N is the number of observed events.
-This value is propagated through all the analysis procedure using the standard method for the propagation of error.
+The uncertainty in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per poissonian  statistics, where N is the number of observed events.
+This value is then propagated through all the analysis procedure using the standard methods for the propagation of error.
 The vertical error bars seen in all results are due solely to such counting error.
 
 \FloatBarrier
@@ -41,7 +41,7 @@ The vertical error bars seen in all results are due solely to such counting erro
 \label{crosstalk}
 \textit{Cross-talk} occurs when, after a particle is detected once, the same particle, by any means, causes a detection to be registered in a different detector.
 For example, upon detection, a particle may undergo elastic scattering and then travel into a another detector where it is detected again, or it may produce secondary particles that are detected.
-The two coincident detections forming a cross-talk event are causally correlated, and thus they have the potential to contaminate the signal from correlated fission neutrons.
+The two coincident detections of a cross-talk event are causally correlated, and thus they have the potential to contaminate the signal from correlated fission neutrons.
 If both detections occur during the ToF range typical for fission neutrons, then the cross-talk event cannot be distinguished from the detection of two correlated neutrons.
 
 Recent works that measured the two-neutron angular correlations in the spontaneous fission of $^{252}$Cf and $^{240}$Pu~\cite{Pozzi2016,Verbeke2018} addressed this effect by using an MCNP-PoLiMi simulation to estimate and then subtract cross-talk from their measurements.
@@ -56,13 +56,13 @@ The geometry of the neutron detection system makes it kinematically impossible f
 For this reason, upon being detected, a neutron must scatter from one or more intermediate nuclei, such as Pb or C, in order for it to reach a different detector with enough energy to be detected a second time.
 This fact follows from the conservation of energy and momentum.
 Figure~\ref{fig:CrossTalkExample} illustrates a cross-talk event due to a neutron scattering in a detector's shielding.
-In order to be convinced that such events occur at negligible rates, a detailed MCNP-PoliMi~\cite{MCNP_POLIMI} simulation was performed to model cross-talk.
+In order to be more convinced that such events occur at negligible rates, a detailed MCNP-PoliMi~\cite{MCNP_POLIMI} simulation was performed to model cross-talk.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrossTalkExample.png}
     \caption{A hypothetical example of a neutron cross-talk event.
 An incoming neutron detected and then scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
-The scattering of a neutron from an intermediate nucleus, in this case a lead nucleus, is kinematically required in order for cross-talk to occur in this experiment.}
+The scattering of a neutron from an intermediate nucleus, in this example a lead nucleus, is kinematically required in order for cross-talk to occur in this experiment.}
     \label{fig:CrossTalkExample}
 \end{figure}
 
@@ -77,11 +77,11 @@ For neutron collisions with hydrogen, the light output in MeVee, $L$, is calcula
 L = 0.0364 E_n^2 +  0.125 E_n
 \end{displaymath}
 where $E_n$ is equal to the loss in the kinetic energy of the neutron due to the collision.
-Neutron interactions with carbon are assumed to generate a smal light output of
+Neutron interactions with carbon are assumed to generate a small light output of
 \begin{displaymath}
 L = 0.02 E_n
 \end{displaymath}
-As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, the model produces a ToF spectrum that is in good agreement with the measurement.
+As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, this model produces a ToF spectrum that is in good agreement with the measurement.
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Errors/Cf252MCNPVsEXP.png}
@@ -90,10 +90,10 @@ As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, the model produces a ToF spectrum that
 \end{figure}
 
 The simulation was initially performed with 5 cm of lead shielding placed behind the scintillators, and the number of cross-talk events accounted for 11\% of the total coincident neutron events.
-The amount of cross-talk fell to 3\% if polyethylene was used instead of lead to shield behind the detectors, which motivated the placement of 5 cm of polyethylene behind the detectors during construction.
+The amount of cross-talk fell to 3\% if polyethylene was used instead of lead, which motivated the placement of 5 cm of polyethylene behind the detectors during construction.
 Figure~\ref{fig:CrosstalkVScoincidence} shows the distribution of cross-talk events and true two-neutron coincidences as a function of reconstructed opening angle.
 It is worth noting that, according to the simulation, the effect of cross-talk is not only small, but is also distributed over a wide range of angles rather than being concentrated around $\theta_{nn}=0$.
-Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence}, because such events can be readily identified in analysis by the large amount of time required for the neutron to travel these distances.
+Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence}, because these cross-talk events can be readily identified in analysis by the large amount of time required for a neutron to travel the required distances.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrosstalkVScoincidence.png}
@@ -108,28 +108,28 @@ Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoinci
 \subsection{Neutron Scattering within Target}
 \label{subsection:Elastic_scattering}
 A potential source of error in opening angle measurements is the scattering of neutrons within the fission target.
-This is a cause for concern, because the scattering of neutrons from heavy nuclei is very likely to deflect neutrons at large angles, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
+This is a cause for concern, because a neutron that scatters from a heavy nuclei is very likely to be deflected at a large angle, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
 Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons that are initially traveling towards a given detector are deflected away by scattering if said detector is aligned along the wide (2~cm) axis of the strip, as opposed to the thin (0.05~cm) axis.
 This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
 Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.
-Thus, by rotating the target, cylindrical symmetry is preserved in the average, producing a result equivalent to that if a cylindrical target were used. 
+Thus, by rotating the target, cylindrical symmetry is preserved in the average, producing a result equivalent to that if a cylindrical target were used.
+
+A thin strip is the ideal target shape regarding the rate of neutron elastic scattering per unit volume.
+See Fig~\ref{fig:ElasticScatteringPlot} for the result of an MCNP simulation of the elastic scattering rates for both thin strip and cylindrical shaped targets.
+The target in this experiment was a thin strip with a width 40 times greater than its thickness, for which the simulation indicated the rate of elastic scattering is roughly a factor of two less than for a cylindrical target of the same volume.
 
 The target's dimensions are small enough that the rate of photon absorption, and thus photo-neutron production, is virtually uniform throughout the entire target volume.
-MCNP was used to simulate the production of pairs of fission neutrons uniformly throughout the target volume with energies typical for fission neutrons.
-The probability that at least one neutron, out pairs of two neutrons, scatters before exiting the target was calculated from the simulation.
-For the target used in this work, the simulation indicated that 6\% of the opening angles between neutron pairs once they exit the target have been altered due to scattering within the target.
-
-A thin strip is the ideal target shape with regard to the rate of neutron elastic scattering per unit volume.
-See Fig~\ref{fig:ElasticScatteringPlot} for the result of an MCNP simulation of the elastic scattering rates for both thin strip and cylindrical targets.
-For this work, which used a thin strip target with a width 40 times greater than its thickness, the simulation indicated that the rate of elastic scattering is roughly a factor of two less than for a cylindrical target of the same volume.
+MCNP was used to simulate the production of pairs of fission neutrons uniformly throughout the target volume with energies typical of fission neutrons.
+The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation.
+For the target used in this work, the simulation indicated that 6\% of two-neutron opening angles were altered due to scattering.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/ElasticScatteringPlot.png}
     \caption{
      Result of an MCNP simulation in which neutron-neutron pairs, with energies sampled from a typical watt fission spectrum, were generated uniformly throughout the volume of DU targets.
-        The y-axis is the rate of opening angle contamination due to the scattering of, within the DU target in which they were produced, either one or both neutrons in neutron-neutron pairs.
+        The y-axis is the rate of opening angle contamination due to the scattering of, within the DU target in which they were produced, either one or both of a pair of neutrons.
     The lack of symmetry of a thin strip target can be removed by slowly rotating the target around the vertical axis during data acquisition, making it the optimal target geometry for the minimization of the rate of neutron scattering.
-    The point on the x-axis label ``this work'' corresponds to the target used in this work, which had a length of 4~cm, a width of 2~cm, and a thickness of 0.05~cm.
+    The target used in this work had a length of 4~cm, a width of 2~cm, and a thickness of 0.05~cm.
     }
     \label{fig:ElasticScatteringPlot}
 \end{figure}

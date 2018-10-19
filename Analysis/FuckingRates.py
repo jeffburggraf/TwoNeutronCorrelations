@@ -36,8 +36,10 @@ for det in mt.angles:
     print("det ",det,"",  n_s_rate, " ", ph_s_rate)
 
 s = []
+
+
 for det, (rate_n,rate_ph) in singles_neutrons.iteritems():
-    s.append("{0} & {1} & {2} \\\\".format(det,rate_n, rate_ph))
+    s.append("{0} & {1} & {2} \\\\*".format(det,rate_n, rate_ph))
 
 s = " \midrule\n".join(s)
 
