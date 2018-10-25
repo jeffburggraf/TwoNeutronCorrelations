@@ -1,7 +1,6 @@
 \chapter{Discussion of Experimental Errors}
 \label{Errors}
-\section{Random Errors}
-\subsection{Resolution of measurement}
+\section{Resolution of measurement}
 The position of a detected particle is known to within a specified distance, which translates into a resolution in the measurement of the opening angle between a pair of particles.
 A particle's reconstructed position along a detector's length has an error of $\pm$13 cm.
 Due to the detector's 15 cm width, there is also a positional uncertainty of $\pm 7.5$ cm in the direction perpendicular to the detector's length.
@@ -12,14 +11,14 @@ These positional uncertainties are propagated through the formula for the calcul
 \end{displaymath}
 where $\vec{v_{1}}^{\,} = (x_1,y_1,z_1)$ and $\vec{v_{2}}^{\,} = (x_2,y_2,z_2)$ are the detected positions of the two neutrons.
 The propagation of error through this formula is achieved by evaluating the following expression
-\begin{eqnarray*}
+\begin{eqnarray}
 \label{eq:propagation}
  \Delta \theta_{nn} & = & \left( \left(\Delta x_1 \frac{\partial \theta}{\partial x_1}\right)^{2} + \left(\Delta y_1 \frac{\partial \theta}{\partial y_1}\right)^{2} + \left(\Delta z_1 \frac{\partial \theta}{\partial z_1}\right)^{2} + \right. \\
- & & \left. + \left(\Delta x_2 \frac{\partial \theta}{\partial x_2}\right)^{2} + \left(\Delta y_2\frac{\partial \theta}{\partial y_2}\right)^{2} + \left(\Delta z_2 \frac{\partial \theta}{\partial z_2}\right)^{2} \right) ^{\frac{1}{2}}
-\end{eqnarray*}
-, where the $\Delta$'s represent the uncertainty in the variable that directly follows each $\Delta$.
+ & & \left. + \left(\Delta x_2 \frac{\partial \theta}{\partial x_2}\right)^{2} + \left(\Delta y_2\frac{\partial \theta}{\partial y_2}\right)^{2} + \left(\Delta z_2 \frac{\partial \theta}{\partial z_2}\right)^{2} \right) ^{\frac{1}{2}} \, ,  \nonumber
+\end{eqnarray}
+where the $\Delta$'s represent the uncertainty in the variable that directly follows each $\Delta$.
 The values and uncertainties of all events in a given angle bin are fed through Eq.\ref{eq:propagation}, and then averaged together.
-The result, seen in Fig.~\ref{fig:OpeningAngleRes}, can be interpreted as the opening angle resolution as a function of $\theta$.
+The result, seen in Fig.~\ref{fig:OpeningAngleRes}, can be interpreted as the opening angle resolution as a function of $\theta_{nn}$.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.85\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
@@ -31,8 +30,8 @@ The result, seen in Fig.~\ref{fig:OpeningAngleRes}, can be interpreted as the op
     \label{fig:OpeningAngleRes}
 \end{figure}
 
-\subsection{Counting error}
-The uncertainty in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per poissonian  statistics, where N is the number of observed events.
+\section{Counting error}
+The uncertainty in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per Poissonian  statistics, where N is the number of observed events.
 This value is then propagated through all the analysis procedure using the standard methods for the propagation of error.
 The vertical error bars seen in all results are due solely to such counting error.
 
@@ -49,7 +48,7 @@ In this work, the issue of cross-talk is approached differently by employing the
 By using shielding to reduce cross-talk, this measurement is less dependent on the details of the models used by MCNP-PoLiMi to simulate neutron transport and detection.
 MCNP-PoLoMi simulations are used in this work only to verify that the effect of cross-talk is negligible.
 The scintillators used here are much larger than those used in similar works, such as in refs~\cite{Pozzi2016,Verbeke2018}, allowing for them to be placed much farther from the fission source without causing extremely low coincidence rates. 
-An increase in the distance between the detectors and the fission source makes this measurement less sensitive to angular uncertainty, which is influenced by the uncertainty in the position of a detected particle, due to, for example, the scattering of neutrons from detector shielding.
+An increase in the distance between the detectors and the fission source makes this measurement less sensitive to angular uncertainty, which is influenced by the uncertainty in the position of a detected particle due to, for example, the scattering of neutrons from detector shielding.
 Because of this, larger amounts of shielding can be used without concern of introducing large errors.
 
 The geometry of the neutron detection system makes it kinematically impossible for a neutron to scatter from a proton in one detector--which is the basis for scintillation--and then travel directly into another detector with enough kinetic energy to be detected a second time.
@@ -61,12 +60,13 @@ In order to be more convinced that such events occur at negligible rates, a deta
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrossTalkExample.png}
     \caption{A hypothetical example of a neutron cross-talk event.
-An incoming neutron detected and then scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
+An incoming neutron is detected and then scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
 The scattering of a neutron from an intermediate nucleus, in this example a lead nucleus, is kinematically required in order for cross-talk to occur in this experiment.}
     \label{fig:CrossTalkExample}
 \end{figure}
 
-\subsection{Cross-talk Simulation}
+\section{Simulation of Detector Cross-talk}
+A simulation was performed to ensure that the detector shielding effectively reduced cross-talk to negligible levels.
 The simulation included all scintillators and their shielding, supporting structures, and the concrete walls surrounding the experimental cell.
 MCNP-PoliMi's built-in $^{252}$Cf spontaneous fission source was used, which emits neutrons with the correct correlations and multiplicities.
 Detector response was modeled using a program included with the MCNP-PoliMi distribution called MPPost~\cite{MPPost}.
@@ -85,13 +85,13 @@ As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, this model produces a ToF spectrum tha
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Errors/Cf252MCNPVsEXP.png}
-    \caption{Measured vs simulated ToF spectrum of a $^{252}$Cf spontaneous fission source. 
+    \caption{Measured \emph{versus} simulated ToF spectrum of a $^{252}$Cf spontaneous fission source. 
     The simulation also used a detector response model based on ref~\cite{MPPost}}
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
 
 The simulation was initially performed with 5 cm of lead shielding placed behind the scintillators, and the number of cross-talk events accounted for 11\% of the total coincident neutron events.
-The amount of cross-talk fell to 3\% if polyethylene was used instead of lead, which motivated the placement of 5 cm of polyethylene behind the detectors during construction.
+The amount of cross-talk fell to 3\% if polyethylene was used instead of lead, which motivated the placement of 10~cm of polyethylene behind the detectors during construction.
 Figure~\ref{fig:CrosstalkVScoincidence} shows the distribution of cross-talk events and true two-neutron coincidences as a function of reconstructed opening angle.
 It is worth noting that, according to the simulation, the effect of cross-talk is not only small, but is also distributed over a wide range of angles rather than being concentrated around $\theta_{nn}=0$.
 Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence}, because these cross-talk events can be readily identified in analysis by the large amount of time required for a neutron to travel the required distances.
@@ -99,17 +99,17 @@ Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoinci
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrosstalkVScoincidence.png}
     \caption{
-    MCNP-PoLiMi simulation of the number of cross-talk events versus correlated two-neutron events as a function of reconstructed opening angle.
+    MCNP-PoLiMi simulation of the number of cross-talk events \emph{versus} correlated two-neutron events as a function of reconstructed opening angle.
     Cross-talk accounted for 3\% of total events.
     In this work, cross-talk does not occur primarily at small angles, but is instead spread out over a wide range of angles.
     }
     \label{fig:CrosstalkVScoincidence}
 \end{figure}
 
-\subsection{Neutron Scattering within Target}
+\section{Neutron Scattering within Target}
 \label{subsection:Elastic_scattering}
 A potential source of error in opening angle measurements is the scattering of neutrons within the fission target.
-This is a cause for concern, because a neutron that scatters from a heavy nuclei is very likely to be deflected at a large angle, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
+This is a cause for concern, because a neutron that scatters from a heavy nucleons is very likely to be deflected at a large angle, creating two-neutron opening angles that are not reflective of the true opening angle immediately after fission.
 Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons that are initially traveling towards a given detector are deflected away by scattering if said detector is aligned along the wide (2~cm) axis of the strip, as opposed to the thin (0.05~cm) axis.
 This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
 Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.

@@ -1,6 +1,6 @@
 
-\section{Experimental Setup}
-The experiment was carried out at the Idaho Accelerator Center (IAC), using their fast-pulsed linear accelerator, which is an L--band frequency (1300 MHz) accelerator.
+\section{Apparatus}
+This experiment was carried out at the Idaho Accelerator Center (IAC), using their fast-pulsed linear accelerator, which is an L--band frequency (1300 MHz) electron linear accelerator.
 It is capable of pulse widths ranging from 50 ps to 2 $\mu$s with a maximum energy of 44 MeV.
 See section~\ref{beam} for the accelerator parameters used during the experiment.
 Figure~\ref{fig:Facility} shows a top down diagram of the experimental arrangement.
@@ -17,10 +17,10 @@ The supporting structure for each detector has been labeled according to the ang
 \subsection{Detectors}
 \label{subsection:detectors}
 The detection system measures neutron position and time of flight (ToF), which is defined as the time taken for a particle to travel from the target to any detector.
-The purpose of ToF measurement is to calculate the kinetic energy of detected neutrons and to distinguish between photons and neutrons.
+The purpose of the ToF measurement is to determine the kinetic energy of detected neutrons and to distinguish between photons and neutrons.
 The neutron detection system consists of fourteen shielded scintillators arranged in a ring around the target (see Fig.~\ref{fig:DetGeom}).
 The scintillators were made from Polyvinyl Toluene (PVT), an organic plastic scintillator.
-Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting light guides.
+Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting plastic light guides.
 A Hamamatsu 580-17 photomultiplier (PMT) tube is fixed to each light guide using optical glue.
 In order to increase the chance that scintillation light remains inside the scintillator, they were polished to remove micro-imperfections and were wrapped in reflective aluminized mylar.
 
@@ -39,7 +39,7 @@ After segmentation, the photon detection rate fell to 0.5 photons per pulse, gre
 The detectors at $\pm$30 degrees also differ from the rest in that they were instrumented with only a single PMT, and therefore have a lower position/energy resolution than the others.
 In order to test for systematic errors that may have resulted from the use of the segmented detectors, opening angle measurements were compared with and without their use, and the differences were well within experimental errors.
 
-The relative efficiencies of the neutron detectors as a function of neutron energy were calculated by diving measured and theoretical yields from the SF of $^{252}$Cf.
+The relative efficiencies of the neutron detectors as a function of neutron energy were calculated by dividing measured and theoretical yields from the SF of $^{252}$Cf.
 The results are shown in Fig.~\ref{fig:RelErgEfficiency}, which uses the aggregate of events from all detectors, and in Fig.~\ref{fig:RelErgEfficiencyVariation}, which shows it for each detector individually.
 See section~\ref{Analysis} for a discussion on how the effects of detector efficiency are accounted for in this work.
 \begin{figure}[]
@@ -52,7 +52,9 @@ See section~\ref{Analysis} for a discussion on how the effects of detector effic
     \centering
     \includegraphics[width = 1\textwidth]{Content/Methods/RelErgEfficiencyVariation.png}
     \caption{
-    The neutron detection efficiency as a function of neutron energy varies among the detectors, which are labeled in this figure according to the angle each detector from the direction of the Bremsstrahlung photon beam.}
+    The neutron detection efficiency as a function of neutron energy varies among the detectors, which are labeled in this figure according to the angle each detector from the direction of the bremsstrahlung photon beam.
+    The y-axis has arbitrary units, and thus each curve is scaled to have the same integral.
+    For the integrated neutron rates of each detector, see table~\ref{table:rates} in the appendix.}
     \label{fig:RelErgEfficiencyVariation}
 \end{figure}
 
@@ -82,11 +84,46 @@ Next, the beam traveled through a series of polyethylene and lead collimators an
 Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photon beam.
 
 The electron beam pulse width was set to 3~ns with a repetition rate of 240~Hz and a 1.1~A peak current.
-The 3~ns pulse width is not a large source of uncertainty in the measurement of neutron time of flight (ToF), because neutrons had a median ToF of $\approx$80~ns.
+The 3~ns pulse width was small compared to the median neutron ToF of 80~ns, and thus made a small contribution to the uncertainty in the neutron energy determination.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{Content/Methods/MCNPBremDistribution.png}
 \caption{MCNP simulation of the energy distribution of photons that are incident on the fission target.}
 \label{fig:BremDist}
+\end{figure}
+
+\subsection{DU Target}
+\label{subsection:targets}
+\begin{figure}[]
+\centering
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/MTvsAl.png}}
+    \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/DUvsAl.png}}
+    \caption{(a) Comparison between the ToF spectrum of a non-neutron producing target made from Al, to the ToF spectrum produced when no target is used.
+    The large increase in events around 4~ns is due to photons that scatter from the Al target.
+    When no target is in place, sources of the peak include the collimator leading into the experimental cell and the beam dump.
+    The photon peak seen here is used to find the timing offsets that make it so $t=0$ corresponds to the moment of fission.
+    (b) Comparison between the Al and DU targets show a pronounced increase in events between 35 and 130~ns due to the introduction of neutrons.}
+    \label{fig:ToF}
+\end{figure}
+A depleted uranium (DU) target with dimensions of 4$\times$2$\times$0.05 $\text{cm}^3$ was used as the primary target.
+DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
+Because the target lacked cylindrical symmetry, it was rotated slowly about the vertical axis during the experiment.
+This was done in order to remove the potential for bias due to the elastic scattering of neutrons within the target.
+See section~\ref{subsection:Elastic_scattering} for details.
+
+\subsection{Electronics}
+A data acquisition system based on NIM/VME standard was used.
+A schematic of the data acquisition logic is shown in Figure~\ref{fig:WiringDiagram}.
+The PMTs are supplied negatgive voltages ranging from 1300 to 1500 V by a LeCroy 1458 high voltage mainframe.
+Analog signals from the PMTs were fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV.
+The logic signals from the discriminator were then converted to ECL logic and fed into a CAEN model V1290A TDC.
+The timing of signals from the PMTs were always measured relative to a signal from the accelerator provided at the beginning of each pulse.
+Only the first signal from a given PMT from each pulse is accepted.
+On the software side, the CODA~\cite{CODA} software package developed by Jefferson Laboratory was used to read out the acquisition of data from the TDC and convert it into a usable format.
+
+\begin{figure}[h]
+\includegraphics[width=0.9\textwidth]{Content/Methods/WiringDiagram.png}
+\caption{Wiring diagram of the electronics setup. }
+\label{fig:WiringDiagram}
 \end{figure}

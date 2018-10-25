@@ -39,7 +39,8 @@ The photo-disintegration of D$_{2}$O, which produces uncorrelated neutrons, give
 \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/D2Otheta_nn.png}
 \caption{The opening angle distribution of neutrons from the photo-disintegration of D$_{2}$O  is uniform in cos$(\theta)$, or in otherwise isotropic, as expected.
-nn$_{SP}$ and nn$_{DP}$ are the relative yields of neutron formed from the neutron events from the same pulse and from different pulses, respectively.}
+nn$_{SP}$ and nn$_{DP}$ are the relative yields of neutron formed from the neutron events from the same pulse and from different pulses, respectively.
+Here, nn$_{SP}$ arises solely from accidentals.}
 \label{fig:D2Otheta_nn}
 \end{figure}
 
@@ -52,7 +53,7 @@ These events are accidentals, because they are extremely likely to be due to pho
 There are also accidentals due to noise, which can be estimated with a non-neutron producing target made from aluminum (see Fig.~\ref{fig:Noise}).
 The accelerator's current was adjusted so that there are, on average, less than 1.0 fissions per pulse, but nevertheless statistical fluctuations in the number of fissions per pulse result in accidental coincident neutrons that originated from different, and therefore, uncorrelated fissions.
 There are also uncorrelated neutrons produced when multiple $(\gamma, n)$ reactions occur in a single pulse.
-The $^{238}$U cross-section of $(\gamma, n)$, integrated over the relevant bremsstrahlung energy distribution, is about a factor of 5 times greater than it is for photofission (see Fig.~\ref{fig:CrossSection}).
+The $^{238}$U cross-section of $(\gamma, n)$, integrated over the relevant bremsstrahlung energy distribution, is about a factor of 5.5 times greater than it is for photofission (see Fig.~\ref{fig:CrossSection}).
 As a result, it is unavoidable that there be a significant number of neutron coincidences caused by multiple $(\gamma, n)$ reactions relative to those caused by correlated fission neutrons.
 If not subtracted from the result, the opening angle distribution of uncorrelated neutrons will wash out the signal from correlated neutrons. 
 \begin{figure}[]
@@ -88,11 +89,12 @@ nn_{\text{raw}}(\theta)= nn_{\text{corr}}(\theta) + nn_{\text{acc}}(\theta) \,
 where $nn_{\text{raw}}(\theta)$ and $nn_{\text{acc}}(\theta)$ are the rates, per pulse, of the detection of neutron pairs with opening angle of $\theta$ for all events and for accidental coincident events, respectively.
 
 Because accidental coincidences consist of two independent events, it does not matter whether the two events occurred during the same pulse or during two different pulses, given that the two different pulses occurred at around the same time and thus under the same experimental conditions.
-Thus, $nn_{\scaleto{DP}{4pt}}(\theta)$ is proportional to $nn_{\text{acc}}(\theta)$, in other words, the two distribution have opening angle distributions with the same shape.
+Thus, $nn_{\scaleto{DP}{4pt}}(\theta)$ is proportional to $nn_{\text{acc}}(\theta)$.
+In other words,  $nn_{\scaleto{DP}{4pt}}(\theta)$ and $nn_{\text{acc}}(\theta)$ have opening angle distributions with the same shape.
 However, $nn_{\text{acc}}(\theta)$ is not equal to $nn_{\scaleto{DP}{4pt}}(\theta)$, because there are, on average, twice as many events in a pulse-pair than there are in a single pulse.
 For this reason, as the following analysis shows,~$nn_{\text{acc}}(\theta) = \frac{1}{2}nn_{\scaleto{DP}{4pt}}(\theta)$.
 
-The number of uncorrelated events detected per pulse is assumed to follow the Poissonian distribution, which describes the occurrence of independent random events.
+The number of uncorrelated events detected per pulse is assumed to follow the poissonian distribution, which describes the occurrence of independent random events.
 Let $\lambda$ represent the mean number of uncorrelated events per pulse.
 To determine the value of $\lambda$, one needs to know whether a given coincident event is in fact an accidental, as $\lambda$ only quantifies the rate of accidental coincidences.
 Such information is not known, but the largest possible value for $\lambda$ is the mean number of events per pulse, because this assumes all events are uncorrelated.
@@ -107,7 +109,8 @@ It can be shown, however, that accounting for any number of coincidences, from z
     \end{split}
 \end{equation}
 For the case of different-pulse pairs, a ``coincidence'' occurs when there is an event in both pulses.
-Cases in which there are more than two events can be neglected due to their rare occurrence in this work, therefore, the per-pulse rate for different-pulse pairs, again summed over all opening angle bins, is the square of the poissonian probability of there being one event:
+Cases in which there are more than two events can be neglected due to their rare occurrence in this work.
+Therefore, the per-pulse rate for different-pulse pairs, again summed over all opening angle bins, is the square of the poissonian probability of there being one event:
 \begin{equation} \label{math:DP}
     \begin{split}
    \sum_{\theta} nn_{\scaleto{DP}{4pt}}(\theta)&= \left(e^{-\lambda}\lambda\right)^{2} \\

@@ -5,7 +5,6 @@ import mytools2 as mt2
 from TH1Wrapper import TH1F
 import os
 
-
 treeSP, n_pulsesSP = mt2.NCorrRun('SP', "Cf252").neutrons_doubles_tree
 
 nbins = 65
