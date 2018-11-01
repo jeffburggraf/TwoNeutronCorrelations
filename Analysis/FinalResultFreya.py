@@ -82,6 +82,7 @@ if hasattr(binwidths, "__iter__"):
 else:
     binwidths = [binwidths]*n_erg_bins
 
+
 def get_cut(eneries, DP_coinc=False):
     _s_ = "" if DP_coinc else "neutrons.coinc_hits[0]."
     if cut_type == 1:
@@ -206,7 +207,6 @@ def get_histos(target):
 
         histDP_coinc_KDE = histDP_coinc.MySmooth(f_KDE, bin_refactor)
         histDP_coinc = histDP_coinc.MySmooth(f_hist, bin_refactor*FUCK_BINS)
-
 
         if subtract_accidentals:
             histSP -= 0.5*(histDP)
