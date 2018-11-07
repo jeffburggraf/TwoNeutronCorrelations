@@ -18,6 +18,8 @@ The supporting structure for each detector has been labeled according to the ang
 \label{subsection:detectors}
 The detection system measures neutron position and time of flight (ToF), which is defined as the time taken for a particle to travel from the target to any detector.
 The purpose of the ToF measurement is to determine the kinetic energy of detected neutrons and to distinguish between photons and neutrons.
+The detection system's positional precision is $\pm$9~cm, giving an average angular precision of $\pm6^{\circ}$ in the opening angles between the reconstructed positional coordinates of pairs of detected particles.
+
 The neutron detection system consists of fourteen shielded scintillators arranged in a ring around the target (see Fig.~\ref{fig:DetGeom}).
 The scintillators were made from Polyvinyl Toluene (PVT), an organic plastic scintillator.
 Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting plastic light guides.
@@ -36,12 +38,12 @@ The remaining four scintillators, with dimensions of 25.4$\times$15.2$\times$3.8
 These scintillators were segmented in order to address very high photon detection rates resulting from the forward scattering of photons from the target.
 Prior to segmentation, a photon was registered in these detectors nearly every pulse, and because the electronics were operated in single hit mode, the detection of a photon leaves the detector unable to detect subsequent neutrons, reducing the neutron detection efficiency to nearly 0\%.
 After segmentation, the photon detection rate fell to 0.5 photons per pulse, greatly improving detector live-time.
-The detectors at $\pm$30 degrees also differ from the rest in that they were instrumented with only a single PMT, and therefore have a lower position/energy resolution than the others.
+The detectors at $\pm$30 degrees also differ from the rest in that they were instrumented with only a single PMT, and therefore have a lower energy and positional, and therefor angular, resolution than the others.
 In order to test for systematic errors that may have resulted from the use of the segmented detectors, opening angle measurements were compared with and without their use, and the differences were well within experimental errors.
 
-The relative efficiencies of the neutron detectors as a function of neutron energy were calculated by dividing measured and theoretical yields from the SF of $^{252}$Cf.
+The relative efficiencies of the neutron detectors as a function of neutron energy were calculated by dividing measured and theoretical yields from the SF of $^{252}$Cf according to MCNP.
 The results are shown in Fig.~\ref{fig:RelErgEfficiency}, which uses the aggregate of events from all detectors, and in Fig.~\ref{fig:RelErgEfficiencyVariation}, which shows it for each detector individually.
-See section~\ref{Analysis} for a discussion on how the effects of detector efficiency are accounted for in this work.
+See section~\ref{Analysis} for a discussion of how the effects of detector efficiency are accounted for in this work.
 \begin{figure}[]
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Methods/RelErgEfficiency.png}
@@ -52,9 +54,11 @@ See section~\ref{Analysis} for a discussion on how the effects of detector effic
     \centering
     \includegraphics[width = 1\textwidth]{Content/Methods/RelErgEfficiencyVariation.png}
     \caption{
-    The neutron detection efficiency as a function of neutron energy varies among the detectors, which are labeled in this figure according to the angle each detector from the direction of the bremsstrahlung photon beam.
-    The y-axis has arbitrary units, and thus each curve is scaled to have the same integral.
-    For the integrated neutron rates of each detector, see table~\ref{table:rates} in the appendix.}
+    The shape of the neutron detection efficiency curve varies among the detectors.
+    The y-axis has arbitrary units and each curve is scaled to have the same integral.
+    For the integrated neutron rates of each detector, see table~\ref{table:rates} in the appendix.
+    Each detector is identified according to its angle relative to the photon beam, exactly as seen in Fig.~\ref{fig:Facility}.
+    }
     \label{fig:RelErgEfficiencyVariation}
 \end{figure}
 
@@ -68,8 +72,8 @@ See section~\ref{Analysis} for a discussion on how the effects of detector effic
 \end{figure}
 The detector shielding, depicted in Fig.~\ref{fig:shielding}, was constructed using lead and polyethylene with the aim of reducing cross-talk, the detection of photons, and noise.
 Pb was used to attenuate photons, but has the side effects of neutron scattering and reduced neutron detection efficiency.
-If a neutron scatters prior to being detected, the opening angle reconstruction and ToF calculation will be incorrect because both assume that detected neutrons travel a straight path from the target to the detector.
-2.5~cm of Pb was placed along the front face of the scintillators, which is enough to largely reduce photon detection rates, and, according to an MCNP simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
+If a neutron scatters prior to being detected, the opening angle reconstruction and ToF calculation will be inaccurate because both assume that detected neutrons travel a straight path from the target to the detector.
+2.5~cm of Pb was placed along the front face of the scintillators, which was enough to reduce photon detection rates to acceptable levels (see table~\ref{table:rates}), and, according to an MCNP simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
 The sides of each scintillator were shielded with 5 cm of Pb to attenuate photons, followed by 5 cm of polyethylene to reduce the chance of neutron cross-talk.
 Also in order to minimize cross-talk, Pb was not placed behind the scintillators after an MCNP-POLIMI simulation indicated it would occur at significant rates otherwise.
 Instead, 10~cm of polyethylene was placed behind the scintillators.
@@ -79,7 +83,7 @@ For a more detailed discussion about the issue of cross-talk, see section~\ref{c
 \label{beam}
 In order to ensure that all correlated neutrons produced are due to fission, the bremsstrahlung end-point was set to 10.5~MeV, safely below the ($\gamma, 2n$) threshold of 11.28~MeV for $^{238}$U.
 Al was chosen for a bremsstrahlung radiator, because Al has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
-Downstream from the bremsstrahlung radiator is a sweeping magnet to remove charged particles from the photon beam.
+Downstream from the bremsstrahlung radiator is a sweeping magnet that removes charged particles from the photon beam.
 Next, the beam traveled through a series of polyethylene and lead collimators and into the experimental cell in which the target was located (see Fig.~\ref{fig:Facility}).
 Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photon beam.
 
@@ -115,12 +119,13 @@ See section~\ref{subsection:Elastic_scattering} for details.
 \subsection{Electronics}
 A data acquisition system based on NIM/VME standard was used.
 A schematic of the data acquisition logic is shown in Figure~\ref{fig:WiringDiagram}.
-The PMTs are supplied negatgive voltages ranging from 1300 to 1500 V by a LeCroy 1458 high voltage mainframe.
-Analog signals from the PMTs were fed into a leading edge discriminator with input thresholds ranging from 30 mV to 50 mV.
+The PMTs are supplied negative voltages ranging from 1300 to 1500 V by a LeCroy 1458 high voltage mainframe.
+Analog signals from the PMTs were fed into a leading edge discriminator (CAEN Mod. N841) with input thresholds ranging from 30 mV to 50 mV.
+The threshold and supply voltages were determined on a case by case basis for each detector so as to minimize noise, while also matching, as closely as possible, the efficiencies of all the detectors.
 The logic signals from the discriminator were then converted to ECL logic and fed into a CAEN model V1290A TDC.
 The timing of signals from the PMTs were always measured relative to a signal from the accelerator provided at the beginning of each pulse.
-Only the first signal from a given PMT from each pulse is accepted.
-On the software side, the CODA~\cite{CODA} software package developed by Jefferson Laboratory was used to read out the acquisition of data from the TDC and convert it into a usable format.
+Even though a multi-hit TDC was being used, only the first signal from any given PMT is used each pulse due to concerns over signal reflections within the cables.
+On the software side, the CODA~\cite{CODA} software package developed by Jefferson Laboratory was used to read out the data from the TDC and digitally store it for analysis.
 
 \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/WiringDiagram.png}

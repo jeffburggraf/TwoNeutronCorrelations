@@ -3,24 +3,26 @@
 \label{ToF_reconstruction}
 The ToF of detected particles is used to distinguish between neutrons and photons and to determine neutron energy.
 A particle's reconstructed position is used to determine direction of motion, which is then used to calculate the opening angle between pairs of detected particles.
-Data from all PMTs is read out each pulse, and if multiple signals are received from a given PMT, only the first is accepted because subsequent signals have a restricted timing window due to dead-time.
+Data from all PMTs is read out for each accelerator pulse, and if multiple signals are received from a given PMT, only the first is used.
 Position and ToF are each determined using the timing of coincident signals from both PMTs of a detector.
 
-The sum of the times required for scintillation light to travel from the point of scintillation to both PMTs is equal to the time required for the light to travel the full length of the scintillator, which is a constant.
+The sum of the times required for scintillation light to travel from the point of scintillation to both PMTs is equal to the time required for the light to travel the full length of the scintillator, and is a constant.
 This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, taken using a collimated $^{60}$Co source to generate photon events at several different locations along the length of the scintillator, all which have equal ToF.
 In Fig.~\ref{fig:ConstPMTAvg}(a), it can be seen that the time required for the scintillation light to propagate through the scintillator effects the timing of each PMT alone, however, the average of the times of both PMTs is a constant, unaffected by the location at which the particle undergoes scintillation.
 Light takes 5~ns to travel the scintillator's full length, giving an effective index of refraction of 2.0 .
 For this reason, taking the average of signals from two PMTs is advantageous because it removes a roughly 5~ns timing error that would otherwise exist due to the time required for scintillation light to propagate through the scintillator.
-The requirement that there be coincident events in both of a detector's PMT is also beneficial because it reduces noise.
+The requirement that there be coincident events in both of a detector's PMTs is also beneficial because it reduces noise.
 \begin{figure}[h]
 \centering
 \subfloat[]{\hspace{-0.5cm}\includegraphics[width=0.6\textwidth]{Content/Methods/ConstPMTAvg.png}}
 
 \subfloat[]{\includegraphics[width=0.6\textwidth]{Content/Methods/ConstPMTAvgProject.png}}
-\caption{(a) A collimated $^{60}$Co source is used to produce photon events with constant ToF at seven locations along the detector.
-The average between the signals from both PMTs is virtually constant, thus the use of two PMTs removes timing error due to the time required for scintillation light to travel through the scintillator.
-Error bars are uncertainty in the mean of each data point.
-(b) The uncertainty in ToF measurements is equal to the standard deviation of this histogram ($\pm$2 ns), since coincident photons from $^{60}$Co are emitted at the same time.}
+\caption{A collimated $^{60}$Co source is used to produce photon events with constant ToF at seven locations along the detector.
+$^{60}$Co produces coincident photons, and one is detected by the scintillator and the other by a separate trigger detector.
+ $\Delta t$ is the timing of a PMT signal relative to a signal from the trigger detector. 
+ In (a), it can be seen that the average between signals from both PMTs does not depend on position.
+By using the PMT average, there is a reduction in error due to the time required for scintillation light to travel through the scintillator.
+The uncertainty in ToF measurements is equal to the standard deviation seen in (b), or about $\pm$2~ns, because all photons from the $^{60}$Co source have the same ToF.}
 \label{fig:ConstPMTAvg}
 \end{figure}
 
@@ -38,7 +40,7 @@ Any process that produces a timing delay that does not change from pulse to puls
 \end{itemize}
 
 The value of $C$ may be different for each detector, but this is not a problem because it can be determined accurately by comparing the timing spectra of the gamma flash of a non-neutron producing target made from aluminum, to the spectrum produced when no target is used.
-The difference between no target and aluminum target reveals a prominent peak due to photons that scatter from the aluminum target.
+The difference between no target and aluminum target reveals a prominent peak in the ToF spectrum due to photons that scatter from the aluminum target.
 Photons which scattered from the target must travel between 125 cm to 130 cm before reaching the face of any detector, depending on whether the photons reach the detector near the center or at the top or bottom edge.
 The two extreme cases are 125 cm and 130 cm distances, for which light takes 4.0~ns and 4.3~ns to travel, respectively.
 The difference between these two times is negligible, so the ToF of photons that scatter from the target is assumed to be 4~ns.
@@ -46,7 +48,7 @@ This fact, along with the prominent photon peak seen in the timing spectra, is u
 
 Under the assumption that neutrons travel to the detectors unimpeded, the calculation of neutron energy from ToF is straightforward.
 This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and the shielding of the detectors, and is discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}, respectively.
-Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the uncertainty in measured neutron energy according to the propagation of ToF measurement uncertainty through the calculation of neutron energy.
+Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the measured neutron energy uncertainty according to the propagation of ToF measurement uncertainty through the calculation of neutron energy.
 \begin{figure}[]
     \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF2Erg.png}}
     \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/DeltaErg.png}}
@@ -57,7 +59,7 @@ Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy
 
 \subsection{Particle Position Reconstruction}
 The detectors are not capable of measuring the position of a detected particle along the axes parallel to the detectors' width (15.24~cm wide) and depth (3.81~cm deep), which contributes $\pm3^{\circ}$ to the total angular uncertainty.
-The position of a particle hit along the 76.2~cm length of the scintillator is calculated from the timing difference of signals from both of a detector's PMTs.
+The position of a particle hit along the 76.2~cm length of the scintillator is calculated using the timing difference of signals from both of a detector's PMTs.
 Under the assumption that light travels at a constant velocity from some distance, $x$, relative to the center of a scintillator, the difference between the times of signals from the two PMTs, $\Delta t^{PMTs}$, is given by:
 \begin{equation}
 \begin{split}
@@ -91,7 +93,7 @@ This effect contributes to the width of the peaks in Fig.~\ref{fig:PMTDifference
     Aggregating the data produces the five peaks seen in (a).
     The $\pm9$~cm width of each of these peaks is due to uncertainty in the measurement of particle position.
     As seen in (b), the mean PMT timing difference of events at each position varies linearly with respect to the distance of the $^{60}$Co from the center of the detector. 
-    The result of a linear least squares fit to this data is used to calculate the position of detected particles.
+    The result of a linear least squares fit to this data is used to calculate the position of detected particles along the scintillator.
     }
     \label{fig:PMTDifference}
 \end{figure}
@@ -106,7 +108,7 @@ The extent that neutron travel distances are perturbed due to scattering from le
 Accordingly, 1" of lead was placed along the front face of the detectors.
 This diminished gamma detection rates to reasonable levels and, according to the simulation, caused a negligible amount of neutron scattering.
 Because of the particularly high gamma flux, an additional 2" of lead was placed at the sides of detectors adjacent to the beam, and along the front faces of the detectors farthest downstream at $\pm30^{\circ}$ from the beam line.
-Placing lead behind the detectors was avoided in consideration of an MCNP-POLIMI simulation, which indicated that lead placed here facilitates cross-talk.
+Placing lead behind the detectors was avoided as an MCNP-POLIMI simulation predicted that lead placed here facilitates cross-talk.
 Because cross-talk events are in fact correlated, they cannot be removed in analysis by the subtraction of accidentals.
 For more information about cross-talk, see section~\ref{crosstalk}.
 
@@ -116,10 +118,11 @@ For more information about cross-talk, see section~\ref{crosstalk}.
 \caption{Measured ToF spectrum from the SF of $^{252}$Cf.}
 \label{fig:Cf252ToF}
 \end{figure}
-Opening angle measurements were also performed on neutrons from the spontaneous fission (SF) of $^{252}$Cf.
-Several such past measurements have been performed, and so they serve as a means to validate the methods used in this study.
+A $^{252}$Cf SF source was placed at the center of the detection system shown in Fig~\ref{fig:Facility} in order to measure two-neutron opening angle distribution.
+Several such past measurements have been performed on the SF of $^{252}$Cf, and so they serve as a means to validate the methods used in this study.
 
-As opposed to the measurements of neutrons from photofission, there is no concern over the detection of accidental neutron coincidences, because given the strength of the $^{252}$Cf source, it is highly unlikely that two fissions occur during the acceptance time window of 150~ns.
+As opposed to the measurements of neutrons from photofission, there is no concern over the detection of accidental neutron coincidences.
+Given the strength of the $^{252}$Cf source, it is highly unlikely that two fissions occur during the acceptance time window of 150~ns.
 Another difference between the two measurements is the clean and sharp peak produced by fission photons from $^{252}$Cf compared to a relatively smeared peak produced by photons scattering from the target during measurements of photo-neutrons.
 In each measurement, the photon peak is used as a reference point for the calculation of neutron ToF.
 As a result the $^{252}$Cf measurements have less error in ToF caused by the spreading of the photon peak (see Fig.~\ref{fig:Cf252ToF}).

@@ -7,18 +7,29 @@ import ROOT
 import numpy as np
 import mytools2 as mt2
 
+from scipy import special
+
 target = "DU"
 
 # treeSP_doubles, pulses_SP_doubles = mt2.NCorrRun("SP", target, generate_dictionary=False, Forward=True).neutrons_doubles_tree
 #
 
-hist = TH1F(9-10,9+15,binwidths=0.5)
+hist = TH1F(-2, 10,binwidths=0.5)
+hist_p = TH1F(-2, 10,binwidths=0.15)
 
-for i in np.random.poisson(1, 10000*5):
-    hist.Fill(2*i + np.random.randn(1) )
+mu = 2.6
+
+for i, x in enumerate(hist_p.bincenters[0]):
+    y = np.e**(-mu)*mu**x/special.factorial(x, exact=False)
+    hist_p.binvalues[i] = y
+
+hist_p.__update_hist_from_containers__()
+
+for i in range(10000):
+    hist.Fill(hist_p.GetRandom() + np.random.randn()*0.9)
 
 
-hist.GetXaxis().SetTitle("PMT timing average [ns]")
+hist.GetXaxis().SetTitle("mean PMT #Deltat [ns]")
 hist.GetYaxis().SetTitle("counts")
 hist.Draw('E')
 ROOT.gStyle.SetOptStat('rm')
