@@ -89,7 +89,7 @@ plt.grid()
 plt.xlabel('Reconstructed distance from detector center [cm]')
 plt.ylabel('Counts')
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/PMTDifference_hist.png', transparent=True)
+plt.savefig('/Users/jeffreyburggraf/Pictures/PMTDifference_hist.png', transparent=True)
 
 plt.figure(figsize=(10,10))
 
@@ -115,7 +115,7 @@ plt.legend(loc='upper left', fontsize=25)
 plt.ylim(-40, 55)
 plt.subplots_adjust(left = 0.15)
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/PMTDifference.png', transparent=True)
+plt.savefig('/Users/jeffreyburggraf/Pictures/PMTDifference.png', transparent=True)
 
 # plt.savefig('PMTDifference.png', transparent=True)
 plt.show()

@@ -14,7 +14,7 @@ import mytools2 as mt2
 # hist.Draw()
 # TB = ROOT.TBrowser()
 
-
+np.random.seed(1)
 dx = (2.54*15)/3
 
 ps =  [-3*dx, -2*dx,-dx,0,dx,2*dx, 3*dx]
@@ -38,7 +38,8 @@ for p in ps:
     mean_times =[]
     tops = []
     bots = []
-    for delta in range(70):
+    n=1000
+    for delta in range(n):
         t1 = d1/(1.52E10)*1E9 + np.random.randn()*1.5
         t2 = d2/(1.52E10)*1E9 + np.random.randn()*1.5
 
@@ -53,9 +54,9 @@ for p in ps:
     y_top.append(np.mean(tops))
     y_bot.append(np.mean(bots))
 
-    erry_mean.append(np.std(mean_times)/4.)
-    erry_top.append(np.std(tops)/4.)
-    erry_bot.append(np.std(bots)/4.)
+    erry_mean.append(np.std(mean_times)/np.sqrt(n))
+    erry_top.append(np.std(tops)/np.sqrt(n))
+    erry_bot.append(np.std(bots)/np.sqrt(n))
 
 x_mean = np.array(x_mean, dtype=np.float64)
 y_mean = np.array(y_mean, dtype=np.float64)
@@ -66,7 +67,7 @@ y_bot = np.array(y_bot, dtype=np.float64)
 erry_top = np.array(erry_top, dtype=np.float64)
 erry_bot = np.array(erry_bot, dtype=np.float64)
 
-ot = 10,15
+ot = 0,0
 
 y_mean += np.mean(ot)
 y_bot += ot[0]
@@ -77,27 +78,29 @@ gr_top = ROOT.TGraphErrors(len(x_mean), x_mean, y_top,np.ones_like(erry_mean)*0,
 gr_bot = ROOT.TGraphErrors(len(x_mean), x_mean, y_bot, np.ones_like(erry_mean)*0, erry_bot)
 
 gr.Draw('A*')
+gr.GetYaxis().SetRangeUser(-0.7,6)
+
 gr_bot.Draw('*same')
 gr_top.Draw('*same')
 
-gr.SetMinimum(0)
 # gr.SetRange(0)
 
 gr.GetXaxis().SetTitle('Distance from detector center [cm]')
-gr.GetYaxis().SetTitle('PMT timing [ns]')
-gr.SetMarkerStyle(33)
-gr_top.SetMarkerStyle(26)
-gr_bot.SetMarkerStyle(32)
+gr.GetYaxis().SetTitle('Mean PMT #Deltat [ns]')
+gr.SetMarkerStyle(24)
+gr_top.SetMarkerStyle(22)
+gr_bot.SetMarkerStyle(21)
 
 
 mt2.thesis_plot(gr, True)
 
-# leg = ROOT.TLegend()
-# leg.AddEntry(gr, ' ','ep')
-# leg.AddEntry(gr_top, ' ','ep')
-# leg.AddEntry(gr_bot, ' ','ep')
-# leg.SetTextSize(0.06)
-# leg.Draw()
+leg = ROOT.TLegend()
+leg.AddEntry(gr_top, 'top','p')
+leg.AddEntry(gr_bot, 'bottom','p')
+leg.AddEntry(gr, 'average','p')
+
+leg.SetTextSize(0.06)
+leg.Draw()
 # leg.SetBorderSize(0);
 
 if __name__ == "__main__":
