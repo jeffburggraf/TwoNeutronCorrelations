@@ -17,8 +17,8 @@ The propagation of error through this formula is achieved by evaluating the foll
  & & \left. + \left(\Delta x_2 \frac{\partial \theta}{\partial x_2}\right)^{2} + \left(\Delta y_2\frac{\partial \theta}{\partial y_2}\right)^{2} + \left(\Delta z_2 \frac{\partial \theta}{\partial z_2}\right)^{2} \right) ^{\frac{1}{2}} \, ,  \nonumber
 \end{eqnarray}
 where the $\Delta$'s represent the uncertainty in the variable that directly follows each $\Delta$.
-The values and uncertainties of all events in a given angle bin are fed through Eq.\ref{eq:propagation}, and then averaged together.
-The result, seen in Fig.~\ref{fig:OpeningAngleRes}, can be interpreted as the opening angle resolution as a function of $\theta_{nn}$.
+The values and uncertainties of all events in a given opening angle bin are fed through Eq. \ref{eq:propagation}, and then the results are averaged.
+The result is shown in Fig.~\ref{fig:OpeningAngleRes} and can be interpreted as the opening angle resolution as a function of $\theta_{nn}$.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.85\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
@@ -123,6 +123,7 @@ The target's dimensions are small enough that the rate of photon absorption, and
 MCNP was used to simulate the production of pairs of fission neutrons uniformly throughout the target volume with energies typical of fission neutrons.
 The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation.
 For the target used in this work, the simulation indicated that 6\% of two-neutron opening angles were altered due to scattering.
+
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/ElasticScatteringPlot.png}
@@ -134,3 +135,28 @@ For the target used in this work, the simulation indicated that 6\% of two-neutr
     }
     \label{fig:ElasticScatteringPlot}
 \end{figure}
+
+Section~\ref{sec:anomaly} discusses the observation of an unexpected drop in correlation around 180$^{\circ}$ in our measurements of the photofission of $^{238}$U, as seen in Figs.~\ref{fig:DU(0)} through~\ref{fig:DU(1)}.
+This motivated a simulation which examined whether this decrease in the correlation around 180$^{\circ}$ opening angles reflects the underlying physics of the fission process, or, arises from an artifact of the data analysis procedure.
+In particular, note that throughout these measurements, the target was continuously rotated once per 8 seconds.
+This means that for the determination of the uncorrelated opening angle distribution, the trajectories of the two neutrons were taken from two different pulses in which the target was at a different orientation for each of them.
+Additionally, each of the neutrons likely originated from different regions of the target volume.
+On the other hand, for the same-pulse, correlated neutron measurement, the target was in the same orientation and the two neutrons were generated at the same position in the target.
+As such, we investigated whether these differences could cause this apparent decrease in the opening angle distribution.
+
+Using the correlated $^{252}$Cf SF source built-in to MCNP-PoLiMi, the opening angle distribution of neutrons at the moment of emission can be compared to that of emitted neutrons after they have escaped the target.
+Analysis of the simulation employs the same technique outlined in section~\ref{subsec:SPDPCancelation}, in which a correlated neutron distribution is divided by an uncorrelated neutron distribution.
+In the case of the simulation, the correlated opening angle distribution is formed by pairing neutrons emitted during the same fission, and the uncorrected distribution by the pairing of neutrons emitted during different fissions.
+The location of fission events were sampled uniformly throughout the targets volume.
+In order to account for the effect of the rotating target on the trajectories of neutrons from different-pulses, the coordinate system used for different fission events is rotated about the vertical axis accordingly.
+The conclusion is that a $^{238}$U target of this shape and size does not result in a very significant departure from the true opening angle distribution.
+Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment of emission to that of neutrons after they have escaped the target.
+
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.95\textwidth]{Content/Errors/EffectOfElasticScattering.png}
+    \caption{    }
+    \label{fig:ElasticScatteringEffect}
+\end{figure}
+
+
