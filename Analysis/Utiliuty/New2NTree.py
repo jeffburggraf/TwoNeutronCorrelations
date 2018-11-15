@@ -63,8 +63,7 @@ for i in range(old_tree.GetEntries()):
 
 w = int(sliding_window_width/2.)
 
-new_file = ROOT.TFile(
-    "/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/New_trees/{}.root".format(target),
+new_file = ROOT.TFile( "/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/New_trees/{}.root".format(target),
     "recreate")
 new_tree = ROOT.TTree("tree", "tree")
 
