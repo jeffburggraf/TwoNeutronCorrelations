@@ -74,7 +74,6 @@ for (hist1, hist2, hist3) in [(erg_hist_avg_SP, erg_hist_avg_DP, erg_hist_avg_DP
 
 mt2.thesis_plot([erg_hist_diff_SP], big_font=0.05)
 
-
 c2 = ROOT.TCanvas()
 leg = ROOT.TLegend()
 leg.AddEntry(erg_hist_avg_SP, "correlated neutron pairs (nn_{corr})", "l")
@@ -82,7 +81,6 @@ leg.AddEntry(erg_hist_avg_DP, "different pulse neutron pairs", "p")
 leg.AddEntry(erg_hist_avg_DP_dale, "#splitline{different pulse neutron pairs}{from pulses with 2 neutron events (nn_{uncorr})}", "p")
 leg.SetTextSize(0.05)
 leg.Draw()
-
 
 
 if __name__ == "__main__":
