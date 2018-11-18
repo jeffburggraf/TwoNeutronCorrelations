@@ -5,11 +5,12 @@
 \label{subsec:SPDPCancelation}
 The efficiency and acceptance of the neutron detection system varies greatly over its opening angle range from 20$^{\circ}$ to 180$^{\circ}$, as illustrated in Fig.~\ref{fig:DetAcceptance}.
 This is both due to the neutron detection system's non-spherical symmetry and to varying efficiency as a function of particle position on the detector.
-In order to give a result that is sensitive to angular correlations but insensitive to detector efficiencies and experimental drifts (in PMT voltage, accelerator current, etc.), angular correlation is calculated by the following fraction:
-\begin{displaymath}
-\text{angular correlation }  \propto \frac{nn_{\text{corr}}(\theta)}{nn_{\text{uncorr}}(\theta)},
-\end{displaymath}
-where $nn_{\text{corr}}(\theta)$ is the accidental-coincidence subtracted opening angle distribution, the determination of which is described in section~\ref{Reconstruction of Accidental Coincidence}, and $nn_{\text{uncorr}}(\theta)$\footnote{While this notation implies that coincident events are only due to neutrons, about 3\% of total  $nn_{\text{corr}}(\theta)$ events are not due to neutrons. This was determined by comparing data from a non-neutron producing Al target to that from a $^{238}$U target (see Fig.~\ref{fig:Noise})} refers to the uncorrelated neutron distribution, which is produced by the pairing of neutron events that occurred during different pulses.
+In order to give a result that is sensitive to angular correlations but insensitive to detector efficiencies and experimental drifts (in PMT voltage, accelerator current, etc.), angular correlation is calculated as follows:
+\begin{equation}
+\label{eq:angularCorr}
+\text{angular correlation }  = \frac{nn_{\text{corr}}(\theta)}{nn_{\text{uncorr}}(\theta)},
+\end{equation}
+where $nn_{\text{corr}}(\theta)$ is the accidental-coincidence subtracted opening angle distribution, the determination of which is described in section~\ref{Reconstruction of Accidental Coincidence}, and where $nn_{\text{uncorr}}(\theta)$\footnote{While this notation implies that coincident events are only due to neutrons, about 3\% of total  $nn_{\text{corr}}(\theta)$ events are not due to neutrons. This was determined by comparing data from a non-neutron producing Al target to that from a $^{238}$U target (see Fig.~\ref{fig:Noise})} is the uncorrelated neutron distribution, which is produced by the pairing of neutron events that occurred during different pulses.
 
  \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/DetAcceptance.png}
@@ -19,18 +20,18 @@ This distribution is highly influenced by the detection system's geometry and ef
 \label{fig:DetAcceptance}
 \end{figure}
 
-The construction of $nn_{\text{uncorr}}(\theta)$ is achieved by examining pulses in pairs of two, which are required to have occurred within 0.2 seconds of each other to ensure both pulses occurred under similar experimental conditions.
-Next, for the pulse-pairs that have events in both pulses, the opening angle is calculated between events across the two pulses.
-Only pulse-pairs that have two neutron events in both pulses are used, and, as a result, four pairs of uncorrelated neutrons can be formed within each pulse-pair.
-The reason for this is to increase the percentage of fission neutrons used in $nn_{\text{uncorr}}(\theta)$, as opposed to neutrons from $(\gamma,n)$.
-This is an important point because the detection of multiple neutrons from $(\gamma,n)$ are completely removed from $nn_{\text{corr}}(\theta)$, the numerator in $\frac{nn_{\text{corr}}(\theta)}{nn_{\text{uncorr}}(\theta)}$, due to the subtraction of accidental coincidences.
-In order for the result to not depend on detector efficiency, the numerator and denominator must be comprised of neutron pairs with the same joint energy distribution.
+The construction of $nn_{\text{uncorr}}(\theta)$ is achieved by examining pulses in pairs of two.
+The pulses of each pulse-pair were required to have occurred within 0.2 seconds of each other so that both pulses were very likely to have occurred under similar experimental conditions.
+Then, for pulse-pairs which have neutron events in both pulses, the opening angle is calculated normally between all available neutron pairs formed under the restriction that neutrons from the same pulse are not paired together.
+Only pulse-pairs that had two neutron events in both pulses were used, and, as a result, four pairs of uncorrelated neutrons could be formed within each pulse-pair.
+This was done in order to increase the percentage of pulse-pairs comprising fission neutrons as opposed to neutrons from $(\gamma,n)$.
+This is an important point because the detection of multiple neutrons from $(\gamma,n)$ are completely removed from $nn_{\text{corr}}(\theta)$, the numerator in Eq.~\ref{eq:angularCorr}, by the subtraction of accidental coincidences, but in order to minimize the dependence of the result on detector geometry/efficiency, the numerator and denominator must comprise neutron pairs that have the same joint energy distribution.
 
-Fig~\ref{fig:erg_distributions} shows how the energy distribution of neutron pairs varies between correlated neutrons, different pulse neutrons using all pulses, and different pulse neutrons using only pulses that had two neutron events ($nn_{\text{uncorr}}$). 
-Two binary operations, the mean ( $0.5(E_{1} + E_{2})$ ) and absolute difference (~$|E_1 + E_2|$~), are shown because the relevant condition here is that the joint energy distribution of neutron-neutron pairs from $nn_{\text{corr}}(\theta)$ and $nn_{\text{uncorr}}$ are similar.
+Fig~\ref{fig:erg_distributions} shows the energy distribution of correlated neutrons (~$nn_{\text{corr}}(\theta)$~), different pulse neutrons using only pulses that had two neutron events (~$nn_{\text{uncorr}}(\theta)$~), and different pulse neutrons without a restriction on the number of events in a given pulse. 
+Two binary operations, the mean (~$0.5(E_{1} + E_{2})$~) and absolute difference (~$|E_1 - E_2|$~), are shown because the relevant condition here is that the \emph{joint} energy distributions of neutron-neutron pairs from $nn_{\text{corr}}(\theta)$ and $nn_{\text{uncorr}}(\theta)$ are similar.
 In other words, there are two variables at hand, namely, the energy of both neutrons.
 Because these two variables are correlated in $nn_{\text{corr}}(\theta)$, it is not sufficient to consider the energies of all neutrons individually, by, for example, calculating the global average.
-As seen in Fig.~\ref{fig:erg_distributions}, the neutron energy distributions of $nn_{\text{uncorr}}$ and  $nn_{\text{corr}}(\theta)$ are quite similar.
+As seen in Fig.~\ref{fig:erg_distributions}, the neutron energy distributions of $nn_{\text{uncorr}}(\theta)$ and  $nn_{\text{corr}}(\theta)$ are quite similar.
 
 \begin{figure}[]
 \centering
@@ -54,10 +55,11 @@ Figure~\ref{fig:SPDPNormalization}(b) reveals how a clear picture of two-neutron
     \label{fig:SPDPNormalization}
 \end{figure}
 
+The two-neutron opening angle distribution of accidental neutron coincidences from the photo-disintegration of D$_{2}$O is expected to be flat.
 A cylindrical bottle with a height of 4.5~cm and a radius of 1~cm was filled with heavy water 
 (D$_{2}$O) and subject to the bremsstrahlung photon beam, producing neutron coincidences at a rate of 1.4$\times10^{-4}$ per pulse.
 The photo-disintegration of the deuteron, which produces only uncorrelated neutrons, is the only  neutron producing reaction involved because the bremsstrahlung endpoint was below the $(\gamma, 1n)$ threshold of $^{16}$O.
-The ratio between $nn_{\text{corr}}(\theta)$ and $nn_{\text{uncorr}}(\theta)$ is expected to be flat in this case, as confirmed by the result (see Fig.~\ref{fig:D2Otheta_nn}).
+The ratio between $nn_{\text{corr}}(\theta)$ and $nn_{\text{uncorr}}(\theta)$ produces a flat curve, as expected (see Fig.~\ref{fig:D2Otheta_nn}).
 \begin{figure}[h]
 \includegraphics[width=0.9\textwidth]{Content/Methods/D2Otheta_nn.png}
 \caption{The opening angle distribution of neutrons from the photo-disintegration of D$_{2}$O is uniform.
