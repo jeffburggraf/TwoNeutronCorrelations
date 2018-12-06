@@ -156,8 +156,13 @@ Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle dis
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/EffectOfElasticScattering.png}
-    \caption{MCNP-PoLiMi simulation of correlated $^{252}$Cf neutrons sampled uniformly throughout a 0.05$\times$2$\times$4~cm$^3$ $^{238}$U target.
-    The purpose of this simulation was to rule out errors caused by the scattering of fission neutrons within the target.}
+    \caption{MCNP-PoLiMi simulation of correlated $^{252}$Cf neutrons sampled uniformly throughout a 0.05$\times$2$\times$4~cm$^3$ U-238 target.
+    The purpose of this simulation was to rule out errors caused by the scattering of fission neutrons within the target.
+    A neutron cut of 0.4 MeV is applied to all neutrons as to more closely reflect the experiment.
+    The slight difference between the curves is due solely to the elastic scattering of neutrons within the target, since detector physics was not simulated.
+    However, in the reconstructed $\theta_{nn}$ distribution ({\tiny \ding{54}}), only neutrons which enter a physical volume at which a detector was located during the experiment are counted.
+    All emitted neutrons greater than 0.4 MeV are counted in the true $\theta_{nn}$ distribution at emission ($\mathlarger{\mathlarger{\mathlarger{\circ}}}$).
+    }
     \label{fig:ElasticScatteringEffect}
 \end{figure}
 
