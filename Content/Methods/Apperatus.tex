@@ -64,27 +64,34 @@ See section~\ref{Analysis} for a discussion of how the effects of detector effic
 
 \subsection{Detector Shielding}
 \label{shielding}
+The detector shielding, depicted in Fig.~\ref{fig:shielding}, was constructed using lead and polyethylene with the aim of reducing cross-talk, the detection of photons, and noise.
+The sides of each scintillator were shielded with 5 cm of lead followed by 5 cm of polyethylene to reduce the chance of neutron cross-talk.
+Lead was not placed behind the scintillators after an MCNP-POLIMI simulation indicated it would occur at significant rates otherwise.
+Instead, 10~cm of polyethylene was placed behind the scintillators.
+For a more detailed discussion about the issue of cross-talk, see section~\ref{crosstalk}.
+
+The front face of each detector, which faced directly towards the target, were subject to the highest gamma flux due to the scatting of the Bremsstrahlung beam from the target.
+The detection of a gamma renders the given detector unable to detect any subsequent fission neutrons from the same pulse, due to the time needed for the detector to recover from the first event.
+Lead mitigates this problem but has the side effect of scattering neutrons, and if a neutron scatters prior to being detected, the ToF measurement and position reconstruction will be incorrect.
+The extent of measurement errors caused by this were quantified using an MCNP simulation, and accordingly, 2.5~cm of lead was placed along the front face of the detectors.
+This diminished gamma detection rates to reasonable levels (see table~\ref{table:rates}), and, according to the simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
+
+Because of the particularly high gamma flux at the sides of all detectors located directly adjacent to the beam, an additional 2" of lead was placed along the sides of these detectors.
+For the same reason, an additional 2" of lead was also placed and along the front faces of the detectors farthest downstream, located at $\pm30^{\circ}$ from the beam line.
+The differences in shielding design among the detectors can be seen in Fig~ref{fig:Facility}.
 \begin{figure}
     \centering
     \includegraphics[width = 0.65\textwidth]{Content/Methods/DetShielding.png}
     \caption{Detector shielding was designed to reduce the detection of photons, room return, and detector cross-talk.}
     \label{fig:shielding}
 \end{figure}
-The detector shielding, depicted in Fig.~\ref{fig:shielding}, was constructed using lead and polyethylene with the aim of reducing cross-talk, the detection of photons, and noise.
-Pb was used to attenuate photons, but has the side effects of neutron scattering and reduced neutron detection efficiency.
-If a neutron scatters prior to being detected, the opening angle reconstruction and ToF calculation will be inaccurate because both assume that detected neutrons travel a straight path from the target to the detector.
-2.5~cm of Pb was placed along the front face of the scintillators, which was enough to reduce photon detection rates to acceptable levels (see table~\ref{table:rates}), and, according to an MCNP simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
-The sides of each scintillator were shielded with 5 cm of Pb to attenuate photons, followed by 5 cm of polyethylene to reduce the chance of neutron cross-talk.
-Also in order to minimize cross-talk, Pb was not placed behind the scintillators after an MCNP-POLIMI simulation indicated it would occur at significant rates otherwise.
-Instead, 10~cm of polyethylene was placed behind the scintillators.
-For a more detailed discussion about the issue of cross-talk, see section~\ref{crosstalk}.
 
 \subsection{Bremsstrahlung Photon Beam}
 \label{beam}
 In order to ensure that all correlated neutrons produced are due to fission, the bremsstrahlung end-point was set to 10.5~MeV, safely below the ($\gamma, 2n$) threshold of 11.28~MeV for $^{238}$U.
-Al was chosen for a bremsstrahlung radiator, because Al has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
+Al was chosen for a bremsstrahlung radiator because it has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
 Downstream from the bremsstrahlung radiator is a sweeping magnet that removes charged particles from the photon beam.
-Next, the beam traveled through a series of polyethylene and lead collimators and into the experimental cell in which the target was located (see Fig.~\ref{fig:Facility}).
+Next, the beam traveled through a series of polyethylene and lead collimators on its way into the experimental cell in which the target was located (see Fig.~\ref{fig:Facility}).
 Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photon beam.
 
 The electron beam pulse width was set to 3~ns with a repetition rate of 240~Hz and a 1.1~A peak current.
@@ -110,11 +117,17 @@ The 3~ns pulse width was small compared to the median neutron ToF of 80~ns, and 
     (b) Comparison between the Al and DU targets show a pronounced increase in events between 35 and 130~ns due to the introduction of neutrons.}
     \label{fig:ToF}
 \end{figure}
-A depleted uranium (DU) target with dimensions of 4$\times$2$\times$0.05 $\text{cm}^3$ was used as the primary target.
-DU received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
-Because the target lacked cylindrical symmetry, it was rotated slowly about the vertical axis during the experiment.
-This was done in order to remove the potential for bias due to the elastic scattering of neutrons within the target.
-See section~\ref{subsection:Elastic_scattering} for details.
+A depleted uranium (DU) target with the shape of a thin strip and that had dimensions of 4$\times$2$\times$0.05 $\text{cm}^3$ was used as the primary target.
+U-238 received the majority of the allotted beam time because it is an even-even nucleus, and as a consequence, the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
+
+The U-238 target has a significant potential to scatter fission neutrons before they are able to exit the target.
+This is a cause for concern, because neutrons that scatter from $^{238}$U nuclei are likely to be deflected by large angles, facilitating the measurement of $\theta_{nn}$'s that are not reflective of the underlying fission kinematics. 
+Furthermore, it is more likely that neutrons emitted along the wide, 2~cm, axis of the target undergo a neutron-scattering event than neurons emitted along the thinest, 0.05~cm, axis.
+As a result, detectors that are located collinear to the widest axis of the target will see relatively fewer neutrons due to increased scattering. 
+This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
+Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.
+Thus, by rotating the target, cylindrical symmetry is preserved in the average to produce a result equivalent to that if a cylindrical target were used.
+See section~\ref{subsection:Elastic_scattering} for details about all issues regarding neutron scattering with the fission target.  
 
 \subsection{Electronics}
 A data acquisition system based on NIM/VME standard was used.
