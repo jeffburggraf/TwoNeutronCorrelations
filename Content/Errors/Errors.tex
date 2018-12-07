@@ -109,22 +109,22 @@ Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoinci
 \section{Neutron Scattering within Target}
 \label{subsection:Elastic_scattering}
 A potential source of error in opening angle measurements is the scattering of neutrons within the fission target.
-This is a cause for concern, because when a neutron scatters from a heavy nucleons, such as $^{238}$U, is very likely to be deflected at a large angle, causing two-neutron opening angles that are not reflective of the opening angle immediately after fission.
-Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons emitted along the wider axis (2~cm) of the strip undergo a scattering event than it is for those emitted along the thinest axis (0.05~cm).
+This is a cause for concern because when a neutron scatters from a heavy nucleons, such as $^{238}$U, it is very likely to be deflected at large angles, resulting in two-neutron opening angles that do not reflect fission kinematics.
+Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons emitted along the wide axis (2~cm) of the strip undergo a scattering event than those emitted along the thinest axis (0.05~cm).
 As a result, detectors that are located collinear to the widest axis of the target will see relatively fewer neutrons due to increased scattering. 
 This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
 Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.
-Thus, by rotating the target, cylindrical symmetry is preserved in the average, producing a result equivalent to that if a cylindrical target were used.
+Thus, by rotating the target, cylindrical symmetry is preserved in the average to produce a result equivalent to that if a cylindrical target were used.
 
 The target's dimensions are small enough that the rate of photon absorption, and thus photo-neutron production, is virtually uniform throughout the entire target volume.
-MCNP-PoLiMi was used to simulate fission neutrons from the SF of $^{252}$Cf at locations distributed uniformly throughout the target volume.
-The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation.
-For the target used in this work, the result indicated that 6\% of two-neutron opening angles were perturbed due to scattering.
+MCNP-PoLiMi was used to simulate fission neutrons from the SF of $^{252}$Cf at locations distributed uniformly throughout the target's volume.
+The SF of $^{252}$Cf is used instead of the photofission of $^{238}$U because of the current lack of photofission models, however, the underlying fission kinematics are broadly speaking the same, and thus the neutron-neutron correlations of the SF of $^{252}$Cf and the photofission of $^{238}$U are similar.
+The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation, indicating that 6\% of measured two-neutron opening angles were perturbed due to scattering.
 
-The rate of elastic scattering is also affected by the shape of the target.
+The rate of elastic scattering is affected by the size and shape of the target.
 A thin strip is the ideal target shape regarding the rate of neutron elastic scattering per unit of total target volume.
 See Fig~\ref{fig:ElasticScatteringPlot} for the simulated elastic scattering rates for both thin strip and cylindrical shaped targets.
-The simulation indicated that the rate of elastic scattering is about a factor of two times greater in cylindrical targets than in thin strip targets of the same volume and width-to-height ratio as the target used in this experiment.
+The simulation indicated that the rate of elastic scattering is about a factor of two times greater in cylindrical targets than in thin strip targets of the same volume with a width-to-thickness ratio of 40.
 
 \begin{figure}
     \centering
@@ -138,21 +138,26 @@ The simulation indicated that the rate of elastic scattering is about a factor o
     \label{fig:ElasticScatteringPlot}
 \end{figure}
 
-Section~\ref{sec:anomaly} discusses the observation of an unexpected drop in correlation around 180$^{\circ}$ in our photofission of $^{238}$U measurement, as seen in Figs.~\ref{fig:DU(0)} through~\ref{fig:DU(1)}.
-This motivated a simulation which examined whether this decrease in the correlation around 180$^{\circ}$ opening angles reflects the underlying physics of the fission process, or, arises from an artifact of the data analysis procedure.
+Section~\ref{sec:anomaly} discusses the observation of an unexpected drop in correlation around 180$^{\circ}$ in our photofission of $^{238}$U measurement, as seen in Figs.~\ref{fig:DU(0)}-\ref{fig:DU(1)}.
+This motivated a second simulation regarding elastic scattering which examined whether this decrease in the correlation around 180$^{\circ}$ opening angles reflects the underlying physics of the fission process.
 In particular, note that throughout these measurements, the target was continuously rotated once per 8 seconds.
 This means that for the determination of the uncorrelated opening angle distribution, the trajectories of the two neutrons were taken from two different pulses in which the target was at a different orientation for each of them.
 Additionally, each of the neutrons likely originated from different regions of the target volume.
 On the other hand, for the same-pulse, correlated neutron measurement, the target was in the same orientation and the two neutrons were generated at the same position in the target.
+For these reasons, the rates of neutron scattering within the target are not necessarily equal for the same-pulse and different-pulse cases.
 As such, we investigated whether these differences could cause this apparent decrease in the opening angle distribution.
 
 Using the correlated $^{252}$Cf SF source built-in to MCNP-PoLiMi, the opening angle distribution of neutrons at the moment of emission can be compared to that of emitted neutrons after they have escaped the target.
 Analysis of the simulation employs the same technique outlined in section~\ref{subsec:SPDPCancelation}, in which a correlated neutron distribution is divided by an uncorrelated neutron distribution.
-In the case of the simulation, the correlated opening angle distribution is formed by pairing neutrons emitted during the same fission, and the uncorrected distribution by the pairing of neutrons emitted during different fissions.
+The correlated opening angle distribution is formed by pairing neutrons emitted during the same fission, and the uncorrected distribution by the pairing of neutrons emitted during different fissions.
 The location of fission events were sampled uniformly throughout the targets volume.
-In order to account for the effect of the rotating target on the trajectories of neutrons from different-pulses, the coordinate system was rotated accordingly for different fissions.
-The conclusion was that a 0.05$\times$2$\times$4~cm$^3$ $^{238}$U target does not result in a significant departure from the true opening angle distribution due to neutron scattering.
-Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment of emission to that of neutrons once they have escaped the target.
+In order to account for the effect of a rotating target on the trajectories of neutrons from different-pulses, the coordinate system was rotated about the vertical axis accordingly for each fission event.
+The conclusion was that the rotating 0.05$\times$2$\times$4~cm$^3$ U-238 target does not, due to neutron scattering, result in a significant departure from the true opening angle distribution.
+
+Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment immediately after emission (denoted by \emph{true} in figure) to that of neutrons once they have escaped the target (denoted by \emph{reconstructed} in figure).
+The overall scattering rate of detected neutrons may be affected by the fact that the neutron detection system does not have 4$\pi$ coverage. 
+The potential for this to affect the measurement is captured in the simulated reconstructed $\theta_{nn}$ distribution by only counting neutrons which enter the physical volume at which a detector was located during the experiment.
+A neutron energy cut of 0.4 MeV is applied to all neutrons in order to resemble the measurement.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/EffectOfElasticScattering.png}

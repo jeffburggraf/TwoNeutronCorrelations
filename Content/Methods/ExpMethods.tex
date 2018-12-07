@@ -7,7 +7,11 @@ Data from all PMTs is read out for each accelerator pulse, and if multiple signa
 Position and ToF are each determined using the timing of coincident signals from both PMTs of a detector.
 
 The sum of the times required for scintillation light to travel from the point of scintillation to both PMTs is equal to the time required for the light to travel the full length of the scintillator, and is a constant.
-This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, taken using a collimated $^{60}$Co source to generate photon events at several different locations along the length of the scintillator, all which have equal ToF.
+This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, that was produced from a series of tests in which a collimated $^{60}$Co source was placed at five different locations along a scintillator.
+One of the two coincident photons emitted by $^{60}$Co reaches the scintillator and the other is detected by an auxiliary detector which serves as the trigger. 
+These events have the same ToF regardless of the position of the $^{60}$Co source, as the distance photons must travel is unchanged. 
+The photons incident on the scintillator have a spot size of less than 1~cm due to collimation.
+
 In Fig.~\ref{fig:ConstPMTAvg}(a), it can be seen that the time required for the scintillation light to propagate through the scintillator effects the timing of each PMT alone, however, the average of the times of both PMTs is a constant, unaffected by the location at which the particle undergoes scintillation.
 Light takes 5~ns to travel the scintillator's full length, giving an effective index of refraction of 2.0 .
 For this reason, taking the average of signals from two PMTs is advantageous because it removes a roughly 5~ns timing error that would otherwise exist due to the time required for scintillation light to propagate through the scintillator.
@@ -60,7 +64,7 @@ Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy
 \subsection{Particle Position Reconstruction}
 The detectors are not capable of measuring the position of a detected particle along the axes parallel to the detectors' width (15.24~cm wide) and depth (3.81~cm deep), which contributes $\pm3^{\circ}$ to the total angular uncertainty.
 The position of a particle hit along the 76.2~cm length of the scintillator is calculated using the timing difference of signals from both of a detector's PMTs.
-Under the assumption that light travels at a constant velocity from some distance, $x$, relative to the center of a scintillator, the difference between the times of signals from the two PMTs, $\Delta t^{PMTs}$, is given by:
+Assuming that scintillation light travels, at a constant velocity, to both PMTs starting from a point that is $x$~cm from the center of a scintillator, then the difference between the times of signals from the two PMTs, $\Delta t^{PMTs}$, is given by:
 \begin{equation}
 \begin{split}
 \Delta t^{PMTs} & = t^{PMT_1}-t^{PMT_2} \\ 
@@ -77,10 +81,11 @@ where $t^{PMT_{top}}$ and $t^{PMT_{bot}}$ are the times of signals from the top 
 Using data taken from coincident photons from a collimated $^{60}$Co source placed at different position on a detector, a least squares linear fit between $x$ and $\Delta t^{PMTs}$ was performed.
 The resulting fit parameters are used to find the position of detected particles.
 
-The slope of the linear fit in Fig.~\ref{fig:PMTDifference}(b), along with Eq.~\ref{eq:position}, can be used to calculate the effective index of refraction, giving a value of 2.0 .
-The index of refraction measured here is said to be ``effective" because its measurement is sensitive to scintillation light's speed only along the axis parallel to the scintillator's longest dimension, and because scintillation light does not necessarily take a straight path to the PMTs, this speed is not equal to the intrinsic speed of light in the material.
-The actual index of refraction of PVT is known to be 1.58, or $\sim{20}\%$ less than the value measured here, indicating that there is some reflection of detected scintillation light from the boundaries of the scintillator.
-This effect contributes to the width of the peaks in Fig.~\ref{fig:PMTDifference}(a).
+The slope of the linear fit in Fig.~\ref{fig:PMTDifference}(b), along with Eq.~\ref{eq:position}, was used to calculate the effective index of refraction of the scintillation material to give a value of 2.0 .
+The index of refraction measured here is said to be ``effective" because its measurement is sensitive to scintillation light's average speed projected onto the axis parallel to the scintillator's longest dimension (in other words it's length), which is equal to the intrinsic speed of light in the material only when the light is traveling parallel to the scintillator's length.
+While the detection of scintillation light by both PMTs favors light paths which are parallel or nearly-parallel to the scintillator's length, there is some reflection of detected scintillation light from the boundaries of the scintillator.
+Thus, the actual index of refraction of PVT is 1.58, $\sim{20}\%$ less than the value measured here.
+This effect contributes to the measurement uncertainty in particle position reconstruction, which is illustrated by the widths of the peaks in Fig.~\ref{fig:PMTDifference}(a).
 
 \begin{figure}[]
     \centering
@@ -89,11 +94,11 @@ This effect contributes to the width of the peaks in Fig.~\ref{fig:PMTDifference
     \subfloat[]{\includegraphics[width = 0.6\textwidth]{Content/Methods/PMTDifference.png}}
 
     \caption{
-    A collimated $^{60}$Co source is used to produce photon events at five different positions along the scintillator with a spot size of less than 1~cm.
-    Aggregating the data produces the five peaks seen in (a).
-    The $\pm9$~cm width of each of these peaks is due to uncertainty in the measurement of particle position.
-    As seen in (b), the mean PMT timing difference of events at each position varies linearly with respect to the distance of the $^{60}$Co from the center of the detector. 
-    The result of a linear least squares fit to this data is used to calculate the position of detected particles along the scintillator.
+    A collimated $^{60}$Co source is used to produce photon events at five different positions along the scintillator.
+    Aggregating the data with the $^{60}$Co source at all five positions produces the five peaks seen in (a).
+    The $\pm9$~cm width of each of these peaks is due to the measurement uncertainty in particle position.
+    As seen in (b), the mean PMT timing difference of events at each position varies linearly with respect to the distance of the $^{60}$Co source from the center of the detector. 
+    The result of a linear least squares fit to this data is used to calculate the position of detected particles along the length of each scintillator.
     }
     \label{fig:PMTDifference}
 \end{figure}
