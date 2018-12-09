@@ -123,7 +123,7 @@ The probability that at least one neutron out of a pair of two scatters before e
 The rate of elastic scattering is affected by the size and shape of the target.
 A thin strip is the ideal target shape regarding the rate of neutron elastic scattering per unit of total target volume.
 See Fig~\ref{fig:ElasticScatteringPlot} for the simulated elastic scattering rates for both thin strip and cylindrical shaped targets.
-The simulation indicated that the rate of elastic scattering is about a factor of two times greater in cylindrical targets than in thin strip targets of the same volume with a width-to-thickness ratio of 40.
+The simulation indicated that the rate of elastic scattering in cylindrical targets is about a factor of two times greater than in thin strip targets with the same volume and a width-to-thickness ratio of 40.
 
 \begin{figure}
     \centering
@@ -151,12 +151,12 @@ Analysis of the simulation employs the same technique outlined in section~\ref{s
 The correlated opening angle distribution is formed by pairing neutrons emitted during the same fission, and the uncorrected distribution by the pairing of neutrons emitted during different fissions.
 The location of fission events were sampled uniformly throughout the targets volume.
 In order to account for the effect of a rotating target on the trajectories of neutrons from different-pulses, the coordinate system was rotated about the vertical axis accordingly for each fission event.
-The conclusion was that the rotating 0.05$\times$2$\times$4~cm$^3$ U-238 target does not, due to neutron scattering, result in a significant departure from the true opening angle distribution.
 
-Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment immediately after emission (denoted by \emph{true} in figure) to that of neutrons once they have escaped the target (denoted by \emph{reconstructed} in figure).
-The overall scattering rate of detected neutrons may be affected by the fact that the neutron detection system does not have 4$\pi$ coverage. 
+The rate of neutron scattering within the target of detected neutrons may be affected by the fact that the detection system does not have 4$\pi$ coverage. 
 The potential for this to affect the measurement is captured in the simulated reconstructed $\theta_{nn}$ distribution by only counting neutrons which enter the physical volume at which a detector was located during the experiment.
 A neutron energy cut of 0.4 MeV is applied to all neutrons in order to resemble the measurement.
+Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment immediately after emission (denoted by \emph{true} in figure) to that of neutrons once they have escaped the target (denoted by \emph{reconstructed} in figure).
+The conclusion is that the rotating 0.05$\times$2$\times$4~cm$^3$ U-238 target does not, due to neutron scattering, result in a significant departure from the true opening angle distribution.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/EffectOfElasticScattering.png}
@@ -169,5 +169,3 @@ A neutron energy cut of 0.4 MeV is applied to all neutrons in order to resemble 
     }
     \label{fig:ElasticScatteringEffect}
 \end{figure}
-
-
