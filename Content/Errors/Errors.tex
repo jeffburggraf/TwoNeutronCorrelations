@@ -1,11 +1,10 @@
 \chapter{Discussion of Experimental Errors}
 \label{Errors}
 \section{Resolution of measurement}
-The position of a detected particle is known to within a specified distance, which translates into a resolution in the measurement of the opening angle between a pair of particles.
+%The position of a detected particle is known to within a specified distance, which translates into a resolution in the measurement of the opening angle between a pair of particles.
 A particle's reconstructed position along a detector's length has an error of $\pm$13 cm.
-Due to the detector's 15 cm width, there is also a positional uncertainty of $\pm 7.5$ cm in the direction perpendicular along the detector's length.
-The amount of uncertainty in a single two-neutron opening angle measurement is determined from the uncertainties in the positions of each detected neutron.
-These position uncertainties are propagated through the formula for the calculation of opening angle, which is
+There is also a position uncertainty of $\pm 7.5$ cm along this axis of each detector's 15 cm width.
+The uncertainty in n-n opening angle determination is quantified by propagating the uncertainties in the positions of each detected neutron through the formula for the calculation of opening angle, which is
 \begin{displaymath}
     \theta_{nn} = \text{arccos}\left(\frac{\vec{v_{1}}^{\,}\cdot\vec{v_{2}}^{\,}}{|\vec{v_{1}}^{\,}||\vec{v_{2}}^{\,}|}\right)
 \end{displaymath}
@@ -17,14 +16,14 @@ The propagation of error through this formula is achieved by evaluating the foll
  & & \left. + \left(\Delta x_2 \frac{\partial \theta}{\partial x_2}\right)^{2} + \left(\Delta y_2\frac{\partial \theta}{\partial y_2}\right)^{2} + \left(\Delta z_2 \frac{\partial \theta}{\partial z_2}\right)^{2} \right) ^{\frac{1}{2}} \, ,  \nonumber
 \end{eqnarray}
 where the $\Delta$'s represent the uncertainty in the variable that directly follows each $\Delta$.
-The values and uncertainties of all events in a given opening angle bin are fed through Eq. \ref{eq:propagation}, and then the results are averaged.
-The result is shown in Fig.~\ref{fig:OpeningAngleRes} and can be interpreted as the opening angle resolution as a function of $\theta_{nn}$.
+In Fig.~\ref{fig:OpeningAngleRes}, all events in each opening angle bin are fed through Eq. \ref{eq:propagation}, and the results for each bin are averaged.
+Fig.~\ref{fig:OpeningAngleRes} can be interpreted as the opening angle resolution as a function of $\theta_{nn}$.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.85\textwidth]{Content/Errors/OpeningAngleUncertainty.png}
     \caption{Uncertainties in opening angle determined from the propagation of position uncertainties through the opening angle calculation.
-     The uncertainty of a given opening angle measurement depends on which detectors are involved and the position of the particles on the detectors.
-     For this reason, the uncertainty of measurements falling within each angle bin is a distribution, so the average uncertainties are plotted here.
+     %The uncertainty of a given opening angle measurement depends on which detectors are involved and the position of the particles on the detectors.
+    % For this reason, the uncertainty of measurements falling within each angle bin is a distribution, so the average uncertainties are plotted here.
     The y-axis can be viewed as a measure of angular resolution in the sense that it represents the smallest angular difference that can be considered statistically significant.
     }
     \label{fig:OpeningAngleRes}
@@ -32,7 +31,7 @@ The result is shown in Fig.~\ref{fig:OpeningAngleRes} and can be interpreted as 
 
 \section{Counting error}
 The uncertainty in the number of observed events is always assumed to be equal to $\sqrt{N}$, as per Poissonian  statistics, where N is the number of observed events.
-This value is then propagated through all the analysis procedure using the standard methods for the propagation of error.
+This value is then propagated through the analysis procedure using the standard methods for the propagation of error.
 The vertical error bars seen in all results are due solely to such counting error.
 
 \FloatBarrier
@@ -47,31 +46,31 @@ Recent works that measured the two-neutron angular correlations in the spontaneo
 In this work, the issue of cross-talk is approached differently by employing the use of detector shielding aimed at reducing cross-talk to a negligible rate.
 By using shielding to reduce cross-talk, this measurement is less dependent on the details of the models used by MCNP-PoLiMi to simulate neutron transport and detection.
 MCNP-PoLoMi simulations are used in this work only to verify that the effect of cross-talk is negligible.
-The scintillators used here are much larger than those used in similar works, such as in refs~\cite{Pozzi2016,Verbeke2018}, allowing them to be placed much farther from the fission source without causing extremely low coincidence rates. 
-An increase in the distance between the detectors and the fission source makes this measurement less sensitive to angular uncertainty, which is influenced by the uncertainty in the position of a detected particle due to, for example, the scattering of neutrons from detector shielding.
-Because of this, larger amounts of shielding can be used without concern of introducing large errors.
 
-The geometry of the neutron detection system makes it kinematically impossible for a neutron to scatter from a proton in one detector--which is the basis for scintillation--and then travel directly into another detector with enough kinetic energy to be detected a second time.
-For this reason, upon being detected, a neutron must scatter from one or more intermediate nuclei, such as Pb or C, in order for it to reach a different detector with enough energy to be detected a second time.
+The scintillators used here are much larger than those used in similar works, such as in refs~\cite{Pozzi2016,Verbeke2018}, allowing them to be placed much farther from the fission source without resulting in too low coincidence rates. 
+An increase in the distance between the detectors and the fission source makes this measurement less sensitive to angular uncertainty, which depends directly on the uncertainty in the position of a detected particle due to, for example, the scattering of neutrons from detector shielding.
+For this reason, larger amounts of shielding can be used without concern of introducing large errors.
+
+The geometry of the neutron detection system makes it kinematically impossible for a neutron to scatter from a proton in one detector, which is the basis for scintillation, and then travel directly into another detector with enough kinetic energy to be detected a second time.
+For this reason, upon being detected, a neutron must scatter from one or more intermediate nuclei, such as Pb or C, in order for it to reach another detector with enough energy to be detected again.
 This fact follows from the conservation of energy and momentum.
-Figure~\ref{fig:CrossTalkExample} illustrates a cross-talk event due to a neutron scattering in a detector's shielding.
-In order to be more convinced that such events occur at negligible rates, a detailed MCNP-PoliMi~\cite{MCNP_POLIMI} simulation was performed to model cross-talk.
+Figure~\ref{fig:CrossTalkExample} illustrates a cross-talk event facilitated by the scattering of a neutron within a detector's shielding.
+In order to increase the credibility of the claim that the design of the neutron detection system reduced cross-talk to negligible rates, a detailed MCNP-PoliMi~\cite{MCNP_POLIMI} simulation was performed in which a built-in $^{252}$Cf source is positioned at the center of a model of the neutron detection system.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrossTalkExample.png}
     \caption{A hypothetical example of a neutron cross-talk event.
-An incoming neutron is detected and then scatters from some lead shielding nearby, which changes its direction of travel such that it enters a second detector where it is detected a second time.
-The scattering of a neutron from an intermediate nucleus, in this example a lead nucleus, is kinematically required in order for cross-talk to occur in this experiment.}
+An incoming neutron is detected and then scatters from nearby lead shielding, changing its direction of travel such that it enters a second detector where it is detected a second time.
+The scattering of a neutron from an intermediate nucleus, Pb in this example, is kinematically required in order for cross-talk to occur in this experiment.}
     \label{fig:CrossTalkExample}
 \end{figure}
 
-\section{Simulation of Detector Cross-talk}
-A simulation was performed to ensure that the detector shielding effectively reduced cross-talk to negligible levels.
-The simulation included all scintillators and their shielding, supporting structures, and the concrete walls surrounding the experimental cell.
+\subsection{Simulation of Detector Cross-talk}
+The cross-talk simulation included all scintillators, shielding, detector supporting structures, and the concrete walls surrounding the experimental cell.
 MCNP-PoliMi's built-in $^{252}$Cf spontaneous fission source was used, which emits neutrons with the correct correlations and multiplicities.
 Detector response was modeled using a program included with the MCNP-PoliMi distribution called MPPost~\cite{MPPost}.
 The model is based on the electron equivalent light output (MeVee) produced by particles as they undergo collisions with carbon and hydrogen within organic plastic scintillators.
-A minimum deposited energy of 0.4 MeV ( 0.05 MeVee for neutrons) was assumed for detectable particles, which was chosen because the neutron detection system showed a sharp decline in detection rates for neutrons below 0.4 MeV.
+A minimum deposited energy of 0.4 MeV (equivalent to 0.05 MeVee for neutrons) was assumed for detectable particles, which was chosen because the neutron detection system showed a sharp decline in detection rates for neutrons below 0.4 MeV.
 For neutron collisions with hydrogen, the light output in MeVee, $L$, is calculated by the following empirically derived formula
 \begin{displaymath}
 L = 0.0364 E_n^2 +  0.125 E_n
@@ -85,16 +84,16 @@ As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, this model of the detection process pr
 \begin{figure}
     \centering
     \includegraphics[width = 0.9\textwidth]{Content/Errors/Cf252MCNPVsEXP.png}
-    \caption{Measured \emph{versus} simulated ToF spectrum of a $^{252}$Cf spontaneous fission source. 
-    The simulation also used a detector response model based on ref~\cite{MPPost}}
+    \caption{Measured \emph{versus} simulated ToF spectrum from the SF of $^{252}$Cf, as reconstructed by the neutron detection system.
+        The simulation used the detector response model outlined in ref~\cite{MPPost}}
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
 
-The simulation was initially performed with 5 cm of lead shielding placed behind the scintillators, and the number of cross-talk events accounted for 11\% of the total coincident neutron events.
-The amount of cross-talk fell to 3\% if polyethylene was used instead of lead, which motivated the placement of 10~cm of polyethylene behind the detectors during construction.
 Figure~\ref{fig:CrosstalkVScoincidence} shows the distribution of cross-talk events and true two-neutron coincidences as a function of reconstructed opening angle.
-It is worth noting that, according to the simulation, the effect of cross-talk is not only small, but is also distributed over a wide range of angles rather than being concentrated around $\theta_{nn}=0$.
-Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence}, because these cross-talk events can be readily identified in analysis by the large amount of time required for a neutron to travel the required distances.
+It is worth noting that, according to this simulation, the effect of cross-talk is not only small, but is also distributed over a wide range of angles rather than being concentrated around $\theta_{nn}=0$.
+Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence} because these cross-talk events can be readily identified in analysis due to the large amount of time required for a neutron to travel the these distances.
+The simulation was initially performed with 5 cm of lead shielding placed behind the scintillators, and the number of cross-talk events accounted for 11\% of the total coincident neutron events.
+This value fell to 3\% when polyethylene was used instead of lead, which is what motivated the placement of 10~cm of polyethylene behind the detectors instead of lead.
 \begin{figure}
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrosstalkVScoincidence.png}
