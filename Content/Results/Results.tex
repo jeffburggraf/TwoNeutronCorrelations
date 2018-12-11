@@ -5,9 +5,9 @@ The results are compared with output from FREYA~\cite{FREYA} (Fission Reaction E
  
 The most recent release of FREYA (version 2.0.3) does not model photofission directly, but instead uses a neutron-induced fission model to approximate photofission~\cite{FREYA_photofission}.
 For a given nucleus with Z protons and A total nucleons, the code selects the neutron-induced fission model for a Z(A-1) nucleus, and chooses an incident neutron energy such that the compound ZA nucleus will have an excitation energy relative to the ground state of ZA that is equal to the energy of the incident photon.
-All model parameters, such as level density and partition parameters, were set to their default values for neutron-induced fission.
-FREYA was told to use the fission fragment mass distribution, $Y(A)$, and the average total kinetic energy, $\langle$TKE$\rangle(A)$, from the $^{238}$U photofission measurements described in ref~\cite{2017Krishichayan}.
 
+When using FREYA to model photofission in this work, all model parameters, such as level density and partition parameters, were set to their default values for neutron-induced fission.
+FREYA was told to use the fission fragment mass distribution, $Y(A)$, and the average total kinetic energy, $\langle$TKE$\rangle(A)$, from the $^{238}$U photofission measurements described in ref~\cite{2017Krishichayan}.
 In ref~\cite{Talou2018}, the authors warn that using FREYA in this way to model photofission is only an approximation and could lead to incorrect results.
 Nonetheless, FREYA is used here as such because it is the only photofission model available to the authors of the present work.
 
@@ -19,15 +19,15 @@ The measured $\theta_{nn}$ distribution from the photofission of $^{238}$U and t
   \item In Figs.~\ref{fig:DU(1)} ($^{238}$U) and~\ref{fig:Cf(1)} ($^{252}$Cf), the mean energy of the two neutrons are required to fall within a specified range
  \end{enumerate}
 
-When using a histogram to estimate a continuous distribution from the relatively small number of data points obtained of neutrons from the photofission of $^{238}$U, one faces the following dilemma: small bins produce histograms with large uncertainties that are dependent on the chosen bin-width, while large bins obscure potentially useful information. 
+When using a histogram to estimate a continuous distribution from the relatively small number of data points obtained in this work, one faces the following dilemma: small bins produce histograms with large uncertainties that are dependent on the chosen bin-width, while large bins obscure potentially useful information. 
 For this reason, kernel density estimates (KDE) with 68\% confidence intervals are plotted alongside histograms.
 A KDE is a method for estimating a continuous probability distribution from a finite set of sampled data points.
-The kernel was chosen to be equal to the measurement errors in opening angle as determined by a study using a highly collimated $^{60}$Co source that was placed at different points along a detector.
-The resulting measurement errors are well-described by a gaussian with a sigma that varies with $\theta_{nn}$ according to the data presented in Fig.~\ref{fig:OpeningAngleRes}.
+The kernel was chosen to be the measurement errors in opening angle as determined by a study using a collimated $^{60}$Co source that was placed at different points along a detector.
+The measurement errors in $\theta_{nn}$ are well-described by a gaussian with a sigma of 6$^{\circ}$.
 Mathematical details of the KDE method used in this work are outlined in ref~\cite{KDE}. 
 
-Alongside each measurement is the result of a FREYA simulation, with the exact same energy cuts applied.
-For $^{238}$U, there were a total of 2952 two-neutron coincident events after the subtraction of accidentals, and for $^{252}$Cf, there were a total of 21,882.
+Plotted alongside each measurement is the result of a FREYA simulation.
+For $^{238}$U photofission, there were a total of 2,952 two-neutron coincident events after the subtraction of accidentals and 21,882 for $^{252}$Cf SF.
 
 \FloatBarrier
 \begin{figure}
@@ -90,6 +90,7 @@ The fact that there are overall differences is not surprising, because in one ca
 However, the fact that the two-neutron correlation is reduced at 180$^{\circ}$ in opening angle when at least one of the neutrons is emitted along the preferred fission axis is unexpected.
 This is a feature which does not seem to appear in either neutron-induced fission, previous measurements on spontaneous fission, or our present measurement on spontaneous fission.
 The photofission of the even-even $^{238}$U nucleus seems to be unique in this regard. 
+The attribution of this effect to the geometric coverage of the neutron detection system or to neutron elastic scattering within the target was ruled out by simulation, as described in section~\ref{subsection:Elastic_scattering}.
 
 These data are consistent with two possible explanations relating to the unique feature of the asymmetric angular emission of fission fragments in photofission.
 First, it is possible that there is a decrease in neutron emission along the fission axis.
