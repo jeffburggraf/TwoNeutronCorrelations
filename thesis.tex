@@ -88,6 +88,10 @@
 \usepackage{placeins}
 \usepackage{scalerel}
 
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{fancy}}} 
+
+
+
 \usepackage{fancyhdr, ragged2e}
 \lhead{\parbox[t]{0.4\textwidth}{\RaggedRight\rightmark\strut}}
 \rhead{\parbox[t]{0.4\textwidth}{\RaggedLeft\leftmark\strut}}
@@ -121,7 +125,7 @@
 %% Document information
 %% ====================
 
-\title{Two-Neutron Correlations in the Photofission of $^{238}$U}
+\title{Neutron-Neutron Correlations in the Photofission of U-238}
 \author{Jeffrey S. Burggraf}
 %\advisors{Advisor: Prof.\ Dr.\ D. S. Dale}
 %\department{Department of Physics}
@@ -137,8 +141,14 @@
 \usepackage[textsize=small]{todonotes}
 %
 \setlength{\marginparwidth}{2.5cm}
+\usepackage{tocloft}
+\renewcommand{\cftchapterdotsep}{\cftdotsep}% Chapters should use dots in ToC
 
-\begin{document}
+
+\setlength{\absleftindent}{0pt} % make abstract non-indented
+\setlength{\absrightindent}{0pt}
+
+\begin{document}.   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% begin 
 \setstretch{1.25}
 \pagenumbering{gobble}
 
@@ -177,7 +187,7 @@ Signiture
 %\thispagestyle{plain}
 \newpage
 \pagenumbering{roman}
-
+\setcounter{page}{2}
 
 To the Graduate Faculty:
 
@@ -187,31 +197,31 @@ and recommend that it be accepted.
 
 \hrulefill
 \hspace*{5cm} \\
-Dr. Dan Dale \\ 
+Dr. Dan Dale, \\ 
 Major Advisor
 
  \vspace{1cm}
 \hrulefill
 \hspace*{5cm} \\
-Dr. Tony Forest \\ 
+Dr. Tony Forest, \\ 
 Committee Member
 
  \vspace{1cm}
 \hrulefill
 \hspace*{5cm} \\
-Dr. Steve Shropshire \\ 
+Dr. Steve Shropshire, \\ 
 Committee Member
 
  \vspace{1cm}
 \hrulefill
 \hspace*{5cm} \\
-Dr. Paul Stonaha \\ 
+Dr. Paul Stonaha, \\ 
 Committee Member
 
  \vspace{1cm}
 \hrulefill
 \hspace*{5cm} \\
-Dr. David Delehanty \\ 
+Dr. David Delehanty, \\ 
 Graduate Faculty Representative
 
 \newpage
@@ -222,35 +232,34 @@ Graduate Faculty Representative
 \par
 \endgroup
 
-\setstretch{1.65}
+\setstretch{1.75}
 \vspace{1cm}
 First, I would like to thank my advisor and mentor, Dr. Dale. There tends to be an inverse relationship between the number of years of experience and the level of enthusiasm. Dr. Dale, still very excited about what he does, defies this trend. He is the most enthusiastic senior scientist I’ve had the pleasure of meeting. As a leader, he has provided for me the perfect blend of autonomy, supervision, and guidance, which has led me to achieve high levels of intellectual growth that would have been impossible otherwise. As his advisee, I never felt like a factory worker who’s purpose was to crank out data and follow orders. I was very fortunate to have been matched with an academic advisor who was the perfect fit for me.
 
 I would also like the thank the accelerator operators of the Idaho Accelerator Center, Brian Berls, Chad O'Neill, and Kevin Folkman, for their willingness to operate the accelerator during hours extending from 8:00 AM to as late as 1:00 AM–far beyond their normal working hours.
 
 Also, thank you to the United States National Nuclear Security Administration, Office of Proliferation Detection for providing the funding for this work.
-\newpage
-
-%% The abstract of your thesis.  Edit the file as needed.
-\input{abstract}
-
-%% TOC with the proper setup, do not change.
-\cleartorecto
-\setstretch{1.25}
-\tableofcontents
-\setstretch{1.75}
-
-\newpage
-%\mainmatter
-
-\listoffigures
- 
 \clearpage
+
+%\cleartorecto
+\pagestyle{fancy}
+\setstretch{1.5}
+\begin{KeepFromToc}
+  \tableofcontents
+\end{KeepFromToc}
 \newpage
+
+
+\setstretch{1.85}.  %%%% Final document spacing
+%\pagestyle{fancy}
+%\listoffigures
+\thispagestyle{plain}
+\input{abstract}
+\newpage
+
 
 \pagenumbering{arabic}
 \setcounter{page}{1}
-%\thispagestyle{plain}
 
 \input{Content/Introduction/Introduction.tex}
 \input{Content/Methods/Methods.tex}
@@ -258,12 +267,12 @@ Also, thank you to the United States National Nuclear Security Administration, O
 \input{Content/Results/Results.tex}
 \input{Conclusion.tex}
 
-\appendix
-\input{appendix.tex}
-
 %backmatter
-
+\thispagestyle{fancy}
 \bibliography{./refs.bib}
 
+
+\appendix
+\input{appendix.tex}
 
 \end{document}

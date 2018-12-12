@@ -1,6 +1,7 @@
 \chapter{Results}
-\section{Two-neutron Opening Angle Correlations}
-The two-neutron opening angle correlation is calculated using the methods outlined in sec~\ref{Analysis}, in which a correlated neutron yield is divided by an uncorrelated yield.
+\thispagestyle{fancy}
+\section{neutron-neutron Opening Angle Correlations}
+The neutron-neutron opening angle correlation is calculated using the methods outlined in sec~\ref{Analysis}, in which a correlated neutron yield is divided by an uncorrelated yield.
 The results are compared with output from FREYA~\cite{FREYA} (Fission Reaction Event Yield Algorithm), which was developed by the collaborative efforts of researchers from Lawrence Berkeley National Laboratory,  Lawrence Livermore National Laboratory, Los Almost National Laboratory, and University of Michigan Nuclear Engineering, and has been included in MCNP beginning with version 6.2 .
  
 The most recent release of FREYA (version 2.0.3) does not model photofission directly, but instead uses a neutron-induced fission model to approximate photofission~\cite{FREYA_photofission}.
@@ -27,7 +28,7 @@ The measurement errors in $\theta_{nn}$ are well-described by a gaussian with a 
 Mathematical details of the KDE method used in this work are outlined in ref~\cite{KDE}. 
 
 Plotted alongside each measurement is the result of a FREYA simulation.
-For $^{238}$U photofission, there were a total of 2,952 two-neutron coincident events after the subtraction of accidentals and 21,882 for $^{252}$Cf SF.
+For $^{238}$U photofission, there were a total of 2,952 neutron-neutron coincident events after the subtraction of accidentals and 21,882 for $^{252}$Cf SF.
 
 \FloatBarrier
 \begin{figure}
@@ -77,26 +78,26 @@ For $^{238}$U photofission, there were a total of 2,952 two-neutron coincident e
 
 \subsection{Considering $\theta_{abs}$}
 \label{sec:anomaly}
-While these results are consistent with the effect of the kinematic focusing of the neutrons due to the recoil of the fission fragments, the data show a marked decrease in the two-neutron opening angle correlation in the region from about 165$^{\circ}$ to 180$^{\circ}$, which can be seen in Figs.~\ref{fig:SPDPNormalization} and ~\ref{fig:theta_abs_two_neutron}, as well as in Figs ~\ref{fig:DU(0)} through \ref{fig:DU(1)}.
+While these results are consistent with the effect of the kinematic focusing of the neutrons due to the recoil of the fission fragments, the data show a marked decrease in the neutron-neutron opening angle correlation in the region from about 165$^{\circ}$ to 180$^{\circ}$, which can be seen in Figs.~\ref{fig:SPDPNormalization} and ~\ref{fig:theta_abs_two_neutron}, as well as in Figs ~\ref{fig:DU(0)} through \ref{fig:DU(1)}.
 This feature is not evident in previous work on spontaneous and neutron induced fission.
 As previously discussed in section~\ref{sec:level1}, photofission differs from spontaneous and neutron induced fission in that the fission fragments for the photon-induced reaction exhibit an asymmetry in their angle of emission, with the most likely orientation of the fission axis lying perpendicular to the direction of the incident photon.
 With this in mind, the following series of angular cuts were made on the data.
-Fig.~\ref{fig:theta_abs_LEGO} shows the distributions of absolute opening angles of the two-neutron events for three different cuts on the value of the two-neutron opening angle.
-For two-neutron opening angles between 120$^{\circ}$ and 160$^{\circ}$, there is an increased preponderance of both neutrons being emitted around 90$^{\circ}$, consistent with the interpretation of kinematic focusing of neutrons coming from fission fragments which are themselves being emitted preferentially at 90$^{\circ}$.
-However, in the opening angle region where the two-neutron correlation is reduced, from about 160$^{\circ}$ to 180$^{\circ}$, this feature is less prominent.
+Fig.~\ref{fig:theta_abs_LEGO} shows the distributions of absolute opening angles of the neutron-neutron events for three different cuts on the value of the neutron-neutron opening angle.
+For neutron-neutron opening angles between 120$^{\circ}$ and 160$^{\circ}$, there is an increased preponderance of both neutrons being emitted around 90$^{\circ}$, consistent with the interpretation of kinematic focusing of neutrons coming from fission fragments which are themselves being emitted preferentially at 90$^{\circ}$.
+However, in the opening angle region where the neutron-neutron correlation is reduced, from about 160$^{\circ}$ to 180$^{\circ}$, this feature is less prominent.
 
 Furthermore, if one plots the opening angle distributions for the case in which at least one neutron is emitted perpendicular to the incident photon \emph{versus} the case in which neither neutron is emitted perpendicular to the incident photon (Fig.~\ref{fig:theta_abs_two_neutron}), one sees distinct differences.
 The fact that there are overall differences is not surprising, because in one case (Fig.~\ref{fig:theta_abs_two_neutron} left) at least one neutron preferentially receives a kinematic boost from a fission fragment and in the other case (Fig.~\ref{fig:theta_abs_two_neutron} right) neither neutron does.
-However, the fact that the two-neutron correlation is reduced at 180$^{\circ}$ in opening angle when at least one of the neutrons is emitted along the preferred fission axis is unexpected.
+However, the fact that the neutron-neutron correlation is reduced at 180$^{\circ}$ in opening angle when at least one of the neutrons is emitted along the preferred fission axis is unexpected.
 This is a feature which does not seem to appear in either neutron-induced fission, previous measurements on spontaneous fission, or our present measurement on spontaneous fission.
 The photofission of the even-even $^{238}$U nucleus seems to be unique in this regard. 
-The attribution of this effect to the geometric coverage of the neutron detection system or to neutron elastic scattering within the target was ruled out by simulation, as described in section~\ref{subsection:Elastic_scattering}.
+The attribution of this effect to the geometric coverage of the neutron detection system or to neutron elastic scattering within the target was ruled out using simulations, as discussed in section~\ref{subsection:Elastic_scattering}.
 
 These data are consistent with two possible explanations relating to the unique feature of the asymmetric angular emission of fission fragments in photofission.
 First, it is possible that there is a decrease in neutron emission along the fission axis.
 Second, the neutrons may indeed be emitted isotropically in the rest frame of the fission fragment, but one fragment essentially shadows the neutrons emitted from the other fragment, either through absorption or scattering.
 If it is the later case, then this effect has the potential to shed light on the time dependence of neutron emission, since shadowing would likely depend on the fission fragment separation.
-A definitive interpretation of this decreased two-neutron correlation for large opening angles in photo-fission requires further study.
+A definitive interpretation of this decreased neutron-neutron correlation for large opening angles in photo-fission requires further study.
 
 \begin{figure}
 \centering
@@ -120,7 +121,7 @@ Nonetheless, neutron singles measurements from the photo-disintegration of D$_{2
 
 The distributions were calculated by normalizing a yield of photo-neutrons to the yield of neutrons from SF of $^{252}$Cf, which have no preferred direction.
 However, these two yields were measured under very different experimental conditions.
-This is different from the case of two-neutron opening angle measurements, which uses the same set of neutron events to generate two yields--uncorrected yield and correlated yield.
+This is different from the case of neutron-neutron opening angle measurements, which uses the same set of neutron events to generate two yields--uncorrected yield and correlated yield.
 Another difference for these measurements is that there is no uncorrelated yield to use to subtract undesirable signals from noise and photons.
 
  Due to differences in experimental conditions that existed during measurements of photo-neutrons and measurements of neutrons from the SF of $^{252}$Cf, there is a high potential for systematic errors.

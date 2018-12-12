@@ -1,5 +1,7 @@
 \chapter{Discussion of Experimental Errors}
 \label{Errors}
+\thispagestyle{fancy}
+
 \section{Resolution of measurement}
 %The position of a detected particle is known to within a specified distance, which translates into a resolution in the measurement of the opening angle between a pair of particles.
 A particle's reconstructed position along a detector's length has an error of $\pm$13 cm.
@@ -42,7 +44,7 @@ For example, upon detection, a particle may undergo elastic scattering and then 
 The two coincident detections of a cross-talk event are causally correlated, and thus they have the potential to contaminate the signal from correlated fission neutrons.
 If both detections occur during the ToF range typical for fission neutrons, then the cross-talk event cannot be distinguished from the detection of two correlated neutrons.
 
-Recent works that measured the two-neutron angular correlations in the spontaneous fission of $^{252}$Cf and $^{240}$Pu~\cite{Pozzi2016,Verbeke2018} addressed this effect by using an MCNP-PoLiMi simulation to estimate and then subtract cross-talk from their measurements.
+Recent works that measured the neutron-neutron angular correlations in the spontaneous fission of $^{252}$Cf and $^{240}$Pu~\cite{Pozzi2016,Verbeke2018} addressed this effect by using an MCNP-PoLiMi simulation to estimate and then subtract cross-talk from their measurements.
 In this work, the issue of cross-talk is approached differently by employing the use of detector shielding aimed at reducing cross-talk to a negligible rate.
 By using shielding to reduce cross-talk, this measurement is less dependent on the details of the models used by MCNP-PoLiMi to simulate neutron transport and detection.
 MCNP-PoLoMi simulations are used in this work only to verify that the effect of cross-talk is negligible.
@@ -89,7 +91,7 @@ As seen in Fig.~\ref{fig:Cf252MCNPVsEXP}, this model of the detection process pr
     \label{fig:Cf252MCNPVsEXP}
 \end{figure}
 
-Figure~\ref{fig:CrosstalkVScoincidence} shows the distribution of cross-talk events and true two-neutron coincidences as a function of reconstructed opening angle.
+Figure~\ref{fig:CrosstalkVScoincidence} shows the distribution of cross-talk events and true neutron-neutron coincidences as a function of reconstructed opening angle.
 It is worth noting that, according to this simulation, the effect of cross-talk is not only small, but is also distributed over a wide range of angles rather than being concentrated around $\theta_{nn}=0$.
 Angles greater than 125 degrees are not shown in Fig.~\ref{fig:CrosstalkVScoincidence} because these cross-talk events can be readily identified in analysis due to the large amount of time required for a neutron to travel the these distances.
 The simulation was initially performed with 5 cm of lead shielding placed behind the scintillators, and the number of cross-talk events accounted for 11\% of the total coincident neutron events.
@@ -98,7 +100,7 @@ This value fell to 3\% when polyethylene was used instead of lead, which is what
     \centering
     \includegraphics[width = 0.95\textwidth]{Content/Errors/CrosstalkVScoincidence.png}
     \caption{
-    MCNP-PoLiMi simulation of the number of cross-talk events \emph{versus} correlated two-neutron events as a function of reconstructed opening angle.
+    MCNP-PoLiMi simulation of the number of cross-talk events \emph{versus} correlated neutron-neutron events as a function of reconstructed opening angle.
     Cross-talk accounted for 3\% of total events.
     In this work, cross-talk does not occur primarily at small angles, but is instead spread out over a wide range of angles.
     }
@@ -108,7 +110,7 @@ This value fell to 3\% when polyethylene was used instead of lead, which is what
 \section{Neutron Scattering within Target}
 \label{subsection:Elastic_scattering}
 A potential source of error in opening angle measurements is the scattering of neutrons within the fission target.
-This is a cause for concern because when neutrons scatter from heavy nucleons, such as $^{238}$U, they are likely to be deflected at large angles, resulting in two-neutron opening angles that do not reflect the true underlying fission kinematics.
+This is a cause for concern because when neutrons scatter from heavy nucleons, such as $^{238}$U, they are likely to be deflected at large angles, resulting in neutron-neutron opening angles that do not reflect the true underlying fission kinematics.
 The effect that the elastic scattering of neutrons within the target has on this work is assessed by MCNP simulations.
 %Furthermore, because the target used in this work has the shape of a thin strip, it is more likely that neutrons emitted along the wide, 2~cm, axis of the strip undergo a scattering event than those emitted along the thinest, 0.05~cm, axis.
 %As a result, detectors that are located collinear to the widest axis of the target will see relatively fewer neutrons due to increased scattering. 
@@ -119,7 +121,7 @@ The effect that the elastic scattering of neutrons within the target has on this
 The target's dimensions are small enough that the rate of photon absorption, and thus photo-neutron production, is virtually uniform throughout the entire target volume.
 Accordingly, an MCNP-PoLiMi simulation was used to generate $^{252}$Cf spontaneous fission events uniformly throughout the target.
 The SF of $^{252}$Cf is used instead of the photofission of $^{238}$U because of the current lack of photofission models, however, the underlying fission kinematics are, broadly speaking, the same for the SF of $^{252}$Cf and the photofission of $^{238}$U, thus, the two process have similar neutron-neutron correlations.
-The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation, indicating that 6\% of measured two-neutron opening angles were perturbed due to scattering.
+The probability that at least one neutron out of a pair of two scatters before exiting the target was calculated from the simulation, indicating that 6\% of measured neutron-neutron opening angles were perturbed due to scattering.
 
 The rate of elastic scattering is affected by the size and shape of the target.
 A thin strip is the ideal target shape regarding the rate of neutron elastic scattering per unit of total target volume.
@@ -160,7 +162,7 @@ The potential for this to affect the measurement is captured in the simulation b
 This distribution is labeled \emph{reconstructed} in Fig.~\ref{fig:ElasticScatteringEffect}, and includes the effects of neutron elastic scattering within the target together with the geometric coverage of the neutron detection system.
 Plotted alongside the reconstructed distribution is the opening angle distribution of the neutrons at the moment immediately after emission, labeled \emph{true}.
 A neutron energy cut of 0.4 MeV is applied to all neutrons in both cases in order to be more reflective of the measurement.
-%Fig~\ref{fig:ElasticScatteringEffect} compares the two-neutron opening angle distribution at the moment immediately after emission (denoted by \emph{true} in figure) to that of neutrons once they have escaped the target (denoted by \emph{reconstructed} in figure).
+%Fig~\ref{fig:ElasticScatteringEffect} compares the neutron-neutron opening angle distribution at the moment immediately after emission (denoted by \emph{true} in figure) to that of neutrons once they have escaped the target (denoted by \emph{reconstructed} in figure).
 From this simulation it was concluded that the rotating 0.05$\times$2$\times$4~cm$^3$ U-238 target does not, due to neutron scattering, result in a significant departure from the true opening angle distribution.
 \begin{figure}
     \centering
