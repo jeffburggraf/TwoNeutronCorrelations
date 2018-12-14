@@ -4,6 +4,12 @@ import mytools2 as mt2
 import numpy as np
 from TH1Wrapper import TH1F
 
+import matplotlib as mpl
+
+from TH1Wrapper import TH1F
+
+mpl.use('TkAgg')
+
 treeSP, pulses_SP = mt2.NCorrRun("SP","DU").neutrons_doubles_tree
 treeDP, pulses_DP = mt2.NCorrRun("DP","DU").neutrons_doubles_tree
 
