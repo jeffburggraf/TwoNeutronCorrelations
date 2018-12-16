@@ -6,12 +6,12 @@ A particle's reconstructed position is used to determine direction of motion, wh
 Position and ToF are each determined using the timing of coincident signals from both PMTs of a detector.
 
 The sum of the times required for scintillation light to travel from the point of scintillation to both PMTs is equal to the time required for the light to travel the full length of the scintillator, which is a constant for light that travels parallel to the length of the scintillator.
-This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, that was produced from a series of tests in which a collimated $^{60}$Co source was placed at five different locations along a scintillator.
-One of the two coincident photons emitted by $^{60}$Co reaches the scintillator and the other is detected by an auxiliary detector which serves as the trigger. 
+This is supported by data, shown in Fig.~\ref{fig:ConstPMTAvg}, which were produced from a series of tests in which a collimated $^{60}$Co source was placed at five different locations along a scintillator.
+One of the two coincident photons emitted by $^{60}$Co reaches the scintillator and the other is detected by an auxiliary detector serving as the trigger. 
 The photons incident on the scintillator have a spot size of less than 1~cm due to source collimation.
 These events all have equal ToF, regardless of the source's position, because the coincident photons are emitted simultaneously and the distance they must travel is unchanged. 
 
-In Fig.~\ref{fig:ConstPMTAvg}(a), it can be seen that the time required for the scintillation light to propagate through the scintillator effects the timing of each PMT alone, however, the average of the times of both PMTs is a constant, unaffected by the location at which the particle undergoes scintillation.
+In Fig.~\ref{fig:ConstPMTAvg}(a), it can be seen that the time required for the scintillation light to propagate through the scintillator has a large effect on the timing of each PMT alone, however, the average of the times of both PMTs is a constant, unaffected by the location at which the particle undergoes scintillation.
 For this reason, taking the average of signals from two PMTs is advantageous because it removes the roughly 5~ns timing error that would otherwise exist due to the time required for scintillation light to propagate through the scintillator.
 The requirement that there be coincident events in both of a detector's PMTs also aids in reducing noise.
 \begin{figure}[h]
@@ -32,7 +32,7 @@ During photofission measurements, ToF is calculated by the following expression:
 \begin{displaymath}
 \text{ToF} = t^{PMTs}_{\text{avg}} - t_{\text{beam}} + C
 \end{displaymath}
-where $t^{PMTs}_{\text{avg}}$ is the average of the times of signals from both PMTs of a scintillator, $t_{\text{beam}}$ is the time of a signal provided by the accelerator at the beginning of each pulse, and $C$ is a constant timing offset determined by observing photons that scatter from the target.
+where $t^{PMTs}_{\text{avg}}$ is the average of the times of signals from both PMTs of a scintillator, $t_{\text{beam}}$ is the time of a signal provided by the accelerator at the beginning of each pulse, and $C$ is a constant timing offset.
 Any process that produces a timing delay that does not change from pulse to pulse contributes to $C$, for example: \begin{itemize}
 \item the time required for photons to travel from the bremsstrahlung radiator to the target
 \item the propagation of signals through the wires connecting the PMTs
@@ -44,11 +44,11 @@ Any process that produces a timing delay that does not change from pulse to puls
 The value of $C$, which may be different for each detector, is determined by comparing the timing spectra of the gamma flash produced by a non-neutron producing target made from aluminum, to that produced when no target is used.
 The difference between these two spectra reveals a prominent peak in the ToF spectrum due to photons that scatter from the aluminum target.
 These photons must travel 125~cm to reach the center of any detector and 130~cm to reach the top, for which it takes light 4.2~ns and 4.3~ns to travel, respectively.
-The exact value of $C$ used for each detector was 4~ns minus the time corresponding to the TDC channel that contained the peak of the target-induced gamma flash.
+The value of $C$ used for each detector is equal the value that places the time corresponding to the peak of the target-induced gamma flash at 4~ns.
 
 Under the assumption that neutrons travel to the detectors unimpeded, the calculation of neutron energy from ToF is straightforward.
-This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and detector shielding, and is discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}, respectively.
-Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the measured neutron energy uncertainty after the propagation of ToF measurement uncertainty through the calculation of neutron energy.
+This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and detector shielding, and are discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}.
+Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the measurement uncertainty in neutron energy.
 \begin{figure}[]
     \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF2Erg.png}}
     \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/DeltaErg.png}}
@@ -58,7 +58,7 @@ Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy
 \end{figure}
 
 \subsection{Particle Position Reconstruction}
-Each detector is not capable of measuring the position of a detected particle along the axes parallel to a detector's width (15.24~cm) or depth (3.81~cm), contributing $\pm3^{\circ}$ to the total angular uncertainty.
+Each detector is not capable of measuring the position of a detected particle along the axes parallel to its width (15.24~cm) or depth (3.81~cm), which contributes $\pm3^{\circ}$ to the total angular uncertainty.
 The position of a detected particle along the 76.2~cm length of the scintillator is calculated using the timing difference of signals from both of a detector's PMTs.
 Assuming that scintillation light travels from an initial point, let it be $x$~cm from the center of a scintillator, to both PMTs at a velocity that is constant with respect to the scintillator's length-wise axis, then the difference between the times at which the light will reach each PMT ($\Delta t^{PMTs}$) is given by:
 \begin{equation}
@@ -73,8 +73,8 @@ Solving for $x$ gives
 \label{eq:position}
 x = \frac{c}{2n_{\text{eff}}} \Delta t^{PMTs} \, ,
 \end{equation}
-where $t^{PMT_{1}}$ and $t^{PMT_{2}}$ are the times of signals from the two PMTs of a detector relative to the accelerator gun pulse, $L$ is the length of the scintillator, $c$ is the speed of light, $n_{\text{eff}}$ is the effective index of refraction of the scintillation material.
-A least squares linear fit between $x$ and $\Delta t^{PMTs}$ was performed on data gathered using coincident photons emitted by a collimated $^{60}$Co source which was placed at several different positions along a detector.
+where $t^{PMT_{1}}$ and $t^{PMT_{2}}$ are the times of signals from each of a detector's PMTs relative to the accelerator gun pulse, $L$ is the length of the scintillator, $c$ is the speed of light, $n_{\text{eff}}$ is the effective index of refraction of the scintillation material.
+A least squares linear fit between $x$ and $\Delta t^{PMTs}$ was performed on data gathered using coincident photons emitted by a collimated $^{60}$Co source, the procedure of which is mentioned in the previous section.
 The resulting fit parameters, seen in Fig.~\ref{fig:PMTDifference}(b), are used to find the position of detected particles.
 \begin{figure}[]
     \centering

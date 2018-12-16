@@ -15,15 +15,13 @@ The supporting structure for each detector has been labeled according to the ang
 \end{figure}
 \subsection{Detectors}
 \label{subsection:detectors}
-
-The detection system measures neutron position and time of flight (ToF), which is defined as the time taken for a particle to travel from the target to a detector.
+The detection system measures neutron position and time of flight (ToF), which is defined as the time taken for a particle to travel from the fission target to a detector.
 The purpose of the ToF measurement is to determine the kinetic energy of detected neutrons and to distinguish between photons and neutrons.
 The detection system's positional precision is $\pm$9~cm, which gives an average angular precision of $\pm6^{\circ}$ in opening angle reconstruction.
 
-The neutron detection system consists of fourteen shielded scintillators arranged in a ring around the target (see Fig.~\ref{fig:DetGeom}).
-The scintillators were made from Polyvinyl Toluene (PVT), an organic plastic scintillator.
-Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting plastic light guides.
-A Hamamatsu 580-17 photomultiplier (PMT) tube is fixed to each light guide using optical glue.
+The detection system consists of fourteen shielded scintillators made from Polyvinyl Toluene (PVT) arranged in a ring around the target (see Figs.~\ref{fig:DetGeom} and~\ref{fig:Facility}).
+Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting, plastic light-guides.
+A Hamamatsu 580-17 photomultiplier (PMT) tube is fixed to each light-guide using optical glue.
 In order to increase the chance that scintillation light remains inside the scintillator, the scintillators were polished to remove micro-imperfections and were then wrapped in reflective aluminized mylar.
 
 \begin{figure}[]
@@ -68,13 +66,14 @@ The detector shielding, depicted in Fig.~\ref{fig:shielding}, was constructed us
 The sides of each scintillator were shielded with 5 cm of lead followed by 5 cm of polyethylene to reduce the chance of neutron cross-talk.
 Lead was not placed behind the scintillators after an MCNP-POLIMI simulation indicated it would occur at significant rates otherwise.
 Instead, 10~cm of polyethylene was placed behind the scintillators.
-For a more detailed discussion about the issue of cross-talk, see section~\ref{crosstalk}.
+For a detailed discussion about the issue of cross-talk, see section~\ref{crosstalk}.
 
-The front face of each detector were subject to the highest photon flux due to the scatting of the Bremsstrahlung beam from the target.
-The detection of a photon renders the given detector unable to detect any subsequent fission neutrons from the same pulse, due to the time needed for the detector to recover from the first event.
-Lead mitigates this problem but has the side effect of scattering neutrons, and if a neutron scatters prior to being detected, the ToF measurement and position reconstruction will be incorrect.
-The extent of measurement errors caused by this were quantified using an MCNP simulation, and accordingly, 2.5~cm of lead was placed along the front face of the detectors.
-This diminished photon detection rates to reasonable levels (photon rates can be seen in table~\ref{table:rates}), and, according to the simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
+The front face of each detector was subject to the highest photon flux due to the scatting of the Bremsstrahlung beam from the target.
+The detection of a photon renders the given detector unable to detect any subsequent fission neutrons from the same pulse due to the detector recovery time.
+Lead mitigates this problem by reducing photon flux, but has the side effect of scattering neutrons.
+If a neutron scatters prior to being detected, the ToF measurement and position reconstruction are incorrect.
+The extent of measurement errors caused by lead shielding were quantified using an MCNP simulation, and, accordingly, 2.5~cm of lead was placed along the front face of the detectors.
+This diminished photon detection rates to reasonable levels, and, according to the simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
 
 Because of the particularly high photon flux at the sides of all detectors located directly adjacent to the beam, an additional 2" of lead was placed along the sides of these detectors.
 For the same reason, an additional 2" of lead was also placed and along the front faces of the detectors farthest downstream, located at $\pm30^{\circ}$ from the beam line.
@@ -89,10 +88,10 @@ The differences in shielding design among the detectors can be seen in Fig~\ref{
 \subsection{Bremsstrahlung Photon Beam}
 \label{beam}
 In order to ensure that all correlated neutrons produced are due to fission, the bremsstrahlung end-point was set to 10.5~MeV, safely below the ($\gamma, 2n$) threshold of 11.28~MeV for $^{238}$U.
-Al was chosen for a bremsstrahlung radiator because it has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
+Al was chosen for the bremsstrahlung radiator because it has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
 Downstream from the bremsstrahlung radiator is a sweeping magnet that removes charged particles from the photon beam.
 Next, the beam traveled through a series of polyethylene and lead collimators on its way into the experimental cell in which the target was located (see Fig.~\ref{fig:Facility}).
-Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that included the production and collimation of the bremsstrahlung photon beam.
+Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that modeled the collimation and production of the bremsstrahlung photons.
 
 The electron beam pulse width was set to 3~ns with a repetition rate of 240~Hz and a 1.1~A peak current.
 The 3~ns pulse width was small compared to the median neutron ToF of 80~ns, and thus made a small contribution to the uncertainty in the neutron energy determination.
@@ -100,7 +99,7 @@ The 3~ns pulse width was small compared to the median neutron ToF of 80~ns, and 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{Content/Methods/MCNPBremDistribution.png}
-\caption{MCNP simulation of the energy distribution of photons that are incident on the fission target.}
+\caption{MCNP simulation of the energy distribution of the bremsstrahlung photons that reach the fission target.}
 \label{fig:BremDist}
 \end{figure}
 

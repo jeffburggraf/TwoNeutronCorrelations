@@ -5,7 +5,7 @@
 \label{subsec:SPDPCancelation}
 The efficiency and acceptance of the neutron detection system varies greatly over its opening angle range of 20$^{\circ}$ to 180$^{\circ}$, as illustrated in Fig.~\ref{fig:DetAcceptance}.
 This is both due to the neutron detection system's non-spherical symmetry and to varying efficiency as a function of particle position on the detector.
-In order to give a result that is sensitive to angular correlations, but is not sensitive to detector efficiencies and experimental drifts in PMT voltage, accelerator current, etc. , angular correlation is determined by dividing a correlated neutron distribution by an uncorrelated neutron distribution. That is,
+In order to give a result that is sensitive to angular correlations, but is highly insensitive to detector efficiencies and experimental drifts in PMT voltage, accelerator current, etc. , angular correlation is determined by dividing a correlated neutron distribution by an uncorrelated neutron distribution. That is,
 \begin{equation}
 \label{eq:angularCorr}
 \text{angular correlation }  = \frac{nn_{\text{corr}}(\theta)}{nn_{\text{uncorr}}(\theta)},
@@ -72,6 +72,7 @@ A small number of accidental photon events will exist in the neutron time of fli
 There are also accidentals due to noise, which can be estimated with a non-neutron producing target made from aluminum (see Fig.~\ref{fig:Noise}).
 The accelerator's current was adjusted so that there are, on average, less than 1.0 fissions per accelerator pulse, but nevertheless, statistical fluctuations in the number of fissions per pulse result in accidental coincident neutrons that originated from different, and therefore, uncorrelated fissions.
 There are also uncorrelated neutrons produced when multiple $(\gamma, n)$ reactions occur in a single pulse.
+
 The $^{238}$U cross-section of $(\gamma, n)$, integrated over the relevant bremsstrahlung energy distribution, is about a factor of 5.5 times greater than it is for photofission (see Fig.~\ref{fig:CrossSection}).
 As a result, the raw neutron coincidence data will contain a significant number of neutron coincidences from multiple $(\gamma, n)$ reactions in relation to neutron coincidences from fission.
 If accidentals were not subtracted from the result, then they would tend to wash out the signal from correlated neutrons. 
@@ -100,15 +101,16 @@ If accidentals were not subtracted from the result, then they would tend to wash
     \label{noise_siubtraction}
 \end{figure}
 
-The raw measurement consists of a mix of correlated and accidental neutron coincidences, that is,
+The raw measurement consists of a mix of correlated and accidental neutron coincidences, that is
 \begin{equation}
 \label{eq:corr_uncorr}
-nn_{\text{raw}}(\theta)= nn_{\text{corr}}(\theta) + nn_{\text{acc}}(\theta) \,
+nn_{\text{raw}}(\theta)= nn_{\text{corr}}(\theta) + nn_{\text{acc}}(\theta) \, ,
 \end{equation}
 where $nn_{\text{raw}}(\theta)$ and $nn_{\text{acc}}(\theta)$ are the rates, per pulse, of the detection of neutron pairs with opening angle of $\theta$ for all events and for accidental coincident events, respectively.
 
-Because accidental coincidences consist of two independent events, it does not matter whether the two events occurred during the same pulse or during two different pulses, given that the two different pulses occurred at around the same time and thus under the same experimental conditions.
-Therefore, $nn_{\scaleto{DP}{4pt}}(\theta)$ is proportional to $nn_{\text{acc}}(\theta)$, or in other words,  $nn_{\scaleto{DP}{4pt}}(\theta)$ and $nn_{\text{acc}}(\theta)$ have opening angle distributions with the same shape.
+Because accidental coincidences consist of two independent events, it does not matter whether these two events occurred during the same pulse or during different pulses, given that the two different pulses occurred at around the same time and thus under the same experimental conditions.
+Therefore, $nn_{\scaleto{DP}{4pt}}(\theta)$, the distribution from different-pulse neutron events, is proportional to $nn_{\text{acc}}(\theta)$.
+In other words,  $nn_{\scaleto{DP}{4pt}}(\theta)$ and $nn_{\text{acc}}(\theta)$ have the same shape.
 However, $nn_{\text{acc}}(\theta)$ is not equal to $nn_{\scaleto{DP}{4pt}}(\theta)$, because there are, on average, twice as many events in a pulse-pair than there are in a single pulse.
 For this reason, as the following analysis shows,~$nn_{\text{acc}}(\theta) = \frac{1}{2}nn_{\scaleto{DP}{4pt}}(\theta)$.
 
@@ -127,7 +129,7 @@ Such information is not known, but the largest possible value for $\lambda$ is t
 For this work, this places an upper bound on $\lambda$ of $3\times 10^{-6}$, which is small enough to neglect all terms on the order of $\lambda^3$ or greater.
 
 For the case of different-pulse pairs, a ``coincidence'' is said to occur when there is an event in both pulses.
-The total per-pulse-pair coincidence frequency is the square of the Poissonian probability of there being one event in a single pulse, since a pulse-pair coincidence consist of two neutron events, one in each pulse.
+The total per-pulse-pair coincidence frequency is the square of the Poissonian probability of there being one event in a single pulse, since a pulse-pair coincidence consists of two neutron events, one in each pulse.
 Cases in which there are more than two events in a given pulse are neglected here because they occur at a rate that is a factor of 100 times less than the rate of pulses with only a single event.
 The total per-pulse-pair coincidence frequency, $\sum_{\theta} nn_{\scaleto{DP}{4pt}}(\theta)$, is given by 
 \begin{equation} \label{math:DP}
