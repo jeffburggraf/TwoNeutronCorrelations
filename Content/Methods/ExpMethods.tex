@@ -47,7 +47,7 @@ These photons must travel 125~cm to reach the center of any detector and 130~cm 
 The value of $C$ used for each detector is equal the value that places the time corresponding to the peak of the target-induced gamma flash at 4~ns.
 
 Under the assumption that neutrons travel to the detectors unimpeded, the calculation of neutron energy from ToF is straightforward.
-This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and detector shielding, and are discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}.
+This assumption is validated through MCNP simulations that tested the frequency of the scattering of fission neutrons within the target and detector shielding, and is discussed in sections~\ref{subsection:targets} and \ref{subsection:detectors}.
 Figure~\ref{fig:ErgUncertainty}(a) shows the relationship between neutron energy and ToF, and Figure~\ref{fig:ErgUncertainty}(b) shows the measurement uncertainty in neutron energy.
 \begin{figure}[]
     \subfloat[]{\includegraphics[width=0.5\textwidth]{Content/Methods/ToF2Erg.png}}
@@ -94,8 +94,9 @@ The resulting fit parameters, seen in Fig.~\ref{fig:PMTDifference}(b), are used 
 Using the slope of the linear fit in Fig.~\ref{fig:PMTDifference}(b), along with Eq.~\ref{eq:position}, an effective index of refraction of the scintillation material is calculated to be 2.0.
 This index of refraction is said to be ``effective" because its measurement is sensitive only to the scintillation light's average speed projected onto the axis parallel to the scintillator's longest dimension, which is equal to the intrinsic speed of light in the material only if the light is traveling parallel to the scintillator's length.
 While the detection of scintillation light by both PMTs favors light paths which are parallel or nearly-parallel to the scintillator's length, there is some reflection of detected scintillation light from the boundaries of the scintillator.
-Thus, the actual index of refraction of PVT is 1.58, $\sim{20}\%$ less than the value measured here.
 This effect contributes to the $\pm9$~cm measurement uncertainty in particle position reconstruction, which is demonstrated in the widths of the peaks in Fig.~\ref{fig:PMTDifference}(a).
+As a result of these effects, the actual index of refraction of PVT is 1.58, $\sim{20}\%$ less than the value measured here.
+
 
 \subsection{Measurements with $^{252}$Cf}
 \begin{figure}[h]
@@ -103,7 +104,7 @@ This effect contributes to the $\pm9$~cm measurement uncertainty in particle pos
 \caption{Measured ToF spectrum from the SF of $^{252}$Cf.}
 \label{fig:Cf252ToF}
 \end{figure}
-A $^{252}$Cf SF source was placed at the center of the detection system shown in Fig~\ref{fig:Facility} in order to measure neutron-neutron opening angle distribution.
+A $^{252}$Cf SF source was placed at the center of the detection system shown in Fig~\ref{fig:Facility} in order to measure the neutron-neutron opening angle distribution.
 Several such past measurements have been performed (see refs~\cite{1975Cf252, Pozzi2014, 2008CF252, Verbeke2018}), and thus they served as a means to validate the methods used throughout this study.
 
 The $^{252}$Cf SF source produces a cleaner ToF spectrum than photofission due to the lack of a photon beam (see Fig.~\ref{fig:Cf252ToF}), and, therefore, these measurements have a better signal to noise ratio.

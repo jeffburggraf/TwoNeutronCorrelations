@@ -19,7 +19,7 @@ The detection system measures neutron position and time of flight (ToF), which i
 The purpose of the ToF measurement is to determine the kinetic energy of detected neutrons and to distinguish between photons and neutrons.
 The detection system's positional precision is $\pm$9~cm, which gives an average angular precision of $\pm6^{\circ}$ in opening angle reconstruction.
 
-The detection system consists of fourteen shielded scintillators made from Polyvinyl Toluene (PVT) arranged in a ring around the target (see Figs.~\ref{fig:DetGeom} and~\ref{fig:Facility}).
+The detection system consists of fourteen shielded scintillators made from Polyvinyl Toluene (PVT) arranged in a ring around the target (see Figs.~\ref{fig:Facility} and~\ref{fig:DetGeom}).
 Attached to both ends of each scintillator are 10-cm long, non-scintillating, ultra-violet transmitting, plastic light-guides.
 A Hamamatsu 580-17 photomultiplier (PMT) tube is fixed to each light-guide using optical glue.
 In order to increase the chance that scintillation light remains inside the scintillator, the scintillators were polished to remove micro-imperfections and were then wrapped in reflective aluminized mylar.
@@ -68,7 +68,7 @@ Lead was not placed behind the scintillators after an MCNP-POLIMI simulation ind
 Instead, 10~cm of polyethylene was placed behind the scintillators.
 For a detailed discussion about the issue of cross-talk, see section~\ref{crosstalk}.
 
-The front face of each detector was subject to the highest photon flux due to the scatting of the Bremsstrahlung beam from the target.
+The front face of each detector was subject to the highest photon flux due to the scattering of the bremsstrahlung beam from the target.
 The detection of a photon renders the given detector unable to detect any subsequent fission neutrons from the same pulse due to the detector recovery time.
 Lead mitigates this problem by reducing photon flux, but has the side effect of scattering neutrons.
 If a neutron scatters prior to being detected, the ToF measurement and position reconstruction are incorrect.
@@ -76,7 +76,7 @@ The extent of measurement errors caused by lead shielding were quantified using 
 This diminished photon detection rates to reasonable levels, and, according to the simulation, leads to a root-mean-square error in opening angle and ToF of 1$^{\circ}$ and 0.3~ns, respectively, due to neutron elastic scattering.
 
 Because of the particularly high photon flux at the sides of all detectors located directly adjacent to the beam, an additional 2" of lead was placed along the sides of these detectors.
-For the same reason, an additional 2" of lead was also placed and along the front faces of the detectors farthest downstream, located at $\pm30^{\circ}$ from the beam line.
+For the same reason, an additional 2" of lead was also placed along the front faces of the detectors farthest downstream, located at $\pm30^{\circ}$ from the beam line.
 The differences in shielding design among the detectors can be seen in Fig~\ref{fig:Facility}.
 \begin{figure}
     \centering
@@ -88,7 +88,7 @@ The differences in shielding design among the detectors can be seen in Fig~\ref{
 \subsection{Bremsstrahlung Photon Beam}
 \label{beam}
 In order to ensure that all correlated neutrons produced are due to fission, the bremsstrahlung end-point was set to 10.5~MeV, safely below the ($\gamma, 2n$) threshold of 11.28~MeV for $^{238}$U.
-Al was chosen for the bremsstrahlung radiator because it has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
+Aluminum was chosen for the bremsstrahlung radiator because it has a neutron knockout threshold above the energy of the electron beam, which ensured that the radiator would not be a source of fast neutrons with the potential to interfere with the experiment.
 Downstream from the bremsstrahlung radiator is a sweeping magnet that removes charged particles from the photon beam.
 Next, the beam traveled through a series of polyethylene and lead collimators on its way into the experimental cell in which the target was located (see Fig.~\ref{fig:Facility}).
 Figure~\ref{fig:BremDist} shows the energy distribution of photons that reach the target according to an MCNP simulation that modeled the collimation and production of the bremsstrahlung photons.
@@ -119,13 +119,13 @@ The 3~ns pulse width was small compared to the median neutron ToF of 80~ns, and 
 A depleted uranium (DU) target in the shape of a thin strip with dimensions of 4$\times$2$\times$0.05 $\text{cm}^3$ was used as the primary target.
 U-238 received the majority of allotted beam time because it is an even-even nucleus, and as a consequence, the fission fragments are emitted with a high degree of anisotropy~\cite{1977FragAss}.
 
-Any target comprised of heavy nuclei has a significant potential to scatter fission neutrons before they exit the target, which is a cause for concern, because neutrons that scatter from heavy nuclei are likely to be deflected at large angles, facilitating the measurement of $\theta_{nn}$'s unconnected to the underlying fission kinematics.
+Any target comprised of heavy nuclei has a significant potential to scatter fission neutrons before they exit the target, which is a cause for concern, because neutrons that scatter from heavy nuclei are likely to be deflected at large angles, resulting in the measurement of $\theta_{nn}$'s unconnected to the underlying fission kinematics.
 The rate of $\theta_{nn}$'s perturbed by neutron scattering within the $^{238}$U target was estimated by an MCNP simulation to be 6\%.
-Moreover, it is more likely that neutrons emitted along the wide, 2~cm, axis of the $^{238}$U target undergo a scattering event than neurons emitted along the thinest, 0.05~cm, axis.
+Moreover, it is more likely that neutrons emitted along the wide, 2~cm, axis of the $^{238}$U target undergo a scattering event than neurons emitted along the thinnest, 0.05~cm, axis.
 As a result, detectors located collinear to the widest axis of the target would see relatively fewer neutrons due to increased scattering along this axis. 
 This bias is removed by slowly rotating the target about the vertical axis during data acquisition.
 Because the subject of this measurement is fundamentally a statistical process, useful interpretations of the data are average rates taken over many events.
-Thus, by rotating the target, cylindrical symmetry is preserved in the average to produce a result much the same to that if a cylindrical target were used.
+Thus, by rotating the target, cylindrical symmetry is preserved in the average to produce a result much the same as that if a cylindrical target were used.
 See section~\ref{subsection:Elastic_scattering} for details about all issues regarding neutron scattering with the fission target.  
 
 \subsection{Electronics}

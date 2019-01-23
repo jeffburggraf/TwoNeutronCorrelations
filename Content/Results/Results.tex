@@ -24,7 +24,7 @@ When using a histogram to estimate a continuous distribution from the relatively
 For this reason, kernel density estimates (KDE) with 68\% confidence intervals are plotted alongside histograms.
 A KDE is a method for estimating a continuous probability distribution from a finite set of sampled data points.
 The kernel was chosen to be the measurement errors in opening angle as determined by a study using a collimated $^{60}$Co source that was placed at different points along a detector.
-The measurement errors in $\theta_{nn}$ are well-described by a gaussian with a sigma of 6$^{\circ}$.
+The measurement errors in $\theta_{nn}$ are well-described by a gaussian with a standard deviation of 6$^{\circ}$.
 Mathematical details of the KDE method used in this work are outlined in ref~\cite{KDE}. 
 
 Plotted alongside each measurement is the result of a FREYA simulation.
@@ -35,21 +35,21 @@ For $^{238}$U photofission, there were a total of 2,952 n-n coincident events af
 \centering
     \includegraphics[width = 1.1\textwidth]{Content/Results/FinalDUResultw_freya0KDE.png}
     \caption{$\theta_{nn}$ distribution with minimum energy threshold cuts applied to all neutrons.
-    The number of events contributing to each plot are, starting from the lower left and moving clockwise: 314, 2952, and 1489 .}
+    The number of events contributing to each plot are, starting from the upper left and moving clockwise:1489, 2952, and 314 .}
     \label{fig:DU(0)}
 \end{figure}
 \begin{figure}
 \centering
     \includegraphics[width = 1.1\textwidth]{Content/Results/FinalDUResultw_freya2KDE.png}
     \caption{ $\theta_{nn}$ distribution with cuts requiring that the energy of both coincident neutrons be within the specified range.
-    The number of events contributing to each plot are, starting from the lower left and moving clockwise: 303, 266, and 433 .}
+    The number of events contributing to each plot are, starting from the upper left and moving clockwise: 433, 266, and 303.}
     \label{fig:DU(2)}
 \end{figure}
 \begin{figure}
 \centering
     \includegraphics[width = 1.1\textwidth]{Content/Results/FinalDUResultw_freya1KDE.png}
     \caption{$\theta_{nn}$ distribution with cuts on the mean energy ($\overline{E}$) of the two coincident neutrons.
-    The number of events contributing to each plot are, starting from the lower left and moving clockwise: 1009, 756, 1187 .}
+    The number of events contributing to each plot are, starting from the upper left and moving clockwise: 1187, 756, 1009 .}
     \label{fig:DU(1)}
 \end{figure}
 \begin{figure}
@@ -57,28 +57,28 @@ For $^{238}$U photofission, there were a total of 2,952 n-n coincident events af
     \includegraphics[width = \textwidth]{Content/Results/FinalCf252Resultw_freya0KDE.png}
     \caption{
     $\theta_{nn}$ distribution a minimum energy threshold cuts applied to all neutrons.
-    The number of events contributing to each plot are, starting from the lower left and moving clockwise: 21882, 12519, 5451, 1262 .}
+    The number of events contributing to each plot are, starting from the upper left and moving clockwise: 1262, 5451, 12519, 21882  .}
     \label{fig:Cf(0)}
 \end{figure}
 \begin{figure}
 \centering
     \includegraphics[width = \textwidth]{Content/Results/FinalCf252Resultw_freya2KDE.png}
     \caption{$\theta_{nn}$ distribution with cuts requiring that the energy of both coincident neutrons be within the specified range.
-    The number of events contributing to each plot are, starting from the lower left and moving clockwise: 1291, 1456, 1567, 1198 .}
+    The number of events contributing to each plot are, starting from the upper left and moving clockwise: 1198, 1567, 1456, 1291.}
     \label{fig:Cf(2)}
 \end{figure}
 \begin{figure}
 \centering
     \includegraphics[width = \textwidth]{Content/Results/FinalCf252Resultw_freya1KDE.png}
     \caption{$\theta_{nn}$ distribution with cuts on the mean energy ($\overline{E}$) of the two coincident neutrons.
-   The number of events contributing to each plot are, starting from the lower left and moving clockwise: 4974, 5947, 5908, 5053 . }
+   The number of events contributing to each plot are, starting from the upper left and moving clockwise: 5053, 5908, 5947, 4974 . }
     \label{fig:Cf(1)}
 \end{figure}
 \FloatBarrier
 
 \subsection{Considering $\theta_{abs}$}
 \label{sec:anomaly}
-While these results are consistent with the effect of the kinematic focusing of the neutrons due to the recoil of the fission fragments, the data show a marked decrease in the n-n opening angle correlation in the region from about 165$^{\circ}$ to 180$^{\circ}$, which can be seen in Figs.~\ref{fig:SPDPNormalization} and ~\ref{fig:theta_abs_two_neutron}, as well as in Figs ~\ref{fig:DU(0)} through \ref{fig:DU(1)}.
+While these results are consistent with the effect of the kinematic focusing of the neutrons due to the recoil of the fission fragments, the data show a small but statistically significant decrease in the n-n opening angle correlation in the region from about 165$^{\circ}$ to 180$^{\circ}$, which can be seen in Figs.~\ref{fig:SPDPNormalization} and ~\ref{fig:theta_abs_two_neutron}, as well as in Figs ~\ref{fig:DU(0)} through \ref{fig:DU(1)}.
 This feature is not evident in previous work on spontaneous and neutron induced fission.
 As previously discussed in section~\ref{sec:level1}, photofission differs from spontaneous and neutron induced fission in that the fission fragments for the photon-induced reaction exhibit an asymmetry in their angle of emission, with the most likely orientation of the fission axis lying perpendicular to the direction of the incident photon.
 With this in mind, the following series of angular cuts were made on the data.
