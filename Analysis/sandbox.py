@@ -16,8 +16,10 @@ histos = []
 
 tot = 0
 tot2 = 0
-for angle in mt.angles:
-    cut = "photons.hits.det == {}".format(angle)
+
+angles = [-30] + mt.angles + [-330]
+for angle in angles:
+    cut = "photons.hits.det == {}".format(abs(angle))
     if abs(angle) in [30, 330]:
         if angle<0:
             cut += " && photons.hits.ForwardDet == -1"
@@ -31,15 +33,15 @@ for angle in mt.angles:
     else:
         e = events / float(n)
 
-
+    print angle, e
     tot += (1-e)
     tot2 += e
 
 print tot
 
-for i in range(10000):
-    tree.GetyEmntry()
-    if tree.k:0
+# for i in range(10000):
+#     tree.GetyEmntry()
+#     if tree.k:0
 tb = ROOT.TBrowser()
 
 
