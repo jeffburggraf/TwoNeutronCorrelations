@@ -126,16 +126,16 @@
 %% ====================
 
 \title{Neutron-Neutron Correlations in the Photofission of U-238}
-\author{Jeffrey Burggraf}
+\author{by \\ Jeffrey Burggraf}
 %\advisors{Advisor: Prof.\ Dr.\ D. S. Dale}
 %\department{Department of Physics}
-\date{\today \\ \vspace{3cm}
- A dissertation  \\ submitted in partial fulfillment\\ of the requirements for the degree of \\ Doctor of Philosophy in the Department of Physics\\ Idaho State University \\2018}
+\date{ \vspace{3cm}
+ A dissertation  \\ submitted in partial fulfillment\\ of the requirements for the degree of \\ Doctor of Philosophy in the Department of Physics\\ Idaho State University \\2019}
 
 % double spacing for comments. 
 \DisemulatePackage{setspace}
 \usepackage{setspace} 
-\usepackage[margin=1.5in]{geometry}
+\usepackage[margin=1in]{geometry}
 \usepackage[inline]{enumitem}
 \usepackage{xcolor}
 \usepackage[textsize=small]{todonotes}
@@ -151,15 +151,17 @@
 \def\figsize{0.95}
 \def\figsmall{0.55}
 \def\FigShieldingSize{0.7}
-\def\FigFacilitySize{1.5}
+\def\FigFacilitySize{1}
 \def\FigBremDistSize{0.7}
-\def\FigWiringDiagramSize{0.75}
+\def\FigWiringDiagramSize{0.5}
 \def\FigCfToF{1}
-
-
+\def\onlyThesis{ See table~\ref{table:rates} for photon and neutron rates on all detectors individually. }
+\def\Angle{0}
+\def\WireAngle{-90}
+ 
 \newcommand{\figFacilityBarrier}{\FloatBarrier}
 \newcommand{\figWiringDiagramBarrier}{\FloatBarrier}
-\newcommand{\figToFNewline}{}
+\newcommand{\figToFNewline}{\newline}
 
 \newcommand{\mysubsection}{\section}
 \newcommand{\mysubsubsection}{\subsection}
@@ -167,14 +169,40 @@
 
 
 
+\AtBeginDocument{%
+ \addtocontents{toc}{\protect\thispagestyle{plain}}%
+  \addtocontents{lof}{\protect\thispagestyle{plain}}%
+}
 
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords:}} #1}
+
+%\usepackage{etoolbox}
+%\patchcmd{\abstract}{\null\vfil}{}{}{} % verticleally align abstract
+
+\usepackage{titlesec}
+%\titlespacing*{\chapter}{0pt}{-50pt}{40pt}
+\titleclass{\chapter}{straight}
+\titleformat{\chapter}{\bfseries\huge}{\thechapter}{0.4em}{}
+\titlespacing*{\chapter}{0mm}{3em}{1em}
+
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand*\abstractname{Summary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}.   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% begin 
 \setstretch{1.25}
 \pagenumbering{gobble}
+\thispagestyle{plain}
+
+\vspace{-1cm}
 
 \centerline{Photocopy and Use Authorization }
 
-\vspace{0.5cm}
 \par In presenting this thesis in partial fulfillment of the requirements for an advanced degree at
 Idaho State University, I agree that the Library shall make it freely available for inspection. I
 further state that permission for extensive copying of my thesis for scholarly purposes may be
@@ -203,11 +231,14 @@ Signiture
     %\maketitle
   %\end{adjustwidth*}
 %\end{titlingpage}
-\maketitle
-%\thispagestyle{plain}
 \newpage
 \pagenumbering{roman}
 \setcounter{page}{2}
+\maketitle
+%\thispagestyle{plain}
+\newpage
+
+\thispagestyle{plain}
 
 To the Graduate Faculty:
 
@@ -251,6 +282,8 @@ Graduate Faculty Representative
 \Large{\textbf{Acknowledgments}}
 \par
 \endgroup
+\thispagestyle{plain}
+
 
 \setstretch{1.75}
 \vspace{1cm}
@@ -262,20 +295,34 @@ This work has been supported by the National Nuclear Security Administration, gr
 \clearpage
 
 %\cleartorecto
-\pagestyle{fancy}
-\setstretch{1.5}
+%\pagestyle{fancy}
+\pagestyle{plain}
+%\setstretch{1.5}. % //
+%\null\vspace{\fill}
+
+%\newgeometry{top=1in}
+
+\begingroup
+\renewcommand{\vspace}[2]{}%
 \begin{KeepFromToc}
   \tableofcontents
 \end{KeepFromToc}
-\newpage
+\endgroup
 
+\newpage
 
 \setstretch{1.85}.  %%%% Final document spacing
 %\pagestyle{fancy}
 %\listoffigures
+
 \thispagestyle{plain}
-\begin{abstract}
+%\null\vspace{\fill}
+\vspace*{-2cm}
+%\begin{abstract}
 \addcontentsline{toc}{chapter}{Abstract}
+\begin{center}
+ Neutron-Neutron Correlations in the Photofission of U-238  \\ Dissertation Abstract--Idaho State University (2019)
+\end{center}
 
  In the fission of actinides, the nearly back-to-back motion of the fission fragments has a strong effect on the kinematics of fission neutrons.
 This effect is seen in the neutron-neutron opening angle distributions of correlated neutron pairs from the same fission event in which a favoring of opening angles near 0$^{\circ}$ and 180$^{\circ}$ is observed.
@@ -289,22 +336,26 @@ Neutron-neutron angular correlations are determined by taking the ratio between 
 
       The angular correlation of neutrons from the photofission of $^{238}$U shows a high dependence on neutron energy as well as a dependence on the angle of the emitted neutrons with respect to the incoming photon beam.
         Angular correlations were also measured using neutrons from the spontaneous fission of $^{252}$Cf, showing good agreement with past measurements.
-        An anomalous decline in neutron-neutron yield was observed for opening angles near 180$^{\circ}$.
-\end{abstract}
+        An anomalous decline in neutron-neutron yield was observed for opening angles near 180$^{\circ}$. \\
+%\end{abstract}
+\keywords{photofission; correlated neutron emission; bremsstrahlung photons; opening angle }
+
 \newpage
 
 
+\pagestyle{plain}
 \pagenumbering{arabic}
-\setcounter{page}{1}
+
 
 %%%%%% INTRO %%%%%
 \chapter{Overview of Neutron-Neutron Angular Correlations in Fission}
-\thispagestyle{empty}
+%\thispagestyle{empty}
 \input{../nnCorrPhysRev/Intro.tex}
 
 %%%%%% Methods %%%%%
+\newpage
+\thispagestyle{plain}
 \chapter{Methods}
-\thispagestyle{fancy}
 \section{Apparatus}
 \input{../nnCorrPhysRev/ExperimentalSetup.tex}
 
@@ -320,9 +371,10 @@ Neutron-neutron angular correlations are determined by taking the ratio between 
 
 
 %%%%%% Errors %%%%%
+\newpage
+\thispagestyle{plain}
 \chapter{Discussion of Experimental Errors}
 \label{Errors}
-\thispagestyle{fancy}
 \input{Content/Errors/Errors.tex}
 
 \input{../nnCorrPhysRev/Errors.tex}
@@ -330,12 +382,15 @@ Neutron-neutron angular correlations are determined by taking the ratio between 
 \section{Neutron Scattering within Target}
 \input{../nnCorrPhysRev/Elastic_Scat_in_target.tex}
 
-%%%%%% Results %%%%%
+%%%%%% Results %%%%%'
+\newpage
+\thispagestyle{plain}
 \input{Content/Results/Results.tex}
 
 %%%%%% Conclusion %%%%%
+\newpage
 \chapter{Concluding Remarks}
-\thispagestyle{fancy}
+\thispagestyle{plain}
 \input{../nnCorrPhysRev/Conclude.tex}
 
 

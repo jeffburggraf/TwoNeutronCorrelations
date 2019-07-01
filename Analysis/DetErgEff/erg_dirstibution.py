@@ -9,32 +9,7 @@ treeSP, n_pulsesSP = mt2.NCorrRun('SP', "Cf252").neutrons_doubles_tree
 
 nbins = 65
 
-histSP = TH1F(0,10,nbinss=nbins)
-hist_theory = TH1F(0,10,nbinss=nbins)
 
-# histErg = TH1F(0,10,nbinss=nbins*10)
-shift = -1
-
-E = np.array(hist_theory.bincenters[0])- shift
-# histErg.binvalues = np.e**(-0.88*E)*np.sinh( (2.0*E)**0.5)
-erg = np.e**(-0.88*E)*np.sinh( (2.0*E)**0.5)
-
-erg = np.where(np.isnan(erg),0,erg)
-# histErg.__update_hist_from_containers__()
-
-# for i in range(600000):
-#     hist_theory.Fill(histErg.GetRandom())
-# hist_theory.update_bin_containers_from_hist()
-
-cut = "neutrons.hits.ForwardDet == 0"
-histSP.Project(treeSP, "neutrons.hits.erg",cut)
-
-erg *= sum(histSP.binvalues)/sum(erg)
-
-histSP /= erg
-histSP.Draw()
-hist_theory.Draw("same hist")
-# histErg.Draw()
 
 
 if __name__ == "__main__":

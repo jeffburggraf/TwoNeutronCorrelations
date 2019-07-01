@@ -28,9 +28,9 @@ hist_p.__update_hist_from_containers__()
 for i in range(10000):
     hist.Fill(hist_p.GetRandom() + np.random.randn()*0.9)
 
-
+hist /= hist.bin_width
 hist.GetXaxis().SetTitle("mean PMT #Deltat [ns]")
-hist.GetYaxis().SetTitle("counts")
+hist.GetYaxis().SetTitle("total counts [s^{-1}]")
 hist.Draw('E')
 ROOT.gStyle.SetOptStat('rm')
 hist.SetTitle('')

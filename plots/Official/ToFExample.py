@@ -29,7 +29,6 @@ histSP = TH1F(-10,150,binwidths=1.5)
 
 print histSP.Project(treeSP_doubles, 'all.coinc_hits[].tof','all.coinc_hits[].ForwardDet==0', max_events=2E6, weight=1.0/2E6)
 
-
 hist_photons = histSP.__copy__()
 hist_neutrons = histSP.__copy__()
 
