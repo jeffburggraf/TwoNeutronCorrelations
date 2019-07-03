@@ -7,7 +7,7 @@ import mytools2 as mt2
 import mytools as mt
 import matplotlib as mpl
 import os
-mpl.use('TkAgg')
+# mpl.use('TkAgg')
 from scipy.interpolate import spline
 
 font = {'family':'DejaVu Sans',
@@ -26,18 +26,18 @@ import matplotlib.pyplot as plt
 """
 # ====================
 apply_correction = True
-cut_type =0
-max_erg = 8
+cut_type = 0
+max_erg = 10
 all_on_one_axis = False
 _cheat_ = True
 plot_FREYA = True
-target = "DU"
+target = "Cf252"
 draw_w_o_correction = True
 save_figure = True
 KDE = 1
 min_bin = 24
 if target == "DU":
-    binwidths = {0: 15,
+    binwidths = {0: 18,
                  1: 15,
                  2: 18,
                  3: 15}[cut_type]
@@ -90,11 +90,12 @@ def get_cut(eneries, DP_coinc=False):
         return mt.cut_rangeAND([E1,E2],"0.5*({0}erg[0] + {0}erg[1])".format(_s_))
 
     elif cut_type == 0:
-        assert isinstance(eneries, (float, int))
+        assert isinstance(eneries, (float, int)), eneries
+        eneries = round(eneries, 4)
         return "{1}erg[0]>{0} && {1}erg[1]>{0}".format(eneries,_s_)
 
     elif cut_type == 2:
-        E1, E2 = tuple(eneries)
+        E1, E2 = tuple(map(lambda x:round(x,4),eneries))
         return mt.cut_rangeAND([E1, E2], "{0}erg[0]".format(_s_),"{0}erg[1]".format(_s_))
     elif cut_type == 3:
         E = eneries
@@ -150,7 +151,9 @@ def get_histos(target):
                 erg_bins = list(zip(erg_bins[:-1], erg_bins[1:]))
             else:
                 erg_bins = erg_bins[:-1]
+
         else:
+            print erg_bins, "fuck fucmk fuck", n_erg_bins
             erg_bins = [[0.4,10]]
 
     if axs is None:
@@ -174,10 +177,12 @@ def get_histos(target):
         cut_SP = get_cut(energies)
         cut_DP_coinc = get_cut(energies, True)
 
+
         if apply_correction:
-            cut_DP = "(DP_weight)*{cut}".format(cut=cut_SP)
+            cut_DP = "(DP_weight)*({cut})".format(cut=cut_SP)
         else:
             cut_DP = cut_SP
+
 
         histSP = TH1F(min_bin,180,nbinss=nbins)
         histDP = TH1F(min_bin,180,nbinss=nbins)
@@ -248,7 +253,7 @@ def get_histos(target):
             else:
                 title = "${0:.1f} <\overline{{E}} < {1:.1f}$".format(*energies)
         elif cut_type == 0:
-            title = r"$E_{{\mathrm{{thresh}} }}={:.1f}$ MeV".format(energies)
+            title = r"$E_{{1,2}}={:.1f}$ MeV".format(energies)
         elif cut_type == 2:
             if index == len(erg_bins) - 1:
                 title = "$E_{{1,2}}>{0:.1f}$".format(energies[0])
@@ -257,11 +262,14 @@ def get_histos(target):
         elif cut_type == 3:
             title = "$abs(E_{{1}}-E_{{2}})> {0:.1f}$".format(energies)
 
+        n_events = None
         if not is_freya:
             if "252" in target:
-                print("n_events for cut {0} : {1}".format(title, int(n_pulsesSP*n_coinc)))
+                n_events = int(n_pulsesSP*n_coinc)
+                print("n_events for cut {0} : {1}".format(title, n_events))
             else:
-                print("n_events for cut {0} : {1}".format(title, int(n_pulsesSP*(n_coinc-0.5*n_acc))))
+                n_events = int(n_pulsesSP*(n_coinc-0.5*n_acc))
+                print("n_events for cut {0} : {1}".format(title, n_events))
 
             x = histSP.bincenters[0]
             y = histSP.binvalues
@@ -270,26 +278,32 @@ def get_histos(target):
                         linewidth=0, elinewidth=1., capsize=2,
 
                         linestyle="dashed" if is_freya else "solid",
-                        color='black' if not is_freya else "blue",
+                        color='black' ,
                         marker="^" if not is_freya else None) #drawstyle='steps-mid' if not is_freya else "default",
             line_measurement = _line_
             if KDE:
                 x_KDE = np.linspace(histSP_KDE.bincenters[0][0], histSP_KDE.bincenters[0][-1], 200)
                 y_KDE = spline(histSP_KDE.bincenters[0], histSP_KDE.binvalues, x_KDE)
                 erry_KDE = spline(histSP_KDE.bincenters[0], histSP_KDE.binerrors, x_KDE)
-                _line_ = ax.fill_between(x_KDE, y_KDE + erry_KDE, y_KDE - erry_KDE, alpha=0.5, linestyle='-')
-                _line2_ = ax.plot(x_KDE, y_KDE, alpha=0.5, linestyle='--')[0]
+                _line_ = ax.fill_between(x_KDE, y_KDE + erry_KDE, y_KDE - erry_KDE, alpha=0.5, linewidth=0, linestyle='-', color="black")
+                _line2_ = ax.plot(x_KDE, y_KDE, alpha=1, linestyle='--', color="black")[0]
                 line_KDE = (_line_, _line2_)
 
             if cut_type == 3:
                 pos = 0.05, 0.9
             else:
                 pos = (0.3, 0.9)
-            ax.text(pos[0],pos[1], title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
+            ax.text(pos[0], pos[1], title, transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
                     size=12 if cut_type == 3 else 15)
 
+            ax.text(0.6, 0.04, "n = {}".format(n_events), transform=ax.transAxes, weight="bold")
+                    # , transform=ax.transAxes, bbox={'facecolor': 'white', 'alpha': 1, 'pad': 10},
+                    # size=12 if cut_type == 3 else 15)
+
+
+
         else:
-            x_freya =np.linspace(histSP.bincenters[0][0],histSP.bincenters[0][-1], 200)
+            x_freya = np.linspace(histSP.bincenters[0][0],histSP.bincenters[0][-1], 200)
             y_freya = spline(histSP.bincenters[0], histSP.binvalues, x_freya)
             _line_ = ax.plot(x_freya, y_freya,
                                  linestyle="solid",
@@ -310,7 +324,7 @@ def get_histos(target):
             ax.set_ylabel(r"$nn_{\mathrm{corr}}/nn_{\mathrm{uncorr}}$")
 
         if not all_on_one_axis:
-            ax.tick_params(labelsize=15)
+            ax.tick_params(labelsize=20)
 
         if all_on_one_axis:break # only one axis in this case
 

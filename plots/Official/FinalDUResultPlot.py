@@ -24,7 +24,7 @@ mpl.rc('text', usetex=True)
 
 f = open('/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/FinalDUResultData.pickle', 'rb')
 
-data_dict = pickle.load(f, encoding='latin1')
+data_dict = pickle.load(f) # encoding='latin1')
 
 def Legendre(x, p0, p1, p2):
     ps = [p0,p1,p2]
@@ -221,8 +221,8 @@ if combine:
 # plt.xlabel('$\overline{E}$')
 # plt.ylabel('counts')
 # plt.legend()
-if not combine:
-    mpl.rc("savefig", dpi=400)
-    fig_sub.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FinalResult(separate).png', transparent=True)
+# if not combine:
+#     mpl.rc("savefig", dpi=400)
+#     fig_sub.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/FinalResult(separate).png', transparent=True)
 
 plt.show()

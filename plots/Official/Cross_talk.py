@@ -68,6 +68,6 @@ plt.legend()
 plt.subplots_adjust(bottom=0.13)
 
 plt.xlabel(r'$\theta{nn}$')
-plt.ylabel(r'counts')
+plt.ylabel(r'counts per bin')
 plt.axes().set_axisbelow(True)
 plt.show()

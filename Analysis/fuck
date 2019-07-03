@@ -17,27 +17,28 @@ Changed Fig. 4 to illustrate the differences in relative efficiency for individu
 >> photomultiplier signals on a given scintillator (except for the
 >> segmented scintillators at the forward angles). I do not see this term
 >> in the text or the figure.
-???
+That'sa correct. This fact wasn't mentioned in Fig. 8 because the timing is done in analysis, not during runtime.
+It is discussed in detail in the paragraph beginning on line 379 in the updated version. TODO: verify line number
 
 >> Fig. 9b – Are the counts per bin or per nanosecond?
 Changed the plots units to ns^-1
 
 >> Fig 11 -- Are the counts per bin (or per nanosecond as it looks like
 >> the bin width is 1 ns)?
-???
+Fixed.
 
 >> Fig. 12 – Are the counts per bin?
-???
+TODO
 
 >> Fig. 15 bottom – An addition of a curve calculated from the solid
 >> curve times nu-bar would show that the intensities of (gamma,n) *
 >> bremsstrahlung and (gamma,fission) * bremsstrahlung * nubar are not so
 >> different. The factor of 5.5 would be reduced by a factor of 2.0 or
 >> so.
-Added comment to the caption.
+Good point. Added comment about this to the caption.
 
 >> Fig. 19 - Are the counts per bin?
-???
+Fixed.
 
 >> Fig. 22 – The labels on the ordinates could be in larger font for
 >> easier readability.
@@ -45,15 +46,12 @@ Added comment to the caption.
 >> easier readability.
 >> Fig. 25 -- The labels on the ordinates could be in larger font for
 >> easier readability.
-???
-
 >> Fig. 25 – The labels on the axes could be in larger font for easy of
 >> reading.
-???
+Fixed
 
 >> Fig. 26 – I assume these figures are for 238U photofission.
->> That's correct.
-Added to caption.
+That's correct. Added to caption.
 
 >> Fig. 27 -- I assume this figure is for 238U photofission. As many of
 >> the other figures are labeled 252Cf or 238U, this one could be also.
@@ -67,7 +65,7 @@ Added to caption.
 >> detecting neutrons but a selection criterion to accept only those
 >> events with neutron energy about 0.5 MeV based on time-of-flight.
 >> Other selection criteria are given for the results in Figs. 22-25.
-???
+Changed the wording to " minimum neutron energy cuts" when needed for clarity.
 
 >> 2. Page 12, second column, lines 757 ff and Fig. 18 – The authors
 >> state: “As seen in Fig. 18, this model of the detection process
@@ -92,7 +90,10 @@ Changed to "... shows good agreement with the measurement for neutrons with a To
 >> correction factors for the 40- and 52-degree bins is somewhat more
 >> difficult for me to understand. I would like to know what the
 >> uncertainties are in the correction factors.
-???
+The correction factors are determined from a large set of n-n events taken from many different-pulse paris.
+This leads to small statistical counting errors when compared to that of the set of true n-n events from the same pulses,
+the leading contributor of error in this work. If your concern here is about potential systematic errors, we've added a
+plot to show that our measured angular correlation from the photo-disintegration of D2O produces the correct answer (a flat line).
 
 >> 4. Figure 23 and the authors’ first speculation (page 17, lines 1032
 >> ff.): “First, the neutrons may indeed be emitted isotropically in the
@@ -108,13 +109,13 @@ Changed to "... shows good agreement with the measurement for neutrons with a To
 >> in the opposite direction for any dependence on the energy of that
 >> neutron. This would be different from Figs. 22 and 23 where the energy
 >> cuts are the same for both neutrons.
-???
+TODO
 
 >> 5. Relevant to (4) above: The fact that nu-bar values for 238U
 >> photofission and 252Cf spontaneous fission are significantly different
 >> (about 2.7 versus 3.759) might have something to do with the authors’
 >> reported results.
-???
+TODO
 
 >> 6. The order of references needs help. In the text, the first
 >> reference is [2], not [1], and reference [1] appears first on page 2
@@ -124,7 +125,7 @@ Fixed.
 >> 7. The mass of the 238U sample should be given, either that or the
 >> density as the volume (and shape) are described sufficiently in the
 >> text.
-???
+TODO
 
 
 >> 8. Surname of first author in Ref. [5] needs correcting:

@@ -59,7 +59,6 @@ for det in dets:
     means.append(np.mean(hist.binvalues))
     histos.append(hist)
 
-
     if _max is None:
         _max = max(hist.binvalues)
         _min = min(hist.binvalues)
