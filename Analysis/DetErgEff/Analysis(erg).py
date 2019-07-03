@@ -45,6 +45,9 @@ means = []
 
 _min = None
 _max = None
+
+
+
 for det in dets:
     hist = TH1F(0, 7, nbinss=nbins)
 
@@ -93,15 +96,32 @@ for index, det in enumerate(dets):
     # for leg in leg.legendHandles:
     #     leg.set_linewidth(5.0)
 
-    ax.set_ylim(0.9*_min, 1.1*_max)
+    ax.set_ylim(0.9*_min*0, 1.1*_max)
     ax.grid(True)
 
     # if ax_i % (_n_plots[0]) == 0:
     #     ax.set_label("rel. neutron efficiency ")
 
+fig_ = plt.figure()
 
-fig.text(0.07, 0.5, "rel. neutron efficiency ", va='center', rotation='vertical')
-fig.text(0.45, 0.05, "neutron energy [Mev] ", va='center')
+
+confidence_half_with = np.std([det.hist.binvalues for det in dets], axis=0)
+eff_mean = np.mean([det.hist.binvalues for det in dets], axis=0)
+eff_mean_err = np.sqrt(np.mean([det.hist.binerrors**2 for det in dets], axis=0))
+
+
+plt.fill_between(x, eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the S.D. of all detectors")
+plt.errorbar(x, eff_mean,yerr=eff_mean_err, linestyle="--", color="black", linewidth=0.6, marker="^")
+y_title = "mean rel. neutron efficiency "
+x_title = "neutron energy [Mev] "
+plt.legend(loc="lower center")
+plt.ylim(0)
+
+plt.xlabel(x_title)
+plt.ylabel(y_title)
+
+fig.text(0.07, 0.5, y_title, va='center', rotation='vertical')
+fig.text(0.45, 0.05,x_title, va='center')
 
 plt.subplots_adjust(wspace=0.03, hspace=0.03)
 

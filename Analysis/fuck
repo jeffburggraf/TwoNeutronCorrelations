@@ -1,0 +1,133 @@
+>> Fig. 2 – I believe that the target is rotated around the vertical axis
+>> as stated on page 6, first column, lines 328 ff. It would help if this
+>> information were included in the caption.
+Information added to figure caption.
+
+>> Fig. 3 caption: I think the word “rendering” is better than “render”.
+Fixed.
+
+>> Fig. 4 – I assume that this presented efficiency is an average of all
+>> the detectors. Are there a significant differences in the efficiencies
+>> for individual detectors? Did the efficiency of a given detector vary
+>> with position of interaction in the scintillator? It often does with a
+>> long detector.
+Changed Fig. 4 to illustrate the differences in relative efficiency for individual detectors as a function of energy and position.
+
+>> Fig. 8 and text: I believe that mean timing is done between the two
+>> photomultiplier signals on a given scintillator (except for the
+>> segmented scintillators at the forward angles). I do not see this term
+>> in the text or the figure.
+???
+
+>> Fig. 9b – Are the counts per bin or per nanosecond?
+Changed the plots units to ns^-1
+
+>> Fig 11 -- Are the counts per bin (or per nanosecond as it looks like
+>> the bin width is 1 ns)?
+???
+
+>> Fig. 12 – Are the counts per bin?
+???
+
+>> Fig. 15 bottom – An addition of a curve calculated from the solid
+>> curve times nu-bar would show that the intensities of (gamma,n) *
+>> bremsstrahlung and (gamma,fission) * bremsstrahlung * nubar are not so
+>> different. The factor of 5.5 would be reduced by a factor of 2.0 or
+>> so.
+Added comment to the caption.
+
+>> Fig. 19 - Are the counts per bin?
+???
+
+>> Fig. 22 – The labels on the ordinates could be in larger font for
+>> easier readability.
+>> Fig. 24 --The labels on the ordinates could be in larger font for
+>> easier readability.
+>> Fig. 25 -- The labels on the ordinates could be in larger font for
+>> easier readability.
+???
+
+>> Fig. 25 – The labels on the axes could be in larger font for easy of
+>> reading.
+???
+
+>> Fig. 26 – I assume these figures are for 238U photofission.
+>> That's correct.
+Added to caption.
+
+>> Fig. 27 -- I assume this figure is for 238U photofission. As many of
+>> the other figures are labeled 252Cf or 238U, this one could be also.
+Added to caption.
+
+>> 1. The concept of “threshold” for neutron detection could be clearer
+>> in several places: The threshold for neutron detection, which I judge
+>> from Figure 4, is close to 100 keV. In the caption of Figure 1, the
+>> authors write that “The neutron detection threshold … for this work is
+>> 0.5 MeV.” -- I interpret this “threshold” not to be the threshold for
+>> detecting neutrons but a selection criterion to accept only those
+>> events with neutron energy about 0.5 MeV based on time-of-flight.
+>> Other selection criteria are given for the results in Figs. 22-25.
+???
+
+>> 2. Page 12, second column, lines 757 ff and Fig. 18 – The authors
+>> state: “As seen in Fig. 18, this model of the detection process
+>> produces a ToF spectrum for the SF of 252Cf that is in good agreement
+>> with the measurement.” The agreement is not very good for neutron TOF
+>> greater than 100 ns.
+Changed to "... shows good agreement with the measurement for neutrons with a ToF less than 100 ns and fair agreement for neutrons with a ToF greater than 100 ns."
+
+>> 3. Page 19, Figure 13 – In comparing the panels (a) and (b), it
+>> appears that large corrections were made for certain angle-bins,
+>> especially for the bins centered about 40 and 52 degrees and the
+>> highest angle bin centered about angle 172 degrees. This highest-angle
+>> bin is used by the authors to infer the unexpected result: “In
+>> addition, we report for the ﬁrst time a pronounced anomaly in the n-n
+>> angular distributions from photoﬁssion, in which the rate of neutron
+>> emission at opening angles near 180◦ is diminished, resulting in a
+>> local maximum at about 160◦ instead of the expected 180◦.” I would
+>> like to know more about why the corrections varied so much with angle.
+>> Figure 12 shows nearly no peak near 180 degrees, probably because of
+>> the geometry (small solid angle for that bin), and that effect could
+>> account for the need for a large correction factor. The difference in
+>> correction factors for the 40- and 52-degree bins is somewhat more
+>> difficult for me to understand. I would like to know what the
+>> uncertainties are in the correction factors.
+???
+
+>> 4. Figure 23 and the authors’ first speculation (page 17, lines 1032
+>> ff.): “First, the neutrons may indeed be emitted isotropically in the
+>> rest frame of the ﬁssion fragment, but one fragment essentially
+>> shadows the neutrons emitted from the other fragment, either through
+>> absorption or scattering.” For the highest energy cut on neutron
+>> energy, En > 2.5 MeV, it seems likely to me that, for most cases, both
+>> neutrons do not come from the same fragment. There would not be
+>> shadowing in this case as the fragments would be emitting neutrons
+>> shifted to higher energies in the direction that each is moving, that
+>> is, away from each other. It might be interesting for the authors to
+>> take a cut of high energy in one direction and then look at neutrons
+>> in the opposite direction for any dependence on the energy of that
+>> neutron. This would be different from Figs. 22 and 23 where the energy
+>> cuts are the same for both neutrons.
+???
+
+>> 5. Relevant to (4) above: The fact that nu-bar values for 238U
+>> photofission and 252Cf spontaneous fission are significantly different
+>> (about 2.7 versus 3.759) might have something to do with the authors’
+>> reported results.
+???
+
+>> 6. The order of references needs help. In the text, the first
+>> reference is [2], not [1], and reference [1] appears first on page 2
+>> after reference [11].
+Fixed.
+
+>> 7. The mass of the 238U sample should be given, either that or the
+>> density as the volume (and shape) are described sufficiently in the
+>> text.
+???
+
+
+>> 8. Surname of first author in Ref. [5] needs correcting:
+>> Budtz-Jørgensen
+Fixed.
+

@@ -12,9 +12,6 @@ n_plots = 2,2
 
 treeSP, n_pulsesSP = mt2.NCorrRun('SP', "Cf252").neutrons_doubles_tree
 
-def CfErg(e):
-    return np.e**(-0.7*e)*np.sqrt(e)
-
 
 class Det:
     def __init__(self, angle, top=None):
@@ -105,9 +102,28 @@ for index, det in enumerate(dets):
     # if ax_i % (_n_plots[0]) == 0:
     #     ax.set_label("rel. neutron efficiency ")
 
+y_title = "rel. neutron efficiency "
+x_title = "vertical position [cm]"
 
-fig.text(0.07, 0.5, "rel. neutron efficiency ", va='center', rotation='vertical')
-fig.text(0.45, 0.05, "vertical position [cm]", va='center')
+fig.text(0.07, 0.5, y_title , va='center', rotation='vertical')
+fig.text(0.45, 0.05, x_title, va='center')
+
+fig_ = plt.figure()
+
+
+confidence_half_with = np.std([det.hist.binvalues for det in dets], axis=0)
+eff_mean = np.mean([det.hist.binvalues for det in dets], axis=0)
+eff_mean_err = np.sqrt(np.mean([det.hist.binerrors**2 for det in dets], axis=0))
+
+
+plt.fill_between(hist.bincenters[0], eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the S.D. of all detectors")
+plt.errorbar(hist.bincenters[0], eff_mean, yerr=eff_mean_err, linestyle="--", color="black", linewidth=0.6, marker="^")
+
+plt.legend(loc="lower center")
+plt.ylim(0)
+
+plt.xlabel(x_title)
+plt.ylabel(y_title)
 
 plt.subplots_adjust(wspace=0.03, hspace=0.03)
 
