@@ -3,22 +3,24 @@ from TH1Wrapper import TH1F,TH2F
 import mytools2 as mt2
 import os
 from itertools import product
-import wpca
 import ROOT
 import mytools as mt
 
 
-bin_width = 15
+bin_width = 20
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','D2O', Forward=True).neutrons_doubles_tree
 tree_DP, n_pulses_DP = mt2.NCorrRun('DP','D2O', Forward=True).neutrons_doubles_tree
+
 
 histSP = TH1F(24,180,binwidths=bin_width/3)
 histDP = TH1F(24,180,binwidths=bin_width/3)
 
 
-drw = '180/3.1415*neutrons.coinc_hits.coinc_theta'
-histSP.Project(tree_SP, drw, weight=1.0/n_pulses_SP)
-histDP.Project(tree_DP, drw, weight=1.0/n_pulses_DP)
+drw = '180/3.1415*neutrons.coinc_hits[0].coinc_theta'
+cut = "neutrons.coinc_hits[0].erg[0]>{0} && neutrons.coinc_hits[0].erg[1]>{0}".format(0.5)
+
+entries = histSP.Project(tree_SP, drw, cut, weight=1.0/n_pulses_SP)
+histDP.Project(tree_DP, drw,cut,  weight=1.0/n_pulses_DP)
 
 histSP.MySmooth(1)
 histDP.MySmooth(1)
@@ -31,12 +33,22 @@ histSP /= (histDP*0.5)
 
 histSP.SetMinimum(0)
 
-histSP.GetYaxis().SetTitle('(n-n_{corr.})/(n-n_{uncorr.})')
-histSP.GetXaxis().SetTitle('#theta_{nn}')
 
 histSP.Draw()
 
+histSP.GetYaxis().SetTitle('(n-n_{corr.})/(n-n_{uncorr.})')
+histSP.GetXaxis().SetTitle('#theta_{nn} [degrees]')
+
+histSP.SetEntries(entries)
+histSP.SetLineColor(ROOT.kBlack)
+
+ROOT.gStyle.SetOptStat("e");
+
 mt2.thesis_plot([histSP], big_font=True)
+
+histSP.SetMarkerStyle(23)
+
+tb = ROOT.TBrowser()
 
 
 

@@ -14,16 +14,18 @@ tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tr
 
 hist = TH1F(24,180,binwidths=bin_width)
 
-hist.Project(tree_SP, "180/3.1415*neutrons.coinc_hits.coinc_theta",weight=1.0/n_pulses_SP)
+hist.Project(tree_SP, "180/3.1415*neutrons.coinc_hits.coinc_theta",weight=1.0/n_pulses_SP/bin_width)
 
 
 hist.Draw("hist E")
 hist.SetLineWidth(2)
 hist.GetXaxis().SetTitle("#theta_{nn}  [degrees]")
-hist.GetYaxis().SetTitle("counts per pulse")
+hist.GetYaxis().SetTitle("counts/pulse/degree")
 mt2.thesis_plot(hist, big_font=0.055, Ytitle__offset=1)
 
 hist.SetStats(0)
+
+tb = ROOT.TBrowser()
 
 
 if __name__ == "__main__":

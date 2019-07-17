@@ -106,7 +106,7 @@ plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
 # plt.xlim(hist_norm.__binLeftEdges__[0][0], hist_norm.__binRightEdges__[0][-1])
 
-plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/SPDPNormalization.png', transparent=True)
+# plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/SPDPNormalization.png', transparent=True)
 plt.show()
 
 if __name__ == "__main__":
