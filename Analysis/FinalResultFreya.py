@@ -153,7 +153,7 @@ def get_histos(target):
                 erg_bins = erg_bins[:-1]
 
         else:
-            print erg_bins, "Reviewer fucmk Reviewer", n_erg_bins
+            print erg_bins, "Reviewer_comments fucmk Reviewer_comments", n_erg_bins
             erg_bins = [[0.4,10]]
 
     if axs is None:

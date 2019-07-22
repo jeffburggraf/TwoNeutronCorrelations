@@ -13,12 +13,16 @@ rc('text', usetex=True)
 
 
 #   ============
-erg_bin_width = 0.5
-theta_bins = np.linspace(120,180, 4)[:-1]
-cut_type = "max"
+erg_bin_width = 1
+theta_bins = [120, 160, 170]
+make_theta_bins_distinct = True
+cut_type = "diff"
 subtract_accidentals = True
 two_event_uncorr = True
-#    =========
+perp_cut_angle = 45  # None is not using
+plot_p_value = True
+#    =============
+
 max_erg = 5 if cut_type=="diff" else 3
 min_erg = 0.75 if cut_type == "max" else 0.5
 
@@ -27,6 +31,11 @@ tree_DP, n_pulses_DP = mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tr
 
 fig, ax = plt.subplots(1,1)
 # axs = axs.flatten()
+
+if make_theta_bins_distinct:
+    if theta_bins[-1] != 180:
+        theta_bins += [180]
+    theta_bins = list(zip(theta_bins[:-1], theta_bins[1:]))
 
 cut_type = cut_type.lower()
 
@@ -53,26 +62,43 @@ def get_n_cut(energy, angle, two_events):
     if two_events is False:
         erg_str = "neutrons.coinc_hits[].erg"
         theta_str = "neutrons.coinc_hits[].coinc_theta*180/3.14"
+        theta_abs_str = "180/3.14*neutrons.coinc_hits[].theta_abs"
     else:
         erg_str = "erg"
         theta_str = "theta_nn"
+        theta_abs_str = "180/3.14*abs_theta"
 
     if cut_type in ["min", "max"]:
-        result =  "{erg_str}[0]{gtlt}{0} && {erg_str}[1]{gtlt}{0}".\
+        final_cut =  "{erg_str}[0]{gtlt}{0} && {erg_str}[1]{gtlt}{0}".\
             format(energy, gtlt=">" if cut_type == "min" else "<", erg_str=erg_str)
     else:
-        result = "abs({erg_str}[0] - {erg_str}[1])>{0}".format(energy, erg_str=erg_str)
+        final_cut = "abs({erg_str}[0] - {erg_str}[1])>{0}".format(energy, erg_str=erg_str)
 
-    return "{result} && {theta_str}>{angle}".format(result=result, theta_str=theta_str, angle=angle)
+    if perp_cut_angle is not None:
+        perp_cut = mt.cut_rangeOR([90-perp_cut_angle, 90+perp_cut_angle], "{0}[0]".format(theta_abs_str),"{0}[1]".format(theta_abs_str))
+        final_cut = "{0} && ({1})".format(final_cut, perp_cut)
 
+    if hasattr(angle,  "__iter__"):
+        assert len(angle) == 2
+        theta_nn_cut = mt.cut_rangeAND(angle, theta_str)
+    else:
+        theta_nn_cut = "{0}>{1}".format(theta_str, angle)
+
+    final_cut = "{0} && {1}".format(final_cut, theta_nn_cut)
+
+    return final_cut
 
 markers = ["o", "v", "d","x","P"]
 
 _f = ROOT.TFile("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/new_trees/DU.root")
 tree_uncorr_two_events = _f.Get("tree")
 
+
+XYs =[]
+
 for index, theta in enumerate(theta_bins):
-    theta = int(theta)
+    if not make_theta_bins_distinct:
+        theta = int(theta)
     # angle_cut = mt.cut_rangeAND(theta_range, "neutrons.coinc_hits[].coinc_theta*180/3.14")
 
     x = np.arange(min_erg, max_erg + erg_bin_width, erg_bin_width)
@@ -133,15 +159,16 @@ for index, theta in enumerate(theta_bins):
     else:
         assert False
 
-
-
     x_ticks = x[:]
     x = jitter(x)
 
-    label = r"$\theta_{{nn}} > {0}^{{\circ}}$".format(theta)
+    if not make_theta_bins_distinct:
+        label = r"$\theta_{{nn}} > {0}^{{\circ}}$".format(theta)
+    else:
+        label = r"${0}^{{\circ}}<\theta_{{nn}} < {1}^{{\circ}}$".format(*theta)
     # label = r"{0}$^{{\circ}}$< $\theta_{{nn}}$ < {1}$^{{\circ}}$".format(*theta_range)
 
-    ax.errorbar(x, y.y, yerr=y.yerr, label=label, capsize=5, marker=marker, linestyle="--", linewidth=0.8)
+    ax.errorbar(x, y.y, yerr=y.yerr, label=label, capsize=5, marker=marker, linestyle="None") #, linewidth=0.8) #
     ax.set_ylabel(y_label, fontsize=14)
     ax.tick_params(axis='x', labelsize=15)
     ax.tick_params(axis='y', labelsize=15)
@@ -150,11 +177,73 @@ for index, theta in enumerate(theta_bins):
     ax.set_xlabel(x_label + " [MeV]", fontsize=13)
     # ax.text(0.06, 0.16, "n$_{{2}}$ energy threshold = {0} MeV".format(fixed_erg_cut_max),transform=ax.transAxes)
     # ax.text(0.06, 0.1, r"{0}$^{{\circ}}$< $\theta_{{nn}}$ < {1}$^{{\circ}}$".format(min_angle, max_angle), transform=ax.transAxes)
-    ax.legend(fontsize=13)
+    ax.legend(fontsize=13, loc="lower left")
     ax.grid()
 
+    XYs.append(y)
 
+
+plt.subplots_adjust(bottom=0.15)
+
+
+
+# fig = plt.figure()
+ax2 = plt.twinx()
+if plot_p_value:
+    ax2.plot(x, mt2.p_value(XYs[0].y, XYs[0].yerr, XYs[-1].y, XYs[-1].yerr), linewidth=0, marker="$p$", markersize=6, label="Dr. Forest's stat. test", color="black")
+
+    ax2.legend(fontsize=10, loc="upper right")
+    ax2.set_ylabel("p-value", rotation=90)
+    ax2.set_yscale("log")
 plt.show()
+
+tb = ROOT.TBrowser()
+
+
+
+
+
+if __name__ == "__main__":
+    import ROOT as ROOT
+    from multiprocessing import Process, Queue
+    import time, sys, os
+
+
+    def input_thread(q, stdin):
+        while True:
+            print ('ROOT: ')
+            cmd = stdin.readline()
+            q.put(cmd)
+
+
+    def root(char):
+        assert isinstance(char, str), "Argument must be string!"
+        ROOT.gROOT.ProcessLine(char)
+
+
+    if __name__ == '__main__':
+        ___queue___ = Queue()
+        ___newstdin___ = os.fdopen(os.dup(sys.stdin.fileno()))
+        ___input_p___ = Process(target=input_thread,
+                                args=(___queue___, ___newstdin___))
+        ___input_p___.daemon = True
+        ___input_p___.start()
+        ___g___ = ROOT.gSystem.ProcessEvents
+        try:
+            while 1:
+                if not ___queue___.empty():
+                    ___cmd___ = ___queue___.get()
+                    try:
+                        exec (___cmd___, globals())
+                    except:
+                        print (sys.exc_info())
+                time.sleep(0.01)
+                ___g___()
+        except(KeyboardInterrupt, SystemExit):
+            ___input_p___.terminate()
+
+
+
 
 
 
