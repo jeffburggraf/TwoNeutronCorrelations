@@ -31,7 +31,7 @@ max_erg = 10
 all_on_one_axis = False
 _cheat_ = True
 plot_FREYA = True
-target = "Cf252"
+target = "DU"
 draw_w_o_correction = True
 save_figure = True
 KDE = 1
@@ -253,7 +253,7 @@ def get_histos(target):
             else:
                 title = "${0:.1f} <\overline{{E}} < {1:.1f}$".format(*energies)
         elif cut_type == 0:
-            title = r"$E_{{1,2}}={:.1f}$ MeV".format(energies)
+            title = r"$E_{{1,2}}>{:.1f}$ MeV".format(energies)
         elif cut_type == 2:
             if index == len(erg_bins) - 1:
                 title = "$E_{{1,2}}>{0:.1f}$".format(energies[0])

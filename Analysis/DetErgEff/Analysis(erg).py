@@ -110,9 +110,9 @@ eff_mean = np.mean([det.hist.binvalues for det in dets], axis=0)
 eff_mean_err = np.sqrt(np.mean([det.hist.binerrors**2 for det in dets], axis=0))
 
 
-plt.fill_between(x, eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the S.D. of all detectors")
+plt.fill_between(x, eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the standard deviation of all detectors")
 plt.errorbar(x, eff_mean,yerr=eff_mean_err, linestyle="--", color="black", linewidth=0.6, marker="^")
-y_title = "mean rel. neutron efficiency "
+y_title = "mean rel. neutron detection efficiency "
 x_title = "neutron energy [Mev] "
 plt.legend(loc="lower center")
 plt.ylim(0)
