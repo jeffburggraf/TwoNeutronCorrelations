@@ -14,14 +14,14 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 
 #   ============
 erg_bin_width = 0.5
-theta_bins = [140, 160, 170]
+theta_bins = [140, 160, 160]
 make_theta_bins_distinct = True
 subtract_accidentals = True
 two_event_uncorr = True
 perp_cut_angle = None  # None is not using
 plot_p_value = True
 save_fig = True
-font_size = 8
+font_size = 10
 #    =============
 
 
@@ -93,8 +93,6 @@ markers = ["o", "v", "d","x","P"]
 _f = ROOT.TFile("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/Analysis/new_trees/DU.root")
 tree_uncorr_two_events = _f.Get("tree")
 
-
-
 fig, axs = plt.subplots(3,1, figsize=(5,8))
 axs = axs.flatten()
 
@@ -104,6 +102,8 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
     ax = axs[subplot_index]
 
     XYs = []
+
+    color_cycle = ["C{}".format(i) for i in range(10)]
 
     for index, theta in enumerate(theta_bins):
         if not make_theta_bins_distinct:
@@ -174,10 +174,12 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
             label = r"${0}^{{\circ}}<\theta_{{nn}} < {1}^{{\circ}}$".format(*theta)
         # label = r"{0}$^{{\circ}}$< $\theta_{{nn}}$ < {1}$^{{\circ}}$".format(*theta_range)
 
-        ax.errorbar(x, y.y, yerr=y.yerr, label=label, capsize=5, marker=marker, linestyle="None")
-        ax.set_ylabel(y_label, fontsize=font_size)
-        ax.tick_params(axis='x', labelsize=font_size)
-        ax.tick_params(axis='y', labelsize=font_size)
+        ax.errorbar(x, y.y, yerr=y.yerr, label=label, capsize=4.5, marker=marker, markersize=4.5, linestyle="None", c=color_cycle[index])
+        # ax.errorbar(x, y.y, yerr=0.4*y.yerr, label=label, capsize=4.5, marker='None', linestyle="None", c=color_cycle[index])
+        ax.set_ylabel(y_label, fontsize=font_size*1.1)
+
+        ax.tick_params(axis='x', labelsize=font_size*1.1)
+        ax.tick_params(axis='y', labelsize=font_size*1.1)
         ax.set_xticks(x_ticks)
         x_label = {"max":"maximum neutron energy", "min":"minimum neutron energy", "diff":"minimum absolute neutron energy difference"}[cut_type]
         ax.set_xlabel(x_label + " [MeV]", fontsize=font_size)
@@ -185,29 +187,48 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
         # ax.text(0.06, 0.1, r"{0}$^{{\circ}}$< $\theta_{{nn}}$ < {1}$^{{\circ}}$".format(min_angle, max_angle), transform=ax.transAxes)
         ax.grid()
 
+        if cut_type == "diff":
+            ax.set_xticks(range(1,6))
+        elif cut_type == "max":
+            ax.set_xticks(np.arange(0.5,4, 0.5))
+            ax.set_xlim(0.4, 3.75)
+
+
         XYs.append(y)
 
-        ax.legend(fontsize=font_size, loc="lower left")
-
-    ax2 = ax.twinx()
-
     if plot_p_value:
-        ax2.plot(x, mt2.p_value(XYs[0].y, XYs[0].yerr, XYs[-1].y, XYs[-1].yerr), linewidth=0, marker="3", label="Compatibility test", color="black")
-        ax2.legend(fontsize=font_size, loc="upper left")
+        ax2 = ax.twinx()
+
+        color = "C3"
+
+        ax2.plot(x + 0.05, mt2.p_value(XYs[0].y, XYs[0].yerr, XYs[-1].y, XYs[-1].yerr), linewidth=0, marker="o",
+                 fillstyle='none', markersize=3.5, label="Compatibility test", color=color)
+
         # ax2.tick_params(axis='y', colors='black')
         # ax2.spines['right'].set_color('black')
         ax2.set_ylabel("p-value", rotation=90)
         ax2.set_yscale("log")
+        ax2.set_yticks([1E0, 1E-1, 1E-2])
 
-#
-plt.subplots_adjust(bottom=0.06, top=0.96, right=0.87, hspace=.31)
+        ax2.spines['right'].set_color(color)
+        ax2.yaxis.label.set_color(color)
+        ax2.tick_params(axis='y', which='both', colors=color)
+
+    # break
+
+# ax2.legend(fontsize=font_size, bbox_to_anchor=(0.6, 3, 0.5,1))
+ax2.legend(fontsize=font_size,  bbox_to_anchor=(0.9, 0.92, 0,0), bbox_transform=plt.gcf().transFigure, loc=4)
+# ax.legend(fontsize=font_size, bbox_to_anchor=(0, 3, 0.5,1), )
+ax.legend(fontsize=font_size, bbox_to_anchor=(0.39, 0.92, 0,0), bbox_transform=plt.gcf().transFigure, loc=4)
+
+plt.subplots_adjust(bottom=0.06, top=0.92, right=0.87, hspace=.35)
 
 if save_fig:
     plt.savefig("/Users/jeffreyburggraf/Desktop/EmissionAnomaly.png", dpi=300)
 
 plt.show()
 
-tb = ROOT.TBrowser()
+# tb = ROOT.TBrowser()
 
 
 
