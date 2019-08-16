@@ -9,7 +9,7 @@ from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 ## for Palatino and other serif fonts use:
 #rc('font',**{'family':'serif','serif':['Palatino']})
-# rc('text', usetex=True)
+rc('text', usetex=True)
 
 
 #   ============
@@ -224,7 +224,7 @@ ax.legend(fontsize=font_size, bbox_to_anchor=(0.39, 0.92, 0,0), bbox_transform=p
 plt.subplots_adjust(bottom=0.06, top=0.92, right=0.87, hspace=.35)
 
 if save_fig:
-    plt.savefig("/Users/jeffreyburggraf/Desktop/EmissionAnomaly.png", dpi=300)
+    plt.savefig("/Users/jeffreyburggraf/Desktop/LargeAngleAnomaly.png", dpi=300)
 
 plt.show()
 
