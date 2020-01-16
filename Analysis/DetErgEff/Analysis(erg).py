@@ -6,6 +6,13 @@ from TH1Wrapper import TH1F
 import os
 from matplotlib import pyplot as plt
 
+import matplotlib as mpl
+font = {'family': 'DejaVu Sans',
+        'size': 17.5}
+mpl.rc('font', **font)
+mpl.rc('text', usetex=True)
+mpl.rc("savefig", dpi=300)
+
 nbins= 12
 max_events = None
 n_plots = 2,3
@@ -69,9 +76,9 @@ for det in dets:
         _max = max([_max, max(hist.binvalues)])
 
 hist_mean = np.mean(means)
-
-fig, axs = plt.subplots(*n_plots, sharey=True, sharex=True, figsize=(12,6))
-axs = axs.flatten()
+#
+# fig, axs = plt.subplots(*n_plots, sharey=True, sharex=True, figsize=(12,6))
+# axs = axs.flatten()
 
 _n_plots = n_plots
 n_plots = n_plots[0]*n_plots[1]
@@ -82,22 +89,22 @@ line_styles = ["-","--","-."]
 
 _min *= 1.0 / hist_mean
 _max *= 1.0 / hist_mean
-
+#
 for index, det in enumerate(dets):
     det.hist /= hist_mean
-    hist = det.hist
-
-    ax_i = index % (n_plots)
-    ax = axs[ax_i]
-    line_i = index//n_plots
-    ax.errorbar(x, hist.binvalues, yerr=hist.binerrors, marker="^",markersize=3, xerr=0.7*hist.bin_width, elinewidth=0.75, linewidth=1.2, linestyle=line_styles[line_i%len(line_styles)], label=det.label)
-
-    leg = ax.legend(title="det. angle", loc="upper right", handlelength=3)
-    # for leg in leg.legendHandles:
-    #     leg.set_linewidth(5.0)
-
-    ax.set_ylim(0.9*_min*0, 1.1*_max)
-    ax.grid(True)
+#     hist = det.hist
+#
+#     ax_i = index % (n_plots)
+#     ax = axs[ax_i]
+#     line_i = index//n_plots
+#     ax.errorbar(x, hist.binvalues, yerr=hist.binerrors, marker="^",markersize=3, xerr=0.7*hist.bin_width, elinewidth=0.75, linewidth=1.2, linestyle=line_styles[line_i%len(line_styles)], label=det.label)
+#
+#     leg = ax.legend(title="det. angle", loc="upper right", handlelength=3)
+#     # for leg in leg.legendHandles:
+#     #     leg.set_linewidth(5.0)
+#
+#     ax.set_ylim(0.9*_min*0, 1.1*_max)
+#     ax.grid(True)
 
     # if ax_i % (_n_plots[0]) == 0:
     #     ax.set_label("rel. neutron efficiency ")
@@ -113,17 +120,21 @@ eff_mean_err = np.sqrt(np.mean([det.hist.binerrors**2 for det in dets], axis=0))
 plt.fill_between(x, eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the standard deviation of all detectors")
 plt.errorbar(x, eff_mean,yerr=eff_mean_err, linestyle="--", color="black", linewidth=0.6, marker="^")
 y_title = "mean rel. neutron detection efficiency "
-x_title = "neutron energy [Mev] "
-plt.legend(loc="lower center")
+x_title = "neutron energy [MeV] "
+plt.legend(loc="lower center", fontsize=15)
 plt.ylim(0)
+
 
 plt.xlabel(x_title)
 plt.ylabel(y_title)
 
-fig.text(0.07, 0.5, y_title, va='center', rotation='vertical')
-fig.text(0.45, 0.05,x_title, va='center')
+# fig.text(0.07, 0.5, y_title, va='center', rotation='vertical')
+# fig.text(0.45, 0.05,x_title, va='center')
 
-plt.subplots_adjust(wspace=0.03, hspace=0.03)
+plt.subplots_adjust(wspace=0.03, hspace=0.03,  bottom=0.15)
+
+
+plt.savefig('/Users/jeffreyburggraf/Pictures/RelErgEfficiency.png', transparent=True)
 
 plt.show()
 

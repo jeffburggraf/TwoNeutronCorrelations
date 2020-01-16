@@ -26,12 +26,12 @@ import matplotlib.pyplot as plt
 """
 # ====================
 apply_correction = True
-cut_type = 0
+cut_type = 2
 max_erg = 10
 all_on_one_axis = False
 _cheat_ = True
 plot_FREYA = True
-target = "DU"
+target = "Cf252"
 draw_w_o_correction = True
 save_figure = True
 KDE = 1
@@ -317,7 +317,7 @@ def get_histos(target):
         ax.set_ylim(0, 1.05*_max)
         ax.set_xticks(np.arange(min_bin, 180 + 30, 30))
         ax.set_xlim(min_bin,180)
-        ax.grid(True)
+        # ax.grid(True)
         ax.minorticks_on()
 
         if index % 2 == 0:
@@ -332,15 +332,15 @@ def get_histos(target):
         axs[-1].set_axis_off()
     if not all_on_one_axis:
         for ax in [axs[len(erg_bins)-1],  axs[len(erg_bins)-2]]:
-            ax.set_xlabel(r"$\theta_{nn}$")
+            ax.set_xlabel(r"$\theta_{nn}$ [deg]")
             ax.set_xticks(np.arange(30, 180 + 30, 30))
     else:
 
-        axs[0].set_xlabel(r"$\theta_{nn}$")
+        axs[0].set_xlabel(r"$\theta_{nn}$ [deg]")
 
     if n_erg_bins == 3:
         for ax in axs[1:]:
-            ax.set_xlabel(r"$\theta_{nn}$")
+            ax.set_xlabel(r"$\theta_{nn}$ [deg]")
             ax.set_xticks(np.arange(30, 180 + 30, 30))
         empty_string_labels = [''] * len(np.arange(30, 180 + 30, 30))
         axs[0].set_xticklabels(empty_string_labels)

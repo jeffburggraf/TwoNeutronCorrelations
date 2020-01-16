@@ -40,7 +40,7 @@ l1 = plt.plot(erg, err, linewidth=4, c='black')
 
 plt.ylabel('$\Delta$Energy [MeV]')
 plt.xlabel('Energy [MeV]')
-plt.grid()
+# plt.grid()
 plt.locator_params(axis='x', nbins=10)
 
 # plt.tight_layout()

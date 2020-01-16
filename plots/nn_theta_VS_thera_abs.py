@@ -112,7 +112,7 @@ histSP_90.GetXaxis().SetNdivisions(6,5,0,0);
 # c1.Update()
 pad2 = c1.cd(2)
 pad2.SetTopMargin(0.1)
-pad2.SetGrid();
+# pad2.SetGrid();
 
 histSP_90.SetStats(0)
 
@@ -136,7 +136,7 @@ _max = max(np.concatenate([histSP_not_90.binvalues, histSP_90.binvalues]))
 
 
 histSP_90.Draw('hist E', make_new_canvas=0)
-histSP_90.GetXaxis().SetTitle('#theta_{nn} [degrees]')
+histSP_90.GetXaxis().SetTitle('#theta_{nn} [deg]')
 
 histSP_90.GetYaxis().SetTitle('(nn_{corr})/(nn_{uncorr})')
 

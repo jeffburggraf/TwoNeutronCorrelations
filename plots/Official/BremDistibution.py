@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib as mpl
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 font = {'family': 'DejaVu Sans',
         'size': 20}
@@ -32,6 +32,7 @@ plt.legend((points, line), ('MCNP','Fit: $y=1.61e^{-0.54x}$'))
 
 plt.ylabel('Probability density [MeV$^{-1}$]')
 plt.xlabel('Photon energy [MeV]')
-
-plt.grid()
+plt.subplots_adjust(bottom=0.15)
+# plt.grid()
+print "here"
 plt.show()

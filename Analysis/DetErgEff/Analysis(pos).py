@@ -6,6 +6,14 @@ from TH1Wrapper import TH1F
 import os
 from matplotlib import pyplot as plt
 
+import matplotlib as mpl
+font = {'family': 'DejaVu Sans',
+        'size': 17.5}
+mpl.rc('font', **font)
+mpl.rc('text', usetex=True)
+mpl.rc("savefig", dpi=300)
+
+
 nbins= 5
 max_events = None
 n_plots = 2,2
@@ -118,13 +126,17 @@ eff_mean_err = np.sqrt(np.mean([det.hist.binerrors**2 for det in dets], axis=0))
 plt.fill_between(hist.bincenters[0], eff_mean + confidence_half_with, eff_mean - confidence_half_with, alpha=0.5, color="grey", linewidth=0, label=r"$\pm$ the standard deviation of all detectors")
 plt.errorbar(hist.bincenters[0], eff_mean, yerr=eff_mean_err, linestyle="--", color="black", linewidth=0.6, marker="^")
 
-plt.legend(loc="lower center")
+plt.legend(loc="lower center", fontsize=15)
 plt.ylim(0)
+plt.xlim(-35, 35)
+plt.xticks(np.arange(-30,40,10))
 
 plt.xlabel(x_title)
 plt.ylabel(y_title)
 
-plt.subplots_adjust(wspace=0.03, hspace=0.03)
+plt.subplots_adjust(wspace=0.03, hspace=0.03, bottom=0.15)
+
+plt.savefig('/Users/jeffreyburggraf/Pictures/RelPosEfficiency.png', transparent=True)
 
 plt.show()
 

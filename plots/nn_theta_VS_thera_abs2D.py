@@ -120,7 +120,7 @@ for theta_cut, histSP in zip(theta_cuts, histos):
             line.Draw('same')
             lines.append(line)
 
-axis_label_size = 0.09
+axis_label_size = 0.075
 
 for hist,pad in zip(histos,pads):
     hist.GetXaxis().SetNdivisions(4, 5, 0, 0);
@@ -134,20 +134,21 @@ for hist,pad in zip(histos,pads):
     hist.GetZaxis().SetTitle('nn_{corr}/nn_{uncorr}')
     hist.GetZaxis().CenterTitle()
     hist.GetZaxis().SetLabelSize(axis_label_size)
-    hist.GetZaxis().SetTitleSize(.08)
+    hist.GetZaxis().SetTitleSize(.07)
     hist.GetZaxis().SetTitleOffset(1.35)
 
-    hist.GetXaxis().SetTitle('#theta1_{abs}')
-    hist.GetXaxis().SetTitleSize(.1)
-    hist.GetXaxis().SetTitleOffset(1.)
+    hist.GetXaxis().SetTitle('#theta1_{abs} [deg]')
+    hist.GetXaxis().SetTitleSize(.075)
+    hist.GetXaxis().SetTitleOffset(1.5)
     hist.GetXaxis().CenterTitle()
 
     hist.GetXaxis().SetLabelOffset(.035)
     hist.GetXaxis().SetLabelSize(axis_label_size)
 
-    hist.GetYaxis().SetTitle('')
-    hist.GetYaxis().SetTitleSize(.1)
-    hist.GetYaxis().SetTitleOffset(1.1)
+    # hist.GetYaxis().SetTitle('')
+    hist.GetYaxis().SetTitle('#theta2_{abs} [deg]')
+    hist.GetYaxis().SetTitleSize(.075)
+    hist.GetYaxis().SetTitleOffset(1.5)
     hist.GetYaxis().CenterTitle()
 
     hist.GetYaxis().SetLabelSize(axis_label_size)
@@ -161,7 +162,7 @@ for hist,pad in zip(histos,pads):
     # hist.SetTitleSize(0.2)
 
 hist = TH1F(0,1,10)
-hist.GetXaxis().SetTitle('#theta2_{abs}')
+hist.GetYaxis().SetTitle('#theta2_{abs} [deg]')
 hist.Draw()
 
 if __name__ == "__main__":

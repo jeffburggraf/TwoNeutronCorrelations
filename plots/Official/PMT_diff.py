@@ -110,7 +110,7 @@ plt.minorticks_on()
 plt.yticks(np.arange(-40, 40+10, 10))
 plt.xticks([-4,-2,0,2,4])
 
-plt.grid()
+# plt.grid()
 plt.legend(loc='upper left', fontsize=25)
 plt.ylim(-40, 55)
 plt.subplots_adjust(left = 0.15)

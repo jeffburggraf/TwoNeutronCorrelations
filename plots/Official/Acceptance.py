@@ -19,8 +19,8 @@ hist.Project(tree_SP, "180/3.1415*neutrons.coinc_hits.coinc_theta",weight=1.0/n_
 
 hist.Draw("hist E")
 hist.SetLineWidth(2)
-hist.GetXaxis().SetTitle("#theta_{nn}  [degrees]")
-hist.GetYaxis().SetTitle("counts/pulse/degree")
+hist.GetXaxis().SetTitle("#theta_{nn}  [deg]")
+hist.GetYaxis().SetTitle("counts per pulse [deg^{-1}]")
 mt2.thesis_plot(hist, big_font=0.055, Ytitle__offset=1)
 
 hist.SetStats(0)

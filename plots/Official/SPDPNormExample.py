@@ -71,7 +71,8 @@ plt.errorbar(hist_unnorm.x, hist_unnorm.binvalues, yerr=0.8*hist_unnorm.binerror
 
 plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 # plt.xlabel(r'$\theta _{nn}$')
-plt.ylabel(r'$nn_{\text{corr}}$')
+plt.ylabel(r'$nn_{\text{corr}}$ [counts per pulse]')
+# plt.xlabel(r'$\theta _{nn}$ [deg]')
 
 plt.xticks(np.arange(30, 180+30, 30))
 y_ticks = list(map(lambda x: float('{:.0E}'.format(x)),np.linspace(0,max(hist_unnorm),5)))
@@ -80,15 +81,15 @@ plt.ylim(0,max(hist_unnorm.binvalues*1.15))
 # plt.xlim(hist_unnorm.__binLeftEdges__[0][0], hist_unnorm.__binRightEdges__[0][-1])
 
 
-plt.subplots_adjust(left=0.20)
+plt.subplots_adjust(left=0.20, hspace=0.15)
 
 plt.minorticks_on()
 
 plt.setp(ax1.get_xticklabels(), visible=False)
 
 ax2 = plt.subplot(2,1,2, sharex=ax1)
-ax2.grid(linestyle='-')
-ax1.grid(linestyle='-')
+# ax2.grid(linestyle='-')
+# ax1.grid(linestyle='-')
 
 np.random.seed(9)
 # for i in range(len(hist_norm.binvalues)):
@@ -96,7 +97,7 @@ np.random.seed(9)
 
 plt.errorbar(histSP.bincenters[0], histSP.binvalues, yerr=histSP.binerrors,linewidth=1, drawstyle='steps-mid', elinewidth=1., mec='black', capsize=2, c='black')
 
-plt.xlabel(r'$\theta _{nn}$')
+plt.xlabel(r'$\theta _{nn}$ [deg]')
 plt.ylabel(r'$(nn_{\text{corr}})/(nn_{\text{uncorr}})$')
 plt.minorticks_on()
 # plt.yticks(list(map(lambda x:mt2.round_to_n(x,1),np.linspace(0, mt2.round_to_n(1.1*max(hist_norm),1), 5))))
@@ -106,7 +107,12 @@ plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
 
 # plt.xlim(hist_norm.__binLeftEdges__[0][0], hist_norm.__binRightEdges__[0][-1])
 
-# plt.savefig('/Users/jeffreyburggraf/PycharmProjects/2nCorrPhysRev/SPDPNormalization.png', transparent=True)
+ax1.text(-0.1, 1.15, "a)", transform=ax1.transAxes,
+      fontsize=16, fontweight='bold', va='top', ha='right')
+ax2.text(-0.1, 1.12, "b)", transform=ax2.transAxes,
+      fontsize=16, fontweight='bold', va='top', ha='right')
+
+plt.savefig('/Users/jeffreyburggraf/Pictures/SPDPNormalization.png', transparent=True)
 plt.show()
 
 if __name__ == "__main__":

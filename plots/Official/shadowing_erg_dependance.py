@@ -12,18 +12,17 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 rc('text', usetex=True)
 
 
-#   ============
+#   ====================================
 erg_bin_width = 0.5
-theta_bins = [140, 160, 160]
+theta_bins = [150,170, 170]
 make_theta_bins_distinct = True
 subtract_accidentals = True
 two_event_uncorr = True
-perp_cut_angle = None  # None is not using
-plot_p_value = True
+perp_cut_angle = 35  # None is not using
+plot_p_value = False
 save_fig = True
 font_size = 10
-#    =============
-
+#   ====================================
 
 tree_SP, n_pulses_SP = mt2.NCorrRun('SP','DU', Forward=True).neutrons_doubles_tree
 tree_DP, n_pulses_DP = mt2.NCorrRun('DP','DU', Forward=True).neutrons_doubles_tree
@@ -69,7 +68,7 @@ def get_n_cut(energy, angle, two_events, cut_type):
         theta_abs_str = "180/3.14*abs_theta"
 
     if cut_type in ["min", "max"]:
-        final_cut =  "{erg_str}[0]{gtlt}{0} && {erg_str}[1]{gtlt}{0}".\
+        final_cut = "{erg_str}[0]{gtlt}{0} && {erg_str}[1]{gtlt}{0}".\
             format(energy, gtlt=">" if cut_type == "min" else "<", erg_str=erg_str)
     else:
         final_cut = "abs({erg_str}[0] - {erg_str}[1])>{0}".format(energy, erg_str=erg_str)
@@ -128,10 +127,12 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
             n_DP = tree_DP.GetEntries(cut)
             n_DP_two_events = tree_uncorr_two_events.GetEntries(cut_two_events)
 
-            y_SP.append(n_SP)
-            y_DP.append(n_DP)
-            y_DP_two_events.append(n_DP_two_events)
+            if n_SP>0:
+                y_SP.append(n_SP)
+                y_DP.append(n_DP)
+                y_DP_two_events.append(n_DP_two_events)
 
+        x = x[:len(y_SP)]
         if index == 0:
             print cut
             print cut_two_events
@@ -181,7 +182,7 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
         ax.tick_params(axis='x', labelsize=font_size*1.1)
         ax.tick_params(axis='y', labelsize=font_size*1.1)
         ax.set_xticks(x_ticks)
-        x_label = {"max":"maximum neutron energy", "min":"minimum neutron energy", "diff":"minimum absolute neutron energy difference"}[cut_type]
+        x_label = {"max":"maximum energy of n-n pairs", "min":"minimum energy of n-n pairs", "diff":"minimum energy difference of n-n pairs"}[cut_type]
         ax.set_xlabel(x_label + " [MeV]", fontsize=font_size)
         # ax.text(0.06, 0.16, "n$_{{2}}$ energy threshold = {0} MeV".format(fixed_erg_cut_max),transform=ax.transAxes)
         # ax.text(0.06, 0.1, r"{0}$^{{\circ}}$< $\theta_{{nn}}$ < {1}$^{{\circ}}$".format(min_angle, max_angle), transform=ax.transAxes)
@@ -213,11 +214,12 @@ for subplot_index, cut_type in enumerate(["diff", "max", "min"]):
         ax2.spines['right'].set_color(color)
         ax2.yaxis.label.set_color(color)
         ax2.tick_params(axis='y', which='both', colors=color)
+        ax2.legend(fontsize=font_size, bbox_to_anchor=(0.9, 0.92, 0, 0), bbox_transform=plt.gcf().transFigure, loc=4)
 
     # break
 
 # ax2.legend(fontsize=font_size, bbox_to_anchor=(0.6, 3, 0.5,1))
-ax2.legend(fontsize=font_size,  bbox_to_anchor=(0.9, 0.92, 0,0), bbox_transform=plt.gcf().transFigure, loc=4)
+
 # ax.legend(fontsize=font_size, bbox_to_anchor=(0, 3, 0.5,1), )
 ax.legend(fontsize=font_size, bbox_to_anchor=(0.39, 0.92, 0,0), bbox_transform=plt.gcf().transFigure, loc=4)
 

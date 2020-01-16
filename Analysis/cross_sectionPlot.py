@@ -11,10 +11,11 @@ font = {'family':'DejaVu Sans',
 mpl.rc('font', **font)
 mpl.rc('text', usetex=True)
 mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
+mpl.rc("savefig", dpi=300)
 
-G1n = mt.ENDF_crossection("/Users/jeffreyburggraf/Downloads/1n.txt")
-G2n = mt.ENDF_crossection("/Users/jeffreyburggraf/Downloads/2n.txt")
-GFiss = mt.ENDF_crossection("/Users/jeffreyburggraf/Downloads/fiss.txt")
+G1n = mt.ENDF_crossection("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/1n.txt")
+G2n = mt.ENDF_crossection("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/2n.txt")
+GFiss = mt.ENDF_crossection("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/fiss.txt")
 
 
 def get_m(x):
@@ -44,7 +45,7 @@ for i,m in enumerate([r_one, get_m]):
         ax.set_ylim(0, 1.15*max(G1n.y))
 
     ax.set_xticks(np.arange(5,15,1))
-    ax.grid()
+    # ax.grid()
     ax.set_xlim(5, 15)
     ax.ticklabel_format(style='sci', axis="y", scilimits=(0, 0))
 
@@ -54,5 +55,7 @@ for i,m in enumerate([r_one, get_m]):
 
 
         print("Fiss: {0:.2E}, 1n:{1:.2E}".format(sum( GFiss.y*m(GFiss.x)),sum( G1n.y*m(G1n.x))))
+
+plt.savefig('/Users/jeffreyburggraf/Pictures/CrossSections.png', transparent=True)
 
 plt.show()
