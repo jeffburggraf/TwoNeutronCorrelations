@@ -6,12 +6,11 @@ import numpy as np
 
 from scipy.interpolate import spline
 
-font = {'family':'DejaVu Sans',
-        'size': 20}
+font = {'size': 26,'family':'sans-serif'}
 mpl.rc('font', **font)
 mpl.rc('text', usetex=True)
 mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
-mpl.rc("savefig", dpi=300)
+mpl.rc("savefig", dpi=600)
 
 G1n = mt.ENDF_crossection("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/1n.txt")
 G2n = mt.ENDF_crossection("/Users/jeffreyburggraf/PycharmProjects/TwoNeutronCorrelations/plots/Official/2n.txt")
@@ -30,7 +29,7 @@ def r_one(x):
 fig, axs = plt.subplots(2,1,sharex=True, figsize=(10,6))
 axs = axs.flatten()
 
-plt.subplots_adjust(bottom=0.13)
+plt.subplots_adjust(bottom=0.15, hspace=0.77)
 
 
 for i,m in enumerate([r_one, get_m]):
@@ -41,7 +40,7 @@ for i,m in enumerate([r_one, get_m]):
 
     ax.plot(GFiss.x, GFiss.y*m(GFiss.x), label="$(\gamma, fiss)$", color="black")
     if i == 0:
-        ax.legend()
+        ax.legend(fontsize=20)
         ax.set_ylim(0, 1.15*max(G1n.y))
 
     ax.set_xticks(np.arange(5,15,1))
@@ -52,10 +51,9 @@ for i,m in enumerate([r_one, get_m]):
     ax.set_ylabel("Cross Section (b)" if i == 0 else r"(Cross Section)$\times p(E)$")
     if i==1:
         ax.set_xlabel("Incident photon energy [MeV]")
-
-
         print("Fiss: {0:.2E}, 1n:{1:.2E}".format(sum( GFiss.y*m(GFiss.x)),sum( G1n.y*m(G1n.x))))
+        ax.set_yticks([0,1E-3,2E-3])
 
-plt.savefig('/Users/jeffreyburggraf/Pictures/CrossSections.png', transparent=True)
+plt.savefig('/Users/jeffreyburggraf/Pictures/CrossSections.png')
 
 plt.show()
